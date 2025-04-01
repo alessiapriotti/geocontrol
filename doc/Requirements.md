@@ -79,22 +79,73 @@ GeoControl is a software system designed for monitoring physical and environment
 
 \<they match to high level use cases>
 
-|  ID   | Description |
-| :---: | :---------: |
-|  FR1  |             |
-|  FR2  |             |
-| FRx.. |             |
+**Requisiti Funzionali/Non Funzionali**
+
+**Requisiti Funzionali**
+
+**Requisiti Funzionali/Non Funzionali**
+
+### **Requisiti Funzionali**
+
+|  ID   | Descrizione  |
+| :---: | :---------- |
+|  **FR1**  | **Authentication** |
+|  FR1.1 | Log in |
+|  FR1.2 | Return bearer token |
+|  FR1.3 | Log out |
+|  **FR2**  | **Manage user** |
+|  FR2.1 | Visualizza tutti gli utenti |
+|  FR2.2 | Crea un nuovo utente (Admin) |
+|  FR2.3 | Modifica un utente (Admin) |
+|  FR2.4 | Cancella un utente (Admin) |
+|  FR2.5 | Gestione ruoli |
+|  **FR3**  | **Manage network** |
+|  FR3.1 | Visualizza tutte le reti |
+|  FR3.2 | Crea una nuova rete (Admin/Operator) |
+|  FR3.3 | Aggiorna una rete (Admin/Operator) |
+|  FR3.4 | Cancella una rete (Admin/Operator) |
+|  **FR4**  | **Manage gateway within network** |
+|  FR4.1 | Visualizza tutti i gateway di una rete |
+|  FR4.2 | Crea un nuovo gateway per una rete (Admin/Operator) |
+|  FR4.3 | Aggiorna un gateway (Admin/Operator) |
+|  FR4.4 | Cancella un gateway (Admin/Operator) |
+|  **FR5**  | **Manage sensors within gateway** |
+|  FR5.1 | Visualizza tutti i sensori di un gateway |
+|  FR5.2 | Crea un nuovo sensore per un gateway (Admin/Operator) |
+|  FR5.3 | Aggiorna un sensore (Admin/Operator) |
+|  FR5.4 | Cancella un sensore (Admin/Operator) |
+|  FR5.5 | Invio misurazioni ad intervalli regolari |
+|  **FR6**  | **Manage sensor measurements and statistics** |
+|  FR6.1 | Recupera le misurazioni per un insieme di sensori di una rete specifica |
+|  FR6.2 | Recupera solo le statistiche per un insieme di sensori di una rete specifica |
+|  FR6.3 | Recupera solo le misurazioni anomale per un insieme di sensori di una rete specifica |
+|  FR6.4 | Memorizza le misurazioni di un sensore |
+|  FR6.5 | Recupera le misurazioni per un sensore specifico |
+|  FR6.6 | Recupera le statistiche per un sensore specifico |
+|  FR6.7 | Recupera solo le misurazioni anomale per un sensore specifico |
+|  FR6.8 | Conversione fusi orari |
+|  **FR7**  | **Calcoli** |
+|  FR7.1 | Media |
+|  FR7.2 | Varianza |
+|  FR7.3 | Deviazione standard |
+|  FR7.4 | Thresholds |
+|  FR7.5 | Outliers |
 
 ## Non Functional Requirements
 
-\<Describe constraints on functional requirements>
+<Describe constraints on functional requirements>
 
-|   ID    | Type (efficiency, reliability, ..) | Description | Refers to |
+|   ID    | Type (efficiency, reliability, ..) | Descrizione | Refers to |
 | :-----: | :--------------------------------: | :---------: | :-------: |
-|  NFR1   |                                    |             |           |
-|  NFR2   |                                    |             |           |
-|  NFR3   |                                    |             |           |
-| NFRx .. |                                    |             |           |
+|  **NFR1**  | Reliability | Non deve perdere più di 6 misurazioni all'anno per sensore | Sensori |
+|  NFR1.1 | Implementation | I sensori effettuano una misurazione ogni 10 minuti | Sensori |
+|  **NFR2**  | Security | Accesso consentito solo ad utenti autorizzati | Sistema |
+|  NFR2.1 | Security | Comunicazione crittografata tra sensori, gateway e server | Comunicazione |
+|  **NFR3**  | Comunicazione | I sensori comunicano con il gateway attraverso una porta seriale | Sensori |
+|  NFR3.1 | Comunicazione | I gateway comunicano con il server attraverso la rete internet | Gateway |
+|  **NFR4**  | Identificazione | Le reti devono essere identificate con un codice alfanumerico univoco | Reti |
+|  NFR4.1 | Identificazione | I gateway devono essere identificati da un indirizzo MAC e devono avere una scheda di rete (NIC) | Gateway |
+|  NFR4.2 | Identificazione | I sensori sono identificati da un indirizzo MAC, ma non dispongono di una propria scheda di rete (NIC) | Sensori |
 
 # Use case diagram and use cases
 
