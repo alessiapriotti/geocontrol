@@ -4,6 +4,8 @@ Date:
 
 Version: V1 - description of Geocontrol as described in the swagger
 
+**CHIEDERE COME TRATTARE QUESTA TABELLA DELLE VERSIONI**
+
 | Version number | Change |
 | :------------: | :----: |
 |                |        |
@@ -79,43 +81,31 @@ GeoControl is a software system designed for monitoring physical and environment
 
 \<they match to high level use cases>
 
-**Requisiti Funzionali/Non Funzionali**
-
-**Requisiti Funzionali**
-
-**Requisiti Funzionali/Non Funzionali**
-
 ### **Requisiti Funzionali**
 
 |  ID   | Descrizione  |
 | :---: | :---------- |
-|  **FR1**  | **Authentication** |
-|  FR1.1 | Log in |
-|  FR1.2 | Return bearer token |
-|  FR1.3 | Log out |
-|  **FR2**  | **Manage user** |
-|  FR2.1 | Visualizza tutti gli utenti |
-|  FR2.2 | Crea un nuovo utente (Admin) |
-|  FR2.3 | Modifica un utente (Admin) |
-|  FR2.4 | Cancella un utente (Admin) |
-|  FR2.5 | Gestione ruoli |
-|  **FR3**  | **Manage network** |
-|  FR3.1 | Visualizza tutte le reti |
-|  FR3.2 | Crea una nuova rete (Admin/Operator) |
-|  FR3.3 | Aggiorna una rete (Admin/Operator) |
-|  FR3.4 | Cancella una rete (Admin/Operator) |
-|  **FR4**  | **Manage gateway within network** |
-|  FR4.1 | Visualizza tutti i gateway di una rete |
-|  FR4.2 | Crea un nuovo gateway per una rete (Admin/Operator) |
-|  FR4.3 | Aggiorna un gateway (Admin/Operator) |
-|  FR4.4 | Cancella un gateway (Admin/Operator) |
-|  **FR5**  | **Manage sensors within gateway** |
-|  FR5.1 | Visualizza tutti i sensori di un gateway |
-|  FR5.2 | Crea un nuovo sensore per un gateway (Admin/Operator) |
-|  FR5.3 | Aggiorna un sensore (Admin/Operator) |
-|  FR5.4 | Cancella un sensore (Admin/Operator) |
-|  FR5.5 | Invio misurazioni ad intervalli regolari |
-|  **FR6**  | **Manage sensor measurements and statistics** |
+|  **FR1**  | **Autenticazione** |
+|  **FR2**  | **Gestione utenti** |
+|  FR2.1 | Visualizza utenti (uno o tutti) |
+|  FR2.2 | Crea un nuovo utente |
+|  FR2.3 | Cancella un utente |
+|  **FR3**  | **Gestione reti** |
+|  FR3.1 | Visualizza reti (una o tutte) |
+|  FR3.2 | Crea una nuova rete |
+|  FR3.3 | Aggiorna una rete |
+|  FR3.4 | Cancella una rete |
+|  **FR4**  | **Gestione gateway nelle reti** |
+|  FR4.1 | Visualizza i gateway di una rete (uno o tutti) |
+|  FR4.2 | Crea un nuovo gateway per una rete |
+|  FR4.3 | Aggiorna un gateway |
+|  FR4.4 | Cancella un gateway |
+|  **FR5**  | **Gestione sensori nelle reti** |
+|  FR5.1 | Visualizza i sensori di un gateway (uno o tutti) |
+|  FR5.2 | Crea un nuovo sensore per un gateway |
+|  FR5.3 | Aggiorna un sensore |
+|  FR5.4 | Cancella un sensore |
+|  **FR6**  | **Gestire le misurazioni e le statistiche dei sensori** |
 |  FR6.1 | Recupera le misurazioni per un insieme di sensori di una rete specifica |
 |  FR6.2 | Recupera solo le statistiche per un insieme di sensori di una rete specifica |
 |  FR6.3 | Recupera solo le misurazioni anomale per un insieme di sensori di una rete specifica |
@@ -123,29 +113,40 @@ GeoControl is a software system designed for monitoring physical and environment
 |  FR6.5 | Recupera le misurazioni per un sensore specifico |
 |  FR6.6 | Recupera le statistiche per un sensore specifico |
 |  FR6.7 | Recupera solo le misurazioni anomale per un sensore specifico |
-|  FR6.8 | Conversione fusi orari |
 |  **FR7**  | **Calcoli** |
 |  FR7.1 | Media |
 |  FR7.2 | Varianza |
 |  FR7.3 | Deviazione standard |
 |  FR7.4 | Thresholds |
 |  FR7.5 | Outliers |
+|  FR7.6 | Conversione fusi orari |
 
-## Non Functional Requirements
+## Requisiti non funzionali
 
 <Describe constraints on functional requirements>
 
-|   ID    | Type (efficiency, reliability, ..) | Descrizione | Refers to |
+**CHIEDERE SE NELLA COLONNA "REFERS TO" VANNO MESSI I RIFERIMENTI TIPO (FR1,FR2,...) O A PAROLE COME è MESSO ORA**
+
+|   ID    | Type | Descrizione | Refers to |
 | :-----: | :--------------------------------: | :---------: | :-------: |
 |  **NFR1**  | Reliability | Non deve perdere più di 6 misurazioni all'anno per sensore | Sensori |
-|  NFR1.1 | Implementation | I sensori effettuano una misurazione ogni 10 minuti | Sensori |
 |  **NFR2**  | Security | Accesso consentito solo ad utenti autorizzati | Sistema |
-|  NFR2.1 | Security | Comunicazione crittografata tra sensori, gateway e server | Comunicazione |
+|  NFR2.1 | Security | Return bearer token | Autenticazione |
+|  NFR2.2 | Security | Utente Admin può accedere a: FR1, FR2, FR3, FR4, FR5, FR6 | **DA CHIEDERE** |
+|  NFR2.3 | Security | Utente Operator può accedere a FR1, FR3, FR4, FR5, FR6 | **DA CHIEDERE** |
+|  NFR2.4 | Security | Utente Viewer può accedere a: FR1, FR3.1, FR4.1, FR5.1, FR6.1, FR6.2, FR6.3, FR 6.5, FR6.6, FR6.7  | **DA CHIEDERE** |
 |  **NFR3**  | Comunicazione | I sensori comunicano con il gateway attraverso una porta seriale | Sensori |
 |  NFR3.1 | Comunicazione | I gateway comunicano con il server attraverso la rete internet | Gateway |
 |  **NFR4**  | Identificazione | Le reti devono essere identificate con un codice alfanumerico univoco | Reti |
-|  NFR4.1 | Identificazione | I gateway devono essere identificati da un indirizzo MAC e devono avere una scheda di rete (NIC) | Gateway |
-|  NFR4.2 | Identificazione | I sensori sono identificati da un indirizzo MAC, ma non dispongono di una propria scheda di rete (NIC) | Sensori |
+|  NFR4.1 | Identificazione | I gateway devono essere identificati da un indirizzo MAC | Gateway |
+|  NFR4.2 | Identificazione | I sensori sono identificati da un indirizzo MAC | Sensori |
+|  **NFR5**  | Metodo di calcolo | Il sistema deve essere in grado di eseguire calcoli sulle misurazioni raccolte | Calcoli |
+|  NFR5.1 | Metodo di calcolo | Media (\(\mu\)): \( \mu = \frac{\sum x_i}{n} \) | Calcoli |
+|  NFR5.2 | Metodo di calcolo | Varianza (\(\sigma^2\)): \( \sigma^2 = \frac{\sum (x_i - \mu)^2}{n} \) | Calcoli |
+|  NFR5.3 | Metodo di calcolo | Soglie di anomalia: \( \text{sogliaMax} = \mu + 2\sigma \), \( \text{sogliaMin} = \mu - 2\sigma \) | Calcoli |
+|  NFR5.4 | Metodo di calcolo | Identificazione outlier: valori oltre le soglie sono considerati anomali | Calcoli |
+
+
 
 # Use case diagram and use cases
 
