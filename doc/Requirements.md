@@ -100,9 +100,7 @@ GeoControl is a software system designed for monitoring physical and environment
 
 ## Use case diagram
 
-\<define here UML Use case diagram UCD summarizing all use cases, and their relationships>
-
-\<next describe here each use case in the UCD>
+![UCD](diagrams/use_cases_diagram.svg)
 
 ### Use case 1, UC1
 
