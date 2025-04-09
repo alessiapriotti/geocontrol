@@ -140,9 +140,7 @@ Il sistema è venduto come prodotto software isolato da eseguire su un server co
 
 ## Use case diagram
 
-\<define here UML Use case diagram UCD summarizing all use cases, and their relationships>
-
-\<next describe here each use case in the UCD>
+![UCD](diagrams/use_cases_diagram.svg)
 
 ### Use case template, UCtemp
 
