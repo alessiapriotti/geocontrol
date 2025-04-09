@@ -56,12 +56,12 @@ GeoControl is a software system designed for monitoring physical and environment
 
 ## Interfaces
 
-\<describe here each interface in the context diagram>
-
-
 |   Actor   | Logical Interface | Physical Interface |
 | :-------: | :---------------: | :----------------: |
-| Actor x.. |                   |                    |
+| Admin |GUI e API|Internet|
+|Operator|GUI e API|Internet|
+|Viewer|GUI e API|Internet|
+|Gateway   |API|Internet
 
 # Stories and personas
 
@@ -202,4 +202,4 @@ GeoControl is a software system designed for monitoring physical and environment
 
 # Deployment Diagram
 
-\<describe here deployment diagram >
+![deployment-diagram](diagrams/deployment_diagram.svg)
