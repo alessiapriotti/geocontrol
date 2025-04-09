@@ -130,9 +130,6 @@ GeoControl is a software system designed for monitoring physical and environment
 |  NFR3.2 | Funzionalità | I sensori sono identificati da un indirizzo MAC | FR5 |
 |  **NFR4**  | Funzionalità | Il sistema deve essere in grado di eseguire calcoli sulle misurazioni raccolte | FR7 |
 |  NFR4.1 | Funzionalità | Il sistema converte e memorizza il timestamp nel formato ISO 8601 utilizzando il fuso orario UTC | FR7 |
-|  **NFR5** | Dominio | Il software deve avere una struttura modulare |  |
-
-
 
 # Use case diagram and use cases
 
