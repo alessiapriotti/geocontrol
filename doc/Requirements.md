@@ -1,12 +1,13 @@
 # Requirements Document - GeoControl
 
-Date:
+Date: 09/04/2025
 
 Version: V1 - description of Geocontrol as described in the swagger
 
 | Version number | Change |
 | :------------: | :----: |
-|                |        |
+|        V1.1        |    Aggiunti i requisiti funzionali e non funzionali    |
+|        V1.2        |    Aggiunto: interfacce logiche e fisiche e il deployment diagram   |
 
 # Contents
 
@@ -72,12 +73,6 @@ GeoControl is a software system designed for monitoring physical and environment
 \<stories will be formalized later as scenarios in use cases>
 
 # Functional and non functional requirements
-
-## Functional Requirements
-
-\<In the form DO SOMETHING, or VERB NOUN, describe high level capabilities of the system>
-
-\<they match to high level use cases>
 
 ### **Requisiti Funzionali**
 
