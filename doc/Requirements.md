@@ -102,12 +102,12 @@ GeoControl is a software system designed for monitoring physical and environment
 
 ![UCD](diagrams/use_cases_diagram.svg)
 
-### UC1, Crea Nuovo Utente
+### UC1, Autenticazione utente
 
-| Actors Involved  |     Admin      |
+| Actors Involved  |     Admin/Operator/Viewer      |
 | :--------------: | :------------: |
 |   Precondition   | L'utente è registrato all'interno della piattaforma |
-|  Post condition  |  Un nuovo utente è stato creato con successo   |
+|  Post condition  |  L'utente riceve il token di accesso alla piattaforma   |
 | Nominal Scenario |  - Utente effettua l'accesso al sistema<br>- Utente effettua la chiamata all'API per la creazione di un nuovo utente, specificando username, password e tipo di utente<br>- L'API risponde con successo e il nuovo utente viene registrato nel sistema |
 |     Variants     |   //   |
 |    Exceptions    |  - Username già esistente<br>- Utente non autorizzato<br>- Permessi utente insufficienti<br>- Internal server error   |
@@ -135,9 +135,25 @@ GeoControl is a software system designed for monitoring physical and environment
 
 ##### Scenario 1.x
 
-### Use case 2, UC2
+### UC2, Crea Nuovo Utente
 
-..
+| Actors Involved  |     Admin      |
+| :--------------: | :------------: |
+|   Precondition   | L'utente è registrato all'interno della piattaforma |
+|  Post condition  |  Un nuovo utente è stato creato con successo   |
+| Nominal Scenario |  - Utente effettua l'accesso al sistema<br>- Utente effettua la chiamata all'API per la creazione di un nuovo utente, specificando username, password e tipo di utente<br>- L'API risponde con successo e il nuovo utente viene registrato nel sistema |
+|     Variants     |   //   |
+|    Exceptions    |  - Username già esistente<br>- Utente non autorizzato<br>- Permessi utente insufficienti<br>- Internal server error   |
+
+### UC3, Elimina Utente
+
+| Actors Involved  |     Admin      |
+| :--------------: | :------------: |
+|   Precondition   | L'utente è registrato all'interno della piattaforma |
+|  Post condition  |  Un nuovo utente è stato creato con successo   |
+| Nominal Scenario |  - Utente effettua l'accesso al sistema<br>- Utente effettua la chiamata all'API per la creazione di un nuovo utente, specificando username, password e tipo di utente<br>- L'API risponde con successo e il nuovo utente viene registrato nel sistema |
+|     Variants     |   //   |
+|    Exceptions    |  - Username già esistente<br>- Utente non autorizzato<br>- Permessi utente insufficienti<br>- Internal server error   |
 
 ### Use case x, UCx
 
