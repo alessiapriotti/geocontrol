@@ -79,22 +79,65 @@ GeoControl is a software system designed for monitoring physical and environment
 
 \<they match to high level use cases>
 
-|  ID   | Description |
-| :---: | :---------: |
-|  FR1  |             |
-|  FR2  |             |
-| FRx.. |             |
+### **Requisiti Funzionali**
 
-## Non Functional Requirements
+| ID | Descrizione  |
+| :---: | :---------- |
+| **FR1**  | **Autenticazione** |
+| **FR2**  | **Gestione utenti** |
+| FR2.1 | Visualizza utenti (uno o tutti) |
+| FR2.2 | Crea un nuovo utente |
+| FR2.3 | Cancella un utente |
+| **FR3**  | **Gestione reti** |
+| FR3.1 | Visualizza reti (una o tutte) |
+| FR3.2 | Crea una nuova rete |
+| FR3.3 | Aggiorna una rete |
+| FR3.4 | Cancella una rete |
+| **FR4**  | **Gestione gateway nelle reti** |
+| FR4.1 | Visualizza i gateway di una rete (uno o tutti) |
+| FR4.2 | Crea un nuovo gateway per una rete |
+| FR4.3 | Aggiorna un gateway |
+| FR4.4 | Cancella un gateway |
+| **FR5**  | **Gestione sensori nelle reti** |
+| FR5.1 | Visualizza i sensori di un gateway (uno o tutti) |
+| FR5.2 | Crea un nuovo sensore per un gateway |
+| FR5.3 | Aggiorna un sensore |
+| FR5.4 | Cancella un sensore |
+| **FR6**  | **Gestire le misurazioni e le statistiche dei sensori** |
+| FR6.1 | Recupera le misurazioni per un insieme di sensori di una rete specifica |
+| FR6.2 | Recupera solo le statistiche per un insieme di sensori di una rete specifica |
+| FR6.3 | Recupera solo le misurazioni anomale per un insieme di sensori di una rete specifica |
+| FR6.4 | Memorizza le misurazioni di un sensore |
+| FR6.5 | Recupera le misurazioni per un sensore specifico |
+| FR6.6 | Recupera le statistiche per un sensore specifico |
+| FR6.7 | Recupera solo le misurazioni anomale per un sensore specifico |
+| **FR7**  | **Calcoli** |
+| FR7.1 | Media |
+| FR7.2 | Varianza |
+| FR7.3 | Deviazione standard |
+| FR7.4 | Calcolare le Thresholds come: \( \text{sogliaMax} = \mu + 2\sigma \), \( \text{sogliaMin} = \mu - 2\sigma \) |
+| FR7.5 | Identificare Outliers considerando i valori oltre le soglie come anomali |
+| FR7.6 | Conversione fusi orari |
 
-\<Describe constraints on functional requirements>
+## Requisiti non funzionali
 
-|   ID    | Type (efficiency, reliability, ..) | Description | Refers to |
-| :-----: | :--------------------------------: | :---------: | :-------: |
-|  NFR1   |                                    |             |           |
-|  NFR2   |                                    |             |           |
-|  NFR3   |                                    |             |           |
-| NFRx .. |                                    |             |           |
+<Describe constraints on functional requirements>
+
+|   ID    | Type | Descrizione | Refers to |
+| :-----: | :--------------------------------: | :--------- | :-------: |
+|  **NFR1**  | Affidabilità | Non deve perdere più di 6 misurazioni all'anno per sensore | FR6 |
+|  **NFR2**  | Sicurezza | Accesso consentito solo ad utenti autorizzati | FR1 |
+|  NFR2.1 | Sicurezza | Utente Admin può accedere a: FR1, FR2, FR3, FR4, FR5, FR6 |  |
+|  NFR2.2 | Sicurezza | Utente Operator può accedere a FR1, FR3, FR4, FR5, FR6 |  |
+|  NFR2.3 | Sicurezza | Utente Viewer può accedere a: FR1, FR3.1, FR4.1, FR5.1, FR6.1, FR6.2, FR6.3, FR 6.5, FR6.6, FR6.7  |  |
+|  **NFR3**  | Funzionalità | Le reti devono essere identificate con un codice alfanumerico univoco | FR3 |
+|  NFR3.1 | Funzionalità | I gateway sono identificati da un indirizzo MAC | FR4 |
+|  NFR3.2 | Funzionalità | I sensori sono identificati da un indirizzo MAC | FR5 |
+|  **NFR4**  | Funzionalità | Il sistema deve essere in grado di eseguire calcoli sulle misurazioni raccolte | FR7 |
+|  NFR4.1 | Funzionalità | Il sistema converte e memorizza il timestamp nel formato ISO 8601 utilizzando il fuso orario UTC | FR7 |
+|  **NFR5** | Dominio | Il software deve avere una struttura modulare |  |
+
+
 
 # Use case diagram and use cases
 
