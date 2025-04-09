@@ -84,19 +84,19 @@
       ><path d="M0 0 L237 0 L237 104 L0 104 L0 0 Z"
       /></clipPath
       ><clipPath clipPathUnits="userSpaceOnUse" id="clipPath27"
-      ><path d="M174 34 L174 49 L58 49 L58 34 ZM0 0 L0 104 L223 104 L223 98 L237 98 L237 0 L86 0 L86 5 L7 5 L7 0 Z"
+      ><path d="M145 34 L145 49 L88 49 L88 34 ZM0 0 L0 104 L223 104 L223 98 L237 98 L237 0 L86 0 L86 5 L7 5 L7 0 Z"
       /></clipPath
       ><clipPath clipPathUnits="userSpaceOnUse" id="clipPath28"
       ><path d="M0 0 L104 0 L104 158 L0 158 L0 0 Z"
       /></clipPath
       ><clipPath clipPathUnits="userSpaceOnUse" id="clipPath29"
-      ><path d="M0 0 L0 158 L104 158 L104 129 L102 129 L102 114 L104 114 L104 85 L51 85 L51 70 L104 70 L104 0 Z"
+      ><path d="M0 0 L0 158 L104 158 L104 85 L51 85 L51 70 L104 70 L104 0 Z"
       /></clipPath
       ><clipPath clipPathUnits="userSpaceOnUse" id="clipPath30"
       ><path d="M0 0 L104 0 L104 166 L0 166 L0 0 Z"
       /></clipPath
       ><clipPath clipPathUnits="userSpaceOnUse" id="clipPath31"
-      ><path d="M0 0 L0 10 L2 10 L2 25 L0 25 L0 166 L104 166 L104 89 L51 89 L51 74 L104 74 L104 0 Z"
+      ><path d="M0 0 L0 166 L104 166 L104 89 L51 89 L51 74 L104 74 L104 0 Z"
       /></clipPath
       ><clipPath clipPathUnits="userSpaceOnUse" id="clipPath32"
       ><path d="M-118 -15 L236 -15 L236 30 L-118 30 L-118 -15 Z"
@@ -105,9 +105,6 @@
       ><path d="M-79 -15 L158 -15 L158 30 L-79 30 L-79 -15 Z"
       /></clipPath
       ><clipPath clipPathUnits="userSpaceOnUse" id="clipPath34"
-      ><path d="M-116 -15 L232 -15 L232 30 L-116 30 L-116 -15 Z"
-      /></clipPath
-      ><clipPath clipPathUnits="userSpaceOnUse" id="clipPath35"
       ><path d="M-57 -15 L114 -15 L114 30 L-57 30 L-57 -15 Z"
       /></clipPath
     ></defs
@@ -284,20 +281,20 @@
     ><text x="9" xml:space="preserve" y="12" clip-path="url(#clipPath33)" stroke="none"
       >&lt;&lt;deploy&gt;&gt;</text
     ></g
-    ><g font-size="11px" transform="translate(524,107)" fill-opacity="1" fill="black" text-rendering="geometricPrecision" image-rendering="optimizeQuality" font-family="sans-serif" stroke="black" stroke-opacity="1"
-    ><text x="9" xml:space="preserve" y="12" clip-path="url(#clipPath34)" stroke="none"
-      >connessione di rete</text
+    ><g font-size="11px" transform="translate(554,107)" fill-opacity="1" fill="black" text-rendering="geometricPrecision" image-rendering="optimizeQuality" font-family="sans-serif" stroke="black" stroke-opacity="1"
+    ><text x="10" xml:space="preserve" y="12" clip-path="url(#clipPath34)" stroke="none"
+      >internet</text
     ></g
     ><g font-size="11px" transform="translate(338,150)" fill-opacity="1" fill="black" text-rendering="geometricPrecision" image-rendering="optimizeQuality" font-family="sans-serif" stroke="black" stroke-opacity="1"
-    ><text x="10" xml:space="preserve" y="12" clip-path="url(#clipPath35)" stroke="none"
+    ><text x="10" xml:space="preserve" y="12" clip-path="url(#clipPath34)" stroke="none"
       >internet</text
     ></g
     ><g font-size="11px" transform="translate(337,107)" fill-opacity="1" fill="black" text-rendering="geometricPrecision" image-rendering="optimizeQuality" font-family="sans-serif" stroke="black" stroke-opacity="1"
-    ><text x="10" xml:space="preserve" y="12" clip-path="url(#clipPath35)" stroke="none"
+    ><text x="10" xml:space="preserve" y="12" clip-path="url(#clipPath34)" stroke="none"
       >internet</text
     ></g
     ><g font-size="11px" transform="translate(340,65)" fill-opacity="1" fill="black" text-rendering="geometricPrecision" image-rendering="optimizeQuality" font-family="sans-serif" stroke="black" stroke-opacity="1"
-    ><text x="10" xml:space="preserve" y="12" clip-path="url(#clipPath35)" stroke="none"
+    ><text x="10" xml:space="preserve" y="12" clip-path="url(#clipPath34)" stroke="none"
       >internet</text
     ></g
     ><g font-size="11px" transform="translate(108,176)" fill-opacity="1" fill="black" text-rendering="geometricPrecision" image-rendering="optimizeQuality" font-family="sans-serif" stroke="black" stroke-opacity="1"

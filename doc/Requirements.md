@@ -61,7 +61,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | Admin |GUI e API|Internet|
 |Operator|GUI e API|Internet|
 |Viewer|GUI e API|Internet|
-|Gateway   |Invio dei dati|Connessione di rete
+|Gateway   |API|Internet
 
 # Stories and personas
 
