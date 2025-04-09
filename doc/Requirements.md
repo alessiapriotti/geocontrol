@@ -102,15 +102,15 @@ GeoControl is a software system designed for monitoring physical and environment
 
 ![UCD](diagrams/use_cases_diagram.svg)
 
-### Use case 1, UC1
+### UC1, Crea Nuovo Utente
 
-| Actors Involved  |                                                                      |
-| :--------------: | :------------------------------------------------------------------: |
-|   Precondition   | \<Boolean expression, must evaluate to true before the UC can start> |
-|  Post condition  |  \<Boolean expression, must evaluate to true after UC is finished>   |
-| Nominal Scenario |         \<Textual description of actions executed by the UC>         |
-|     Variants     |                      \<other normal executions>                      |
-|    Exceptions    |                        \<exceptions, errors >                        |
+| Actors Involved  |     Admin      |
+| :--------------: | :------------: |
+|   Precondition   | L'utente è registrato all'interno della piattaforma |
+|  Post condition  |  Un nuovo utente è stato creato con successo   |
+| Nominal Scenario |  - Utente effettua l'accesso al sistema<br>- Utente effettua la chiamata all'API per la creazione di un nuovo utente, specificando username, password e tipo di utente<br>- L'API risponde con successo e il nuovo utente viene registrato nel sistema |
+|     Variants     |   //   |
+|    Exceptions    |  - Username già esistente<br>- Utente non autorizzato<br>- Permessi utente insufficienti<br>- Internal server error   |
 
 ##### Scenario 1.1
 
