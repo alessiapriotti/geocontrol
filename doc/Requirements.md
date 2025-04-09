@@ -107,12 +107,10 @@ GeoControl is a software system designed for monitoring physical and environment
 | FR6.6 | Recupera le statistiche per un sensore specifico |
 | FR6.7 | Recupera solo le misurazioni anomale per un sensore specifico |
 | **FR7**  | **Calcoli** |
-| FR7.1 | Media |
-| FR7.2 | Varianza |
-| FR7.3 | Deviazione standard |
-| FR7.4 | Calcolare le Thresholds come: \( \text{sogliaMax} = \mu + 2\sigma \), \( \text{sogliaMin} = \mu - 2\sigma \) |
-| FR7.5 | Identificare Outliers considerando i valori oltre le soglie come anomali |
-| FR7.6 | Conversione fusi orari |
+| FR7.1 | Calcola Media e Varianza |
+| FR7.2 | Calcola le Thresholds come: \( \text{sogliaMax} = \mu + 2\sigma \), \( \text{sogliaMin} = \mu - 2\sigma \) |
+| FR7.3 | Identifica Outliers considerando i valori oltre le soglie come anomali |
+| FR7.4 | Converte fusi orari |
 
 ## Requisiti non funzionali
 
