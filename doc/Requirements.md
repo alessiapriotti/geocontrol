@@ -190,9 +190,7 @@ GeoControl is a software system designed for monitoring physical and environment
 
 # Glossary
 
-\<use UML class diagram to define important terms, or concepts in the domain of the application, and their relationships>
-
-\<concepts must be used consistently all over the document, ex in use cases, requirements etc>
+![glossary](diagrams/glossary.svg)
 
 # System Design
 
