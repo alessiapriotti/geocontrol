@@ -159,10 +159,6 @@ Il sistema è venduto come prodotto software isolato da eseguire su un server co
 
 # System Design
 
-\<describe here system design>
-
-\<must be consistent with Context diagram>
-
 ![System Design Diagram](diagrams/system-design.svg)
 
 # Deployment Diagram
