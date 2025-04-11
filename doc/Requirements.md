@@ -1,6 +1,6 @@
 # Requirements Document - GeoControl
 
-Date: 09/04/2025
+Date: 11/04/2025
 
 Version: V1 - description of Geocontrol as described in the swagger
 
@@ -8,6 +8,7 @@ Version: V1 - description of Geocontrol as described in the swagger
 | :------------: | :----: |
 |        V1.1        |    Aggiunti i requisiti funzionali e non funzionali    |
 |        V1.2        |    Aggiunto: interfacce logiche e fisiche e il deployment diagram   |
+|        V1.3        |    Aggiunto: Business Model, Stakeholders, Context Diagram e System Design   |
 
 # Contents
 
