@@ -40,20 +40,26 @@ Version: V1 - description of Geocontrol as described in the swagger
 GeoControl is a software system designed for monitoring physical and environmental variables in various contexts: from hydrogeological analyses of mountain areas to the surveillance of historical buildings, and even the control of internal parameters (such as temperature or lighting) in residential or working environments.
 
 # Business Model
+Lo sviluppo e l'operatività sono state finanziate dall'_Unione delle Comunità Montane del Piemonte_, ma già in fase di progettazione si è pensato di sviluppare un software modulare di modo che potesse essere rivenduto ad altri come **One Time Purchase System**. 
+
+Il sistema è venduto come prodotto software isolato da eseguire su un server connesso ad internet, a cui saranno connessi anche i gateway che riceveranno le misurazioni dai sensori ad esso collegati. Gateway e sensori sono forniti già configurati dall'azienda produttrice.
 
 # Stakeholders
 
 | Stakeholder name | Description |
 | :--------------: | :---------: |
-| Stakeholder x..  |             |
+| Unione delle Comunità Montane del Piemonte | Committente originale |
+| Entità destinatarie | Aziende/privati/pubblici interessati al monitoraggio continuo di grandezze fisiche |
+| Produttori di sensori/gateway | Aziende produttrici di componenti hardware necessari al funzionamento del sistema |
+| Admin | IT admin delle entità destinatarie |
+| Operator | IT managers delle entità destinatarie |
+| Viewer | Utenti finali interessati alle grandezze fisiche monitorate |
 
 # Context Diagram and interfaces
 
 ## Context Diagram
 
-\<Define here Context diagram using UML use case diagram>
-
-\<actors are a subset of stakeholders>
+![Context Diagram](diagrams/context.svg)
 
 ## Interfaces
 
@@ -410,9 +416,7 @@ GeoControl is a software system designed for monitoring physical and environment
 
 # System Design
 
-\<describe here system design>
-
-\<must be consistent with Context diagram>
+![System Design Diagram](diagrams/system-design.svg)
 
 # Deployment Diagram
 
