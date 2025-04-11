@@ -176,7 +176,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | **Post condition**    | L'utente riceve un token bearer per accedere alle funzionalità del sistema. |
 | **Nominal Scenario** | L'utente invia credenziali valide e il sistema restituisce un token bearer. |
 | **Variants**         | Nessuna variante significativa.                                 |
-| **Exceptions**       | - Scenario UC1.2: Credenziali non valide (401). <br> - Scenario UC1.3: Errore interno del server (500). <br> - Scenario UC1.4: Utente non trovato (404). <br> - Scenario UC1.5: Dati di input non validi (400). |
+| **Exceptions**       | - Scenario UC1.2: Credenziali non valide. <br> - Scenario UC1.3: Errore interno del server. <br> - Scenario UC1.4: Utente non trovato. <br> - Scenario UC1.5: Dati di input non validi. |
 
 #### Scenario UC1.1 - Autenticazione con successo
 
@@ -187,7 +187,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente invia username e password al sistema.                  |
 | 2                    | Il sistema verifica le credenziali.                             |
-| 3                    | Il sistema genera un token bearer e lo restituisce all'utente (200).|
+| 3                    | Il sistema genera un token bearer e lo restituisce all'utente.|
 
 #### Scenario UC1.2 - Autenticazione fallita per credenziali non valide
 
@@ -198,7 +198,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente invia username e password al sistema.                  |
 | 2                    | Il sistema verifica che le credenziali non sono valide.         |
-| 3                    | Il sistema notifica l'errore all'utente (401).                  |
+| 3                    | Il sistema notifica l'errore all'utente.                  |
 
 #### Scenario UC1.3 - Autenticazione fallita per errore interno del server
 
@@ -209,7 +209,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente invia username e password al sistema.                  |
 | 2                    | Si verifica un errore interno del server.                       |
-| 3                    | Il sistema notifica l'errore all'utente (500).                  |
+| 3                    | Il sistema notifica l'errore all'utente.                  |
 
 #### Scenario UC1.4 - Autenticazione fallita per utente non trovato
 
@@ -220,7 +220,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente invia username e password al sistema.                  |
 | 2                    | Il sistema verifica che l'utente non esiste.                    |
-| 3                    | Il sistema notifica l'errore all'utente (404).                  |
+| 3                    | Il sistema notifica l'errore all'utente.                  |
 
 #### Scenario UC1.5 - Autenticazione fallita per dati di input non validi
 
@@ -231,7 +231,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente invia dati di input non validi al sistema.             |
 | 2                    | Il sistema rileva che i dati di input non sono validi.          |
-| 3                    | Il sistema notifica l'errore all'utente (400).                  |
+| 3                    | Il sistema notifica l'errore all'utente.                  |
 
 ---
 
@@ -242,35 +242,47 @@ GeoControl is a software system designed for monitoring physical and environment
 | **Precondition**     | L'utente deve essere autenticato come Admin.                    |
 | **Post condition**    | Il sistema restituisce i dati degli utenti richiesti.          |
 | **Nominal Scenario** | L'utente richiede di visualizzare uno o tutti gli utenti e il sistema restituisce i dati richiesti. |
-| **Variants**         | Nessuna variante significativa.                                 |
-| **Exceptions**       | - Scenario UC2.2: Utente non autorizzato (401). <br> - Scenario UC2.3: Errore interno del server (500). |
+| **Variants**         | - Scenario UC2.2: Utente specifico richiesto. |
+| **Exceptions**       | - Scenario UC2.3: Utente non autorizzato. <br> - Scenario UC2.4: Errore interno del server. |
 
-#### Scenario UC2.1 - Visualizzazione di uno o tutti gli utenti con successo
+#### Scenario UC2.1 - Visualizzazione di tutti gli utenti con successo
 
-| **Scenario UC2.1**   | Visualizzazione di uno o tutti gli utenti con successo.         |
+| **Scenario UC2.1**   | Visualizzazione di tutti gli utenti con successo.         |
 | :------------------: | :-------------------------------------------------------------: |
 | **Precondition**     | L'utente è autenticato come Admin.                              |
 | **Post condition**    | Il sistema restituisce i dati degli utenti richiesti.          |
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente accede alla funzionalità di visualizzazione degli utenti. |
-| 2                    | L'utente richiede di visualizzare uno o tutti gli utenti.       |
+| 2                    | L'utente richiede di visualizzare tutti gli utenti.       |
 | 3                    | Il sistema recupera i dati degli utenti dal database.           |
-| 4                    | Il sistema restituisce i dati degli utenti all'utente (200).    |
+| 4                    | Il sistema restituisce i dati degli utenti all'utente.    |
 
-#### Scenario UC2.2 - Visualizzazione fallita per utente non autorizzato
+#### Scenario UC2.2 - Visualizzazione di un utente con successo
 
-| **Scenario UC2.2**   | Visualizzazione fallita per utente non autorizzato.             |
+| **Scenario UC2.2**   | Visualizzazione di un utente con successo.         |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin.                              |
+| **Post condition**    | Il sistema restituisce i dati dell'utente richiesti.          |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di visualizzazione degli utenti. |
+| 2                    | L'utente richiede di visualizzare un utente.       |
+| 3                    | Il sistema recupera i dati dell'utente richiesto dal database.           |
+| 4                    | Il sistema restituisce i dati dell'utente richiesto all'utente.    |
+
+#### Scenario UC2.3 - Visualizzazione fallita per utente non autorizzato
+
+| **Scenario UC2.3**   | Visualizzazione fallita per utente non autorizzato.             |
 | :------------------: | :-------------------------------------------------------------: |
 | **Precondition**     | L'utente non è autenticato o non ha il ruolo di Admin.          |
 | **Post condition**    | Il sistema non restituisce alcun dato e notifica l'errore.     |
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente tenta di accedere alla funzionalità di visualizzazione degli utenti. |
 | 2                    | Il sistema verifica che l'utente non è autorizzato.             |
-| 3                    | Il sistema notifica l'errore all'utente (401).                  |
+| 3                    | Il sistema notifica l'errore all'utente.                  |
 
-#### Scenario UC2.3 - Visualizzazione fallita per errore interno del server
+#### Scenario UC2.4 - Visualizzazione fallita per errore interno del server
 
-| **Scenario UC2.3**   | Visualizzazione fallita per errore interno del server.          |
+| **Scenario UC2.4**   | Visualizzazione fallita per errore interno del server.          |
 | :------------------: | :-------------------------------------------------------------: |
 | **Precondition**     | L'utente è autenticato come Admin.                              |
 | **Post condition**    | Il sistema non restituisce alcun dato e notifica l'errore.     |
@@ -278,7 +290,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | 1                    | L'utente accede alla funzionalità di visualizzazione degli utenti. |
 | 2                    | L'utente richiede di visualizzare uno o tutti gli utenti.       |
 | 3                    | Si verifica un errore interno del server.                       |
-| 4                    | Il sistema notifica l'errore all'utente (500).                  |
+| 4                    | Il sistema notifica l'errore all'utente.                  |
 
 ---
 
@@ -290,7 +302,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | **Post condition**    | Un nuovo utente viene creato con successo nel sistema.         |
 | **Nominal Scenario** | L'utente fornisce i dati richiesti e il sistema crea un nuovo utente. |
 | **Variants**         | Nessuna variante significativa.                                 |
-| **Exceptions**       | - Scenario UC3.2: Dati mancanti o non validi (400). <br> - Scenario UC3.3: Username già in uso (409). <br> - Scenario UC3.4: Utente non autorizzato (401). <br> - Scenario UC3.5: Permessi insufficienti (403). <br> - Scenario UC3.6: Errore interno del server (500). |
+| **Exceptions**       | - Scenario UC3.2: Dati mancanti o non validi. <br> - Scenario UC3.3: Username già in uso. <br> - Scenario UC3.4: Utente non autorizzato. <br> - Scenario UC3.5: Permessi insufficienti. <br> - Scenario UC3.6: Errore interno del server. |
 
 #### Scenario UC3.1 - Creazione di un nuovo utente con successo
 
@@ -303,7 +315,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | 2                    | L'utente inserisce i dati richiesti: username, password, ruolo. |
 | 3                    | Il sistema verifica che i dati siano validi e che l'username non sia già in uso. |
 | 4                    | Il sistema salva il nuovo utente nel database.                  |
-| 5                    | Il sistema conferma la creazione del nuovo utente all'utente (201).|
+| 5                    | Il sistema conferma la creazione del nuovo utente all'utente.|
 
 #### Scenario UC3.2 - Creazione fallita per dati mancanti o non validi
 
@@ -316,7 +328,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | 2                    | L'utente inserisce dati incompleti o non validi.                |
 | 3                    | Il sistema valida i dati forniti dall'utente.                   |
 | 4                    | Il sistema rileva che i dati sono incompleti o non validi.      |
-| 5                    | Il sistema notifica l'errore all'utente (400).                  |
+| 5                    | Il sistema notifica l'errore all'utente.                  |
 
 #### Scenario UC3.3 - Creazione fallita per username già in uso
 
@@ -328,7 +340,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | 1                    | L'utente accede alla funzionalità di creazione di un nuovo utente. |
 | 2                    | L'utente inserisce i dati richiesti: username, password, ruolo. |
 | 3                    | Il sistema verifica che l'username è già in uso.                |
-| 4                    | Il sistema notifica l'errore all'utente (409).                  |
+| 4                    | Il sistema notifica l'errore all'utente.                  |
 
 #### Scenario UC3.4 - Creazione fallita per utente non autorizzato
 
@@ -339,7 +351,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente tenta di accedere alla funzionalità di creazione di un nuovo utente. |
 | 2                    | Il sistema verifica che l'utente non è autenticato.             |
-| 3                    | Il sistema notifica l'errore all'utente (401).                  |
+| 3                    | Il sistema notifica l'errore all'utente.                  |
 
 #### Scenario UC3.5 - Creazione fallita per permessi insufficienti
 
@@ -350,7 +362,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente tenta di accedere alla funzionalità di creazione di un nuovo utente. |
 | 2                    | Il sistema verifica che l'utente non ha i permessi necessari.   |
-| 3                    | Il sistema notifica l'errore all'utente (403).                  |
+| 3                    | Il sistema notifica l'errore all'utente.                  |
 
 #### Scenario UC3.6 - Creazione fallita per errore interno del server
 
@@ -362,7 +374,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | 1                    | L'utente accede alla funzionalità di creazione di un nuovo utente. |
 | 2                    | L'utente inserisce i dati richiesti: username, password, ruolo. |
 | 3                    | Si verifica un errore interno del server.                       |
-| 4                    | Il sistema notifica l'errore all'utente (500).                  |
+| 4                    | Il sistema notifica l'errore all'utente.                  |
 
 ---
 
@@ -374,7 +386,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | **Post condition**    | L'utente specificato viene eliminato dal sistema.              |
 | **Nominal Scenario** | L'utente fornisce il nome dell'utente da eliminare e il sistema lo elimina. |
 | **Variants**         | Nessuna variante significativa.                                 |
-| **Exceptions**       | - Scenario UC4.2: Utente non trovato (404). <br> - Scenario UC4.3: Utente non autorizzato (401). <br> - Scenario UC4.4: Permessi insufficienti (403). <br> - Scenario UC4.5: Errore interno del server (500). |
+| **Exceptions**       | - Scenario UC4.2: Utente non trovato. <br> - Scenario UC4.3: Utente non autorizzato. <br> - Scenario UC4.4: Permessi insufficienti. <br> - Scenario UC4.5: Errore interno del server. |
 
 #### Scenario UC4.1 - Eliminazione di un utente con successo
 
@@ -387,7 +399,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | 2                    | L'utente specifica il nome dell'utente da eliminare.            |
 | 3                    | Il sistema verifica che l'utente esiste nel database.           |
 | 4                    | Il sistema elimina l'utente dal database.                       |
-| 5                    | Il sistema conferma l'eliminazione all'utente (204).            |
+| 5                    | Il sistema conferma l'eliminazione all'utente.            |
 
 #### Scenario UC4.2 - Eliminazione fallita per utente non trovato
 
@@ -399,7 +411,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | 1                    | L'utente accede alla funzionalità di eliminazione di un utente. |
 | 2                    | L'utente specifica il nome dell'utente da eliminare.            |
 | 3                    | Il sistema verifica che l'utente non esiste nel database.       |
-| 4                    | Il sistema notifica l'errore all'utente (404).                  |
+| 4                    | Il sistema notifica l'errore all'utente.                  |
 
 #### Scenario UC4.3 - Eliminazione fallita per utente non autorizzato
 
@@ -410,7 +422,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente tenta di accedere alla funzionalità di eliminazione di un utente. |
 | 2                    | Il sistema verifica che l'utente non è autenticato.             |
-| 3                    | Il sistema notifica l'errore all'utente (401).                  |
+| 3                    | Il sistema notifica l'errore all'utente.                  |
 
 #### Scenario UC4.4 - Eliminazione fallita per permessi insufficienti
 
@@ -421,7 +433,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente tenta di accedere alla funzionalità di eliminazione di un utente. |
 | 2                    | Il sistema verifica che l'utente non ha i permessi necessari.   |
-| 3                    | Il sistema notifica l'errore all'utente (403).                  |
+| 3                    | Il sistema notifica l'errore all'utente.                  |
 
 #### Scenario UC4.5 - Eliminazione fallita per errore interno del server
 
@@ -433,7 +445,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | 1                    | L'utente accede alla funzionalità di eliminazione di un utente. |
 | 2                    | L'utente specifica il nome dell'utente da eliminare.            |
 | 3                    | Si verifica un errore interno del server.                       |
-| 4                    | Il sistema notifica l'errore all'utente (500).                  |
+| 4                    | Il sistema notifica l'errore all'utente.                  |
 
 ---
 
@@ -445,7 +457,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | **Post condition**    | L'utente visualizza le reti richieste.                         |
 | **Nominal Scenario** | L'utente richiede di visualizzare una o tutte le reti e il sistema restituisce i dati richiesti. |
 | **Variants**         | Nessuna variante significativa.                                 |
-| **Exceptions**       | - Scenario UC5.2: Utente non autenticato (401). <br> - Scenario UC5.3: Errore interno del server (500). |
+| **Exceptions**       | - Scenario UC5.2: Utente non autenticato. <br> - Scenario UC5.3: Errore interno del server. |
 
 #### Scenario UC5.1 - Visualizzazione di una o tutte le reti con successo
 
@@ -457,7 +469,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | 1                    | L'utente accede alla funzionalità di visualizzazione delle reti. |
 | 2                    | L'utente richiede di visualizzare una rete specifica o tutte le reti. |
 | 3                    | Il sistema recupera i dati delle reti richieste dal database.   |
-| 4                    | Il sistema restituisce i dati delle reti all'utente (200).      |
+| 4                    | Il sistema restituisce i dati delle reti all'utente.      |
 
 #### Scenario UC5.2 - Visualizzazione fallita per utente non autenticato
 
@@ -468,7 +480,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente tenta di accedere alla funzionalità di visualizzazione delle reti. |
 | 2                    | Il sistema verifica che l'utente non è autenticato.             |
-| 3                    | Il sistema notifica l'errore all'utente (401).                  |
+| 3                    | Il sistema notifica l'errore all'utente.                  |
 
 #### Scenario UC5.3 - Visualizzazione fallita per errore interno del server
 
@@ -480,7 +492,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | 1                    | L'utente accede alla funzionalità di visualizzazione delle reti. |
 | 2                    | L'utente richiede di visualizzare una rete specifica o tutte le reti. |
 | 3                    | Si verifica un errore interno del server durante il recupero dei dati. |
-| 4                    | Il sistema notifica l'errore all'utente (500).                  |
+| 4                    | Il sistema notifica l'errore all'utente.                  |
 
 ---
 
@@ -492,7 +504,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | **Post condition**    | Una nuova rete viene creata con un codice univoco e memorizzata nel sistema. |
 | **Nominal Scenario** | L'utente fornisce i dati richiesti (codice, nome, descrizione) e il sistema crea la rete. |
 | **Variants**         | Nessuna variante significativa.                                 |
-| **Exceptions**       | - Scenario UC6.2: Codice rete già esistente (409). <br> - Scenario UC6.3: Dati mancanti o non validi (400). <br> - Scenario UC6.4.1: Utente non autenticato (401). <br> - Scenario UC6.4.2: Permessi insufficienti (403). <br> - Scenario UC6.5: Errore interno del server (500). |
+| **Exceptions**       | - Scenario UC6.2: Codice rete già esistente. <br> - Scenario UC6.3: Dati mancanti o non validi. <br> - Scenario UC6.4.1: Utente non autenticato. <br> - Scenario UC6.4.2: Permessi insufficienti. <br> - Scenario UC6.5: Errore interno del server. |
 
 #### Scenario UC6.1 - Creazione di una rete con dati validi
 
@@ -505,7 +517,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | 2                    | L'utente inserisce i dati richiesti: codice, nome, descrizione. |
 | 3                    | Il sistema verifica che il codice della rete sia univoco.       |
 | 4                    | Il sistema salva la rete nel database.                          |
-| 5                    | Il sistema conferma la creazione della rete all'utente (201).   |
+| 5                    | Il sistema conferma la creazione della rete all'utente.   |
 
 #### Scenario UC6.2 - Creazione fallita per codice rete duplicato
 
@@ -518,7 +530,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | 2                    | L'utente inserisce i dati richiesti: codice, nome, descrizione. |
 | 3                    | Il sistema verifica che il codice della rete sia univoco.       |
 | 4                    | Il sistema rileva che il codice è già in uso.                   |
-| 5                    | Il sistema notifica l'errore all'utente (409).                  |
+| 5                    | Il sistema notifica l'errore all'utente.                  |
 
 #### Scenario UC6.3 - Creazione fallita per dati mancanti o non validi
 
@@ -531,7 +543,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | 2                    | L'utente inserisce dati incompleti o non validi.                |
 | 3                    | Il sistema valida i dati forniti dall'utente.                   |
 | 4                    | Il sistema rileva che i dati sono incompleti o non validi.      |
-| 5                    | Il sistema notifica l'errore all'utente (400).                  |
+| 5                    | Il sistema notifica l'errore all'utente.                  |
 
 #### Scenario UC6.4.1 - Creazione fallita per utente non autenticato
 
@@ -542,7 +554,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente tenta di accedere alla funzionalità di creazione di una nuova rete. |
 | 2                    | Il sistema verifica che l'utente non è autenticato.             |
-| 3                    | Il sistema notifica l'errore all'utente (401).                  |
+| 3                    | Il sistema notifica l'errore all'utente.                  |
 
 #### Scenario UC6.4.2 - Creazione fallita per permessi insufficienti
 
@@ -553,7 +565,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente tenta di accedere alla funzionalità di creazione di una nuova rete. |
 | 2                    | Il sistema verifica che l'utente non ha i permessi necessari.   |
-| 3                    | Il sistema notifica l'errore all'utente (403).                  |
+| 3                    | Il sistema notifica l'errore all'utente.                  |
 
 #### Scenario UC6.5 - Creazione fallita per errore interno del server
 
@@ -566,7 +578,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | 2                    | L'utente inserisce i dati richiesti: codice, nome, descrizione. |
 | 3                    | Il sistema tenta di salvare la rete nel database.               |
 | 4                    | Si verifica un errore interno del server.                       |
-| 5                    | Il sistema notifica l'errore all'utente (500).                  |
+| 5                    | Il sistema notifica l'errore all'utente.                  |
 
 ---
 
@@ -578,7 +590,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | **Post condition**    | La rete specificata viene aggiornata con i nuovi dati forniti. |
 | **Nominal Scenario** | L'utente fornisce i dati aggiornati per una rete esistente e il sistema li salva. |
 | **Variants**         | Nessuna variante significativa.                                 |
-| **Exceptions**       | - Scenario UC7.2: Dati mancanti o non validi (400). <br> - Scenario UC7.3: Utente non autorizzato (401). <br> - Scenario UC7.4: Permessi insufficienti (403). <br> - Scenario UC7.5: Rete non trovata (404). <br> - Scenario UC7.6: Codice rete già in uso (409). <br> - Scenario UC7.7: Errore interno del server (500). |
+| **Exceptions**       | - Scenario UC7.2: Dati mancanti o non validi. <br> - Scenario UC7.3: Utente non autorizzato. <br> - Scenario UC7.4: Permessi insufficienti. <br> - Scenario UC7.5: Rete non trovata. <br> - Scenario UC7.6: Codice rete già in uso. <br> - Scenario UC7.7: Errore interno del server. |
 
 #### Scenario UC7.1 - Aggiornamento di una rete con successo
 
@@ -591,7 +603,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | 2                    | L'utente fornisce i dati aggiornati: codice, nome, descrizione. |
 | 3                    | Il sistema verifica che i dati siano validi.                    |
 | 4                    | Il sistema salva i nuovi dati della rete nel database.          |
-| 5                    | Il sistema conferma l'aggiornamento della rete all'utente (204).|
+| 5                    | Il sistema conferma l'aggiornamento della rete all'utente.|
 
 #### Scenario UC7.2 - Aggiornamento fallito per dati mancanti o non validi
 
@@ -604,7 +616,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | 2                    | L'utente fornisce dati incompleti o non validi.                 |
 | 3                    | Il sistema valida i dati forniti dall'utente.                   |
 | 4                    | Il sistema rileva che i dati sono incompleti o non validi.      |
-| 5                    | Il sistema notifica l'errore all'utente (400).                  |
+| 5                    | Il sistema notifica l'errore all'utente.                  |
 
 #### Scenario UC7.3 - Aggiornamento fallito per utente non autorizzato
 
@@ -615,7 +627,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente tenta di accedere alla funzionalità di aggiornamento di una rete. |
 | 2                    | Il sistema verifica che l'utente non è autenticato.             |
-| 3                    | Il sistema notifica l'errore all'utente (401).                  |
+| 3                    | Il sistema notifica l'errore all'utente.                  |
 
 #### Scenario UC7.4 - Aggiornamento fallito per permessi insufficienti
 
@@ -626,7 +638,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente tenta di accedere alla funzionalità di aggiornamento di una rete. |
 | 2                    | Il sistema verifica che l'utente non ha i permessi necessari.   |
-| 3                    | Il sistema notifica l'errore all'utente (403).                  |
+| 3                    | Il sistema notifica l'errore all'utente.                  |
 
 #### Scenario UC7.5 - Aggiornamento fallito per rete non trovata
 
@@ -638,7 +650,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | 1                    | L'utente accede alla funzionalità di aggiornamento di una rete. |
 | 2                    | L'utente fornisce il codice della rete da aggiornare.           |
 | 3                    | Il sistema verifica che la rete non esiste nel database.        |
-| 4                    | Il sistema notifica l'errore all'utente (404).                  |
+| 4                    | Il sistema notifica l'errore all'utente.                  |
 
 #### Scenario UC7.6 - Aggiornamento fallito per codice rete già in uso
 
@@ -650,7 +662,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | 1                    | L'utente accede alla funzionalità di aggiornamento di una rete. |
 | 2                    | L'utente fornisce un nuovo codice per la rete.                  |
 | 3                    | Il sistema verifica che il nuovo codice è già in uso.           |
-| 4                    | Il sistema notifica l'errore all'utente (409).                  |
+| 4                    | Il sistema notifica l'errore all'utente.                  |
 
 #### Scenario UC7.7 - Aggiornamento fallito per errore interno del server
 
@@ -662,7 +674,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | 1                    | L'utente accede alla funzionalità di aggiornamento di una rete. |
 | 2                    | L'utente fornisce i dati aggiornati: codice, nome, descrizione. |
 | 3                    | Si verifica un errore interno del server.                       |
-| 4                    | Il sistema notifica l'errore all'utente (500).                  |
+| 4                    | Il sistema notifica l'errore all'utente.                  |
 
 ---
 
@@ -678,7 +690,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | **Post condition**    | Un nuovo gateway viene creato con successo e associato alla rete specificata. |
 | **Nominal Scenario** | L'utente fornisce i dati richiesti e il sistema crea un nuovo gateway per la rete specificata. |
 | **Variants**         | Nessuna variante significativa.                                 |
-| **Exceptions**       | - Scenario UC10.2: Dati mancanti o non validi (400). <br> - Scenario UC10.3: Utente non autorizzato (401). <br> - Scenario UC10.4: Permessi insufficienti (403). <br> - Scenario UC10.5: Rete non trovata (404). <br> - Scenario UC10.6: Indirizzo MAC già in uso (409). <br> - Scenario UC10.7: Errore interno del server (500). |
+| **Exceptions**       | - Scenario UC10.2: Dati mancanti o non validi. <br> - Scenario UC10.3: Utente non autorizzato. <br> - Scenario UC10.4: Permessi insufficienti. <br> - Scenario UC10.5: Rete non trovata. <br> - Scenario UC10.6: Indirizzo MAC già in uso. <br> - Scenario UC10.7: Errore interno del server. |
 
 #### Scenario UC10.1 - Creazione di un nuovo gateway con successo
 
@@ -691,7 +703,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | 2                    | L'utente fornisce i dati richiesti: indirizzo MAC, nome, descrizione. |
 | 3                    | Il sistema verifica che i dati siano validi e che l'indirizzo MAC non sia già in uso. |
 | 4                    | Il sistema salva il nuovo gateway nel database e lo associa alla rete specificata. |
-| 5                    | Il sistema conferma la creazione del gateway all'utente (201).  |
+| 5                    | Il sistema conferma la creazione del gateway all'utente.  |
 
 #### Scenario UC10.2 - Creazione fallita per dati mancanti o non validi
 
@@ -704,7 +716,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | 2                    | L'utente fornisce dati incompleti o non validi.                 |
 | 3                    | Il sistema valida i dati forniti dall'utente.                   |
 | 4                    | Il sistema rileva che i dati sono incompleti o non validi.      |
-| 5                    | Il sistema notifica l'errore all'utente (400).                  |
+| 5                    | Il sistema notifica l'errore all'utente.                  |
 
 #### Scenario UC10.3 - Creazione fallita per utente non autorizzato
 
@@ -715,7 +727,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente tenta di accedere alla funzionalità di creazione di un nuovo gateway. |
 | 2                    | Il sistema verifica che l'utente non è autenticato.             |
-| 3                    | Il sistema notifica l'errore all'utente (401).                  |
+| 3                    | Il sistema notifica l'errore all'utente.                  |
 
 #### Scenario UC10.4 - Creazione fallita per permessi insufficienti
 
@@ -726,7 +738,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente tenta di accedere alla funzionalità di creazione di un nuovo gateway. |
 | 2                    | Il sistema verifica che l'utente non ha i permessi necessari.   |
-| 3                    | Il sistema notifica l'errore all'utente (403).                  |
+| 3                    | Il sistema notifica l'errore all'utente.                  |
 
 #### Scenario UC10.5 - Creazione fallita per rete non trovata
 
@@ -738,7 +750,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | 1                    | L'utente accede alla funzionalità di creazione di un nuovo gateway. |
 | 2                    | L'utente fornisce il codice della rete a cui associare il gateway. |
 | 3                    | Il sistema verifica che la rete non esiste nel database.        |
-| 4                    | Il sistema notifica l'errore all'utente (404).                  |
+| 4                    | Il sistema notifica l'errore all'utente.                  |
 
 #### Scenario UC10.6 - Creazione fallita per indirizzo MAC già in uso
 
@@ -750,7 +762,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | 1                    | L'utente accede alla funzionalità di creazione di un nuovo gateway. |
 | 2                    | L'utente fornisce i dati richiesti: indirizzo MAC, nome, descrizione. |
 | 3                    | Il sistema verifica che l'indirizzo MAC è già in uso.           |
-| 4                    | Il sistema notifica l'errore all'utente (409).                  |
+| 4                    | Il sistema notifica l'errore all'utente.                  |
 
 #### Scenario UC10.7 - Creazione fallita per errore interno del server
 
@@ -762,7 +774,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | 1                    | L'utente accede alla funzionalità di creazione di un nuovo gateway. |
 | 2                    | L'utente fornisce i dati richiesti: indirizzo MAC, nome, descrizione. |
 | 3                    | Si verifica un errore interno del server.                       |
-| 4                    | Il sistema notifica l'errore all'utente (500).                  |
+| 4                    | Il sistema notifica l'errore all'utente.                  |
 
 ---
 
@@ -774,7 +786,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | **Post condition**    | Il gateway specificato viene aggiornato con i nuovi dati forniti. |
 | **Nominal Scenario** | L'utente fornisce i dati aggiornati per un gateway esistente e il sistema li salva. |
 | **Variants**         | Nessuna variante significativa.                                 |
-| **Exceptions**       | - Scenario UC11.2: Dati mancanti o non validi (400). <br> - Scenario UC11.3: Utente non autorizzato (401). <br> - Scenario UC11.4: Permessi insufficienti (403). <br> - Scenario UC11.5: Gateway non trovato (404). <br> - Scenario UC11.6: Indirizzo MAC già in uso (409). <br> - Scenario UC11.7: Errore interno del server (500). |
+| **Exceptions**       | - Scenario UC11.2: Dati mancanti o non validi. <br> - Scenario UC11.3: Utente non autorizzato. <br> - Scenario UC11.4: Permessi insufficienti. <br> - Scenario UC11.5: Gateway non trovato. <br> - Scenario UC11.6: Indirizzo MAC già in uso. <br> - Scenario UC11.7: Errore interno del server. |
 
 #### Scenario UC11.1 - Aggiornamento di un gateway con successo
 
@@ -787,7 +799,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | 2                    | L'utente fornisce i dati aggiornati: indirizzo MAC, nome, descrizione. |
 | 3                    | Il sistema verifica che i dati siano validi e che l'indirizzo MAC non sia già in uso. |
 | 4                    | Il sistema salva i nuovi dati del gateway nel database.         |
-| 5                    | Il sistema conferma l'aggiornamento del gateway all'utente (204).|
+| 5                    | Il sistema conferma l'aggiornamento del gateway all'utente.|
 
 #### Scenario UC11.2 - Aggiornamento fallito per dati mancanti o non validi
 
@@ -800,7 +812,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | 2                    | L'utente fornisce dati incompleti o non validi.                 |
 | 3                    | Il sistema valida i dati forniti dall'utente.                   |
 | 4                    | Il sistema rileva che i dati sono incompleti o non validi.      |
-| 5                    | Il sistema notifica l'errore all'utente (400).                  |
+| 5                    | Il sistema notifica l'errore all'utente.                  |
 
 #### Scenario UC11.3 - Aggiornamento fallito per utente non autorizzato
 
@@ -811,7 +823,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente tenta di accedere alla funzionalità di aggiornamento di un gateway. |
 | 2                    | Il sistema verifica che l'utente non è autenticato.             |
-| 3                    | Il sistema notifica l'errore all'utente (401).                  |
+| 3                    | Il sistema notifica l'errore all'utente.                  |
 
 #### Scenario UC11.4 - Aggiornamento fallito per permessi insufficienti
 
@@ -822,7 +834,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente tenta di accedere alla funzionalità di aggiornamento di un gateway. |
 | 2                    | Il sistema verifica che l'utente non ha i permessi necessari.   |
-| 3                    | Il sistema notifica l'errore all'utente (403).                  |
+| 3                    | Il sistema notifica l'errore all'utente.                  |
 
 #### Scenario UC11.5 - Aggiornamento fallito per gateway non trovato
 
@@ -834,7 +846,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | 1                    | L'utente accede alla funzionalità di aggiornamento di un gateway. |
 | 2                    | L'utente fornisce l'indirizzo MAC del gateway da aggiornare.    |
 | 3                    | Il sistema verifica che il gateway non esiste nel database.     |
-| 4                    | Il sistema notifica l'errore all'utente (404).                  |
+| 4                    | Il sistema notifica l'errore all'utente.                  |
 
 #### Scenario UC11.6 - Aggiornamento fallito per indirizzo MAC già in uso
 
@@ -846,7 +858,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | 1                    | L'utente accede alla funzionalità di aggiornamento di un gateway. |
 | 2                    | L'utente fornisce i dati aggiornati: indirizzo MAC, nome, descrizione. |
 | 3                    | Il sistema verifica che l'indirizzo MAC è già in uso.           |
-| 4                    | Il sistema notifica l'errore all'utente (409).                  |
+| 4                    | Il sistema notifica l'errore all'utente.                  |
 
 #### Scenario UC11.7 - Aggiornamento fallito per errore interno del server
 
@@ -858,7 +870,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | 1                    | L'utente accede alla funzionalità di aggiornamento di un gateway. |
 | 2                    | L'utente fornisce i dati aggiornati: indirizzo MAC, nome, descrizione. |
 | 3                    | Si verifica un errore interno del server.                       |
-| 4                    | Il sistema notifica l'errore all'utente (500).                  |
+| 4                    | Il sistema notifica l'errore all'utente.                  |
 
 ---
 
@@ -870,7 +882,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | **Post condition**    | Il gateway specificato viene eliminato dal sistema.            |
 | **Nominal Scenario** | L'utente fornisce l'indirizzo MAC del gateway da eliminare e il sistema lo elimina. |
 | **Variants**         | Nessuna variante significativa.                                 |
-| **Exceptions**       | - Scenario UC12.2: Utente non autorizzato (401). <br> - Scenario UC12.3: Permessi insufficienti (403). <br> - Scenario UC12.4: Gateway non trovato (404). <br> - Scenario UC12.5: Errore interno del server (500). |
+| **Exceptions**       | - Scenario UC12.2: Utente non autorizzato. <br> - Scenario UC12.3: Permessi insufficienti. <br> - Scenario UC12.4: Gateway non trovato. <br> - Scenario UC12.5: Errore interno del server. |
 
 #### Scenario UC12.1 - Eliminazione di un gateway con successo
 
@@ -883,7 +895,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | 2                    | L'utente specifica l'indirizzo MAC del gateway da eliminare.    |
 | 3                    | Il sistema verifica che il gateway esiste nel database.         |
 | 4                    | Il sistema elimina il gateway dal database.                    |
-| 5                    | Il sistema conferma l'eliminazione del gateway all'utente (204).|
+| 5                    | Il sistema conferma l'eliminazione del gateway all'utente.|
 
 #### Scenario UC12.2 - Eliminazione fallita per utente non autorizzato
 
@@ -894,7 +906,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente tenta di accedere alla funzionalità di eliminazione di un gateway. |
 | 2                    | Il sistema verifica che l'utente non è autenticato.             |
-| 3                    | Il sistema notifica l'errore all'utente (401).                  |
+| 3                    | Il sistema notifica l'errore all'utente.                  |
 
 #### Scenario UC12.3 - Eliminazione fallita per permessi insufficienti
 
@@ -905,7 +917,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente tenta di accedere alla funzionalità di eliminazione di un gateway. |
 | 2                    | Il sistema verifica che l'utente non ha i permessi necessari.   |
-| 3                    | Il sistema notifica l'errore all'utente (403).                  |
+| 3                    | Il sistema notifica l'errore all'utente.                  |
 
 #### Scenario UC12.4 - Eliminazione fallita per gateway non trovato
 
@@ -917,7 +929,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | 1                    | L'utente accede alla funzionalità di eliminazione di un gateway. |
 | 2                    | L'utente specifica l'indirizzo MAC del gateway da eliminare.    |
 | 3                    | Il sistema verifica che il gateway non esiste nel database.     |
-| 4                    | Il sistema notifica l'errore all'utente (404).                  |
+| 4                    | Il sistema notifica l'errore all'utente.                  |
 
 #### Scenario UC12.5 - Eliminazione fallita per errore interno del server
 
@@ -929,7 +941,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | 1                    | L'utente accede alla funzionalità di eliminazione di un gateway. |
 | 2                    | L'utente specifica l'indirizzo MAC del gateway da eliminare.    |
 | 3                    | Si verifica un errore interno del server.                       |
-| 4                    | Il sistema notifica l'errore all'utente (500).                  |
+| 4                    | Il sistema notifica l'errore all'utente.                  |
 
 ---
 
@@ -941,7 +953,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | **Post condition**    | L'utente visualizza i sensori richiesti.                       |
 | **Nominal Scenario** | L'utente richiede di visualizzare uno o tutti i sensori di un gateway e il sistema restituisce i dati richiesti. |
 | **Variants**         | Nessuna variante significativa.                                 |
-| **Exceptions**       | - Scenario UC13.2: Utente non autorizzato (401). <br> - Scenario UC13.3: Gateway non trovato (404). <br> - Scenario UC13.4: Errore interno del server (500). |
+| **Exceptions**       | - Scenario UC13.2: Utente non autorizzato. <br> - Scenario UC13.3: Gateway non trovato. <br> - Scenario UC13.4: Errore interno del server. |
 
 #### Scenario UC13.1 - Visualizzazione di uno o tutti i sensori con successo
 
@@ -953,7 +965,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | 1                    | L'utente accede alla funzionalità di visualizzazione dei sensori. |
 | 2                    | L'utente richiede di visualizzare un sensore specifico o tutti i sensori di un gateway. |
 | 3                    | Il sistema recupera i dati dei sensori richiesti dal database.  |
-| 4                    | Il sistema restituisce i dati dei sensori all'utente (200).     |
+| 4                    | Il sistema restituisce i dati dei sensori all'utente.     |
 
 #### Scenario UC13.2 - Visualizzazione fallita per utente non autorizzato
 
@@ -964,7 +976,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente tenta di accedere alla funzionalità di visualizzazione dei sensori. |
 | 2                    | Il sistema verifica che l'utente non è autenticato.             |
-| 3                    | Il sistema notifica l'errore all'utente (401).                  |
+| 3                    | Il sistema notifica l'errore all'utente.                  |
 
 #### Scenario UC13.3 - Visualizzazione fallita per gateway non trovato
 
@@ -976,7 +988,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | 1                    | L'utente accede alla funzionalità di visualizzazione dei sensori. |
 | 2                    | L'utente richiede di visualizzare un sensore specifico o tutti i sensori di un gateway. |
 | 3                    | Il sistema verifica che il gateway non esiste nel database.     |
-| 4                    | Il sistema notifica l'errore all'utente (404).                  |
+| 4                    | Il sistema notifica l'errore all'utente.                  |
 
 #### Scenario UC13.4 - Visualizzazione fallita per errore interno del server
 
@@ -988,7 +1000,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | 1                    | L'utente accede alla funzionalità di visualizzazione dei sensori. |
 | 2                    | L'utente richiede di visualizzare un sensore specifico o tutti i sensori di un gateway. |
 | 3                    | Si verifica un errore interno del server durante il recupero dei dati. |
-| 4                    | Il sistema notifica l'errore all'utente (500).                  |
+| 4                    | Il sistema notifica l'errore all'utente.                  |
 
 ---
 
@@ -1000,7 +1012,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | **Post condition**    | Un nuovo sensore viene creato con successo e associato al gateway specificato. |
 | **Nominal Scenario** | L'utente fornisce i dati richiesti e il sistema crea un nuovo sensore per il gateway specificato. |
 | **Variants**         | Nessuna variante significativa.                                 |
-| **Exceptions**       | - Scenario UC14.2: Dati mancanti o non validi (400). <br> - Scenario UC14.3: Utente non autorizzato (401). <br> - Scenario UC14.4: Permessi insufficienti (403). <br> - Scenario UC14.5: Gateway non trovato (404). <br> - Scenario UC14.6: Indirizzo MAC già in uso (409). <br> - Scenario UC14.7: Errore interno del server (500). |
+| **Exceptions**       | - Scenario UC14.2: Dati mancanti o non validi. <br> - Scenario UC14.3: Utente non autorizzato. <br> - Scenario UC14.4: Permessi insufficienti. <br> - Scenario UC14.5: Gateway non trovato. <br> - Scenario UC14.6: Indirizzo MAC già in uso. <br> - Scenario UC14.7: Errore interno del server. |
 
 #### Scenario UC14.1 - Creazione di un nuovo sensore con successo
 
@@ -1013,7 +1025,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | 2                    | L'utente fornisce i dati richiesti: indirizzo MAC, nome, descrizione, variabile, unità. |
 | 3                    | Il sistema verifica che i dati siano validi e che l'indirizzo MAC non sia già in uso. |
 | 4                    | Il sistema salva il nuovo sensore nel database e lo associa al gateway specificato. |
-| 5                    | Il sistema conferma la creazione del sensore all'utente (201).  |
+| 5                    | Il sistema conferma la creazione del sensore all'utente.  |
 
 #### Scenario UC14.2 - Creazione fallita per dati mancanti o non validi
 
@@ -1026,7 +1038,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | 2                    | L'utente fornisce dati incompleti o non validi.                 |
 | 3                    | Il sistema valida i dati forniti dall'utente.                   |
 | 4                    | Il sistema rileva che i dati sono incompleti o non validi.      |
-| 5                    | Il sistema notifica l'errore all'utente (400).                  |
+| 5                    | Il sistema notifica l'errore all'utente.                  |
 
 #### Scenario UC14.3 - Creazione fallita per utente non autorizzato
 
@@ -1037,7 +1049,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente tenta di accedere alla funzionalità di creazione di un nuovo sensore. |
 | 2                    | Il sistema verifica che l'utente non è autenticato.             |
-| 3                    | Il sistema notifica l'errore all'utente (401).                  |
+| 3                    | Il sistema notifica l'errore all'utente.                  |
 
 #### Scenario UC14.4 - Creazione fallita per permessi insufficienti
 
@@ -1048,7 +1060,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente tenta di accedere alla funzionalità di creazione di un nuovo sensore. |
 | 2                    | Il sistema verifica che l'utente non ha i permessi necessari.   |
-| 3                    | Il sistema notifica l'errore all'utente (403).                  |
+| 3                    | Il sistema notifica l'errore all'utente.                  |
 
 #### Scenario UC14.5 - Creazione fallita per gateway non trovato
 
@@ -1060,7 +1072,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | 1                    | L'utente accede alla funzionalità di creazione di un nuovo sensore. |
 | 2                    | L'utente fornisce il codice del gateway a cui associare il sensore. |
 | 3                    | Il sistema verifica che il gateway non esiste nel database.     |
-| 4                    | Il sistema notifica l'errore all'utente (404).                  |
+| 4                    | Il sistema notifica l'errore all'utente.                  |
 
 #### Scenario UC14.6 - Creazione fallita per indirizzo MAC già in uso
 
@@ -1072,7 +1084,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | 1                    | L'utente accede alla funzionalità di creazione di un nuovo sensore. |
 | 2                    | L'utente fornisce i dati richiesti: indirizzo MAC, nome, descrizione, variabile, unità. |
 | 3                    | Il sistema verifica che l'indirizzo MAC è già in uso.           |
-| 4                    | Il sistema notifica l'errore all'utente (409).                  |
+| 4                    | Il sistema notifica l'errore all'utente.                  |
 
 #### Scenario UC14.7 - Creazione fallita per errore interno del server
 
@@ -1084,7 +1096,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | 1                    | L'utente accede alla funzionalità di creazione di un nuovo sensore. |
 | 2                    | L'utente fornisce i dati richiesti: indirizzo MAC, nome, descrizione, variabile, unità. |
 | 3                    | Si verifica un errore interno del server.                       |
-| 4                    | Il sistema notifica l'errore all'utente (500).                  |
+| 4                    | Il sistema notifica l'errore all'utente.                  |
 
 ---
 
@@ -1096,7 +1108,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | **Post condition**    | Il sensore specificato viene aggiornato con i nuovi dati forniti. |
 | **Nominal Scenario** | L'utente fornisce i dati aggiornati per un sensore esistente e il sistema li salva. |
 | **Variants**         | Nessuna variante significativa.                                 |
-| **Exceptions**       | - Scenario UC15.2: Dati mancanti o non validi (400). <br> - Scenario UC15.3: Utente non autorizzato (401). <br> - Scenario UC15.4: Permessi insufficienti (403). <br> - Scenario UC15.5: Sensore non trovato (404). <br> - Scenario UC15.6: Indirizzo MAC già in uso (409). <br> - Scenario UC15.7: Errore interno del server (500). |
+| **Exceptions**       | - Scenario UC15.2: Dati mancanti o non validi. <br> - Scenario UC15.3: Utente non autorizzato. <br> - Scenario UC15.4: Permessi insufficienti. <br> - Scenario UC15.5: Sensore non trovato. <br> - Scenario UC15.6: Indirizzo MAC già in uso. <br> - Scenario UC15.7: Errore interno del server. |
 
 #### Scenario UC15.1 - Aggiornamento di un sensore con successo
 
@@ -1109,7 +1121,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | 2                    | L'utente fornisce i dati aggiornati: indirizzo MAC, nome, descrizione, variabile, unità. |
 | 3                    | Il sistema verifica che i dati siano validi e che l'indirizzo MAC non sia già in uso. |
 | 4                    | Il sistema salva i nuovi dati del sensore nel database.         |
-| 5                    | Il sistema conferma l'aggiornamento del sensore all'utente (204).|
+| 5                    | Il sistema conferma l'aggiornamento del sensore all'utente.|
 
 #### Scenario UC15.2 - Aggiornamento fallito per dati mancanti o non validi
 
@@ -1122,7 +1134,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | 2                    | L'utente fornisce dati incompleti o non validi.                 |
 | 3                    | Il sistema valida i dati forniti dall'utente.                   |
 | 4                    | Il sistema rileva che i dati sono incompleti o non validi.      |
-| 5                    | Il sistema notifica l'errore all'utente (400).                  |
+| 5                    | Il sistema notifica l'errore all'utente.                  |
 
 #### Scenario UC15.3 - Aggiornamento fallito per utente non autorizzato
 
@@ -1133,7 +1145,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente tenta di accedere alla funzionalità di aggiornamento di un sensore. |
 | 2                    | Il sistema verifica che l'utente non è autenticato.             |
-| 3                    | Il sistema notifica l'errore all'utente (401).                  |
+| 3                    | Il sistema notifica l'errore all'utente.                  |
 
 #### Scenario UC15.4 - Aggiornamento fallito per permessi insufficienti
 
@@ -1144,7 +1156,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente tenta di accedere alla funzionalità di aggiornamento di un sensore. |
 | 2                    | Il sistema verifica che l'utente non ha i permessi necessari.   |
-| 3                    | Il sistema notifica l'errore all'utente (403).                  |
+| 3                    | Il sistema notifica l'errore all'utente.                  |
 
 #### Scenario UC15.5 - Aggiornamento fallito per sensore non trovato
 
@@ -1156,7 +1168,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | 1                    | L'utente accede alla funzionalità di aggiornamento di un sensore. |
 | 2                    | L'utente fornisce l'indirizzo MAC del sensore da aggiornare.    |
 | 3                    | Il sistema verifica che il sensore non esiste nel database.     |
-| 4                    | Il sistema notifica l'errore all'utente (404).                  |
+| 4                    | Il sistema notifica l'errore all'utente.                  |
 
 #### Scenario UC15.6 - Aggiornamento fallito per indirizzo MAC già in uso
 
@@ -1168,7 +1180,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | 1                    | L'utente accede alla funzionalità di aggiornamento di un sensore. |
 | 2                    | L'utente fornisce i dati aggiornati: indirizzo MAC, nome, descrizione, variabile, unità. |
 | 3                    | Il sistema verifica che l'indirizzo MAC è già in uso.           |
-| 4                    | Il sistema notifica l'errore all'utente (409).                  |
+| 4                    | Il sistema notifica l'errore all'utente.                  |
 
 #### Scenario UC15.7 - Aggiornamento fallito per errore interno del server
 
@@ -1180,7 +1192,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | 1                    | L'utente accede alla funzionalità di aggiornamento di un sensore. |
 | 2                    | L'utente fornisce i dati aggiornati: indirizzo MAC, nome, descrizione, variabile, unità. |
 | 3                    | Si verifica un errore interno del server.                       |
-| 4                    | Il sistema notifica l'errore all'utente (500).                  |
+| 4                    | Il sistema notifica l'errore all'utente.                  |
 
 ---
 
@@ -1192,7 +1204,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | **Post condition**    | Il sensore specificato viene eliminato dal sistema.            |
 | **Nominal Scenario** | L'utente fornisce l'indirizzo MAC del sensore da eliminare e il sistema lo elimina. |
 | **Variants**         | Nessuna variante significativa.                                 |
-| **Exceptions**       | - Scenario UC16.2: Utente non autorizzato (401). <br> - Scenario UC16.3: Permessi insufficienti (403). <br> - Scenario UC16.4: Sensore non trovato (404). <br> - Scenario UC16.5: Errore interno del server (500). |
+| **Exceptions**       | - Scenario UC16.2: Utente non autorizzato. <br> - Scenario UC16.3: Permessi insufficienti. <br> - Scenario UC16.4: Sensore non trovato. <br> - Scenario UC16.5: Errore interno del server. |
 
 #### Scenario UC16.1 - Eliminazione di un sensore con successo
 
@@ -1205,7 +1217,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | 2                    | L'utente specifica l'indirizzo MAC del sensore da eliminare.    |
 | 3                    | Il sistema verifica che il sensore esiste nel database.         |
 | 4                    | Il sistema elimina il sensore dal database.                    |
-| 5                    | Il sistema conferma l'eliminazione del sensore all'utente (204).|
+| 5                    | Il sistema conferma l'eliminazione del sensore all'utente.|
 
 #### Scenario UC16.2 - Eliminazione fallita per utente non autorizzato
 
@@ -1216,7 +1228,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente tenta di accedere alla funzionalità di eliminazione di un sensore. |
 | 2                    | Il sistema verifica che l'utente non è autenticato.             |
-| 3                    | Il sistema notifica l'errore all'utente (401).                  |
+| 3                    | Il sistema notifica l'errore all'utente.                  |
 
 #### Scenario UC16.3 - Eliminazione fallita per permessi insufficienti
 
@@ -1227,7 +1239,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente tenta di accedere alla funzionalità di eliminazione di un sensore. |
 | 2                    | Il sistema verifica che l'utente non ha i permessi necessari.   |
-| 3                    | Il sistema notifica l'errore all'utente (403).                  |
+| 3                    | Il sistema notifica l'errore all'utente.                  |
 
 #### Scenario UC16.4 - Eliminazione fallita per sensore non trovato
 
@@ -1239,7 +1251,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | 1                    | L'utente accede alla funzionalità di eliminazione di un sensore. |
 | 2                    | L'utente specifica l'indirizzo MAC del sensore da eliminare.    |
 | 3                    | Il sistema verifica che il sensore non esiste nel database.     |
-| 4                    | Il sistema notifica l'errore all'utente (404).                  |
+| 4                    | Il sistema notifica l'errore all'utente.                  |
 
 #### Scenario UC16.5 - Eliminazione fallita per errore interno del server
 
@@ -1251,7 +1263,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | 1                    | L'utente accede alla funzionalità di eliminazione di un sensore. |
 | 2                    | L'utente specifica l'indirizzo MAC del sensore da eliminare.    |
 | 3                    | Si verifica un errore interno del server.                       |
-| 4                    | Il sistema notifica l'errore all'utente (500).                  |
+| 4                    | Il sistema notifica l'errore all'utente.                  |
 
 ---
 
@@ -1263,7 +1275,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | **Post condition**    | L'utente riceve le misurazioni richieste per i sensori specificati. |
 | **Nominal Scenario** | L'utente richiede le misurazioni per un insieme di sensori di una rete specifica e il sistema restituisce i dati richiesti. |
 | **Variants**         | Nessuna variante significativa.                                 |
-| **Exceptions**       | - Scenario UC17.2: Utente non autorizzato (401). <br> - Scenario UC17.3: Rete non trovata (404). <br> - Scenario UC17.4: Errore interno del server (500). |
+| **Exceptions**       | - Scenario UC17.2: Utente non autorizzato. <br> - Scenario UC17.3: Rete non trovata. <br> - Scenario UC17.4: Errore interno del server. |
 
 #### Scenario UC17.1 - Recupero delle misurazioni con successo
 
@@ -1275,7 +1287,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | 1                    | L'utente accede alla funzionalità di recupero delle misurazioni. |
 | 2                    | L'utente specifica i sensori e l'intervallo temporale per cui richiede le misurazioni. |
 | 3                    | Il sistema recupera le misurazioni dal database.                |
-| 4                    | Il sistema restituisce le misurazioni all'utente (200).         |
+| 4                    | Il sistema restituisce le misurazioni all'utente.         |
 
 #### Scenario UC17.2 - Recupero fallito per utente non autorizzato
 
@@ -1286,7 +1298,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente tenta di accedere alla funzionalità di recupero delle misurazioni. |
 | 2                    | Il sistema verifica che l'utente non è autenticato.             |
-| 3                    | Il sistema notifica l'errore all'utente (401).                  |
+| 3                    | Il sistema notifica l'errore all'utente.                  |
 
 #### Scenario UC17.3 - Recupero fallito per rete non trovata
 
@@ -1298,7 +1310,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | 1                    | L'utente accede alla funzionalità di recupero delle misurazioni. |
 | 2                    | L'utente specifica i sensori e l'intervallo temporale per cui richiede le misurazioni. |
 | 3                    | Il sistema verifica che la rete specificata non esiste nel database. |
-| 4                    | Il sistema notifica l'errore all'utente (404).                  |
+| 4                    | Il sistema notifica l'errore all'utente.                  |
 
 #### Scenario UC17.4 - Recupero fallito per errore interno del server
 
@@ -1310,7 +1322,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | 1                    | L'utente accede alla funzionalità di recupero delle misurazioni. |
 | 2                    | L'utente specifica i sensori e l'intervallo temporale per cui richiede le misurazioni. |
 | 3                    | Si verifica un errore interno del server durante il recupero dei dati. |
-| 4                    | Il sistema notifica l'errore all'utente (500).                  |
+| 4                    | Il sistema notifica l'errore all'utente.                  |
 
 ---
 
@@ -1322,7 +1334,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | **Post condition**    | L'utente riceve le statistiche richieste per i sensori specificati. |
 | **Nominal Scenario** | L'utente richiede le statistiche per un insieme di sensori di una rete specifica e il sistema restituisce i dati richiesti. |
 | **Variants**         | Nessuna variante significativa.                                 |
-| **Exceptions**       | - Scenario UC18.2: Utente non autorizzato (401). <br> - Scenario UC18.3: Rete non trovata (404). <br> - Scenario UC18.4: Errore interno del server (500). |
+| **Exceptions**       | - Scenario UC18.2: Utente non autorizzato. <br> - Scenario UC18.3: Rete non trovata. <br> - Scenario UC18.4: Errore interno del server. |
 
 #### Scenario UC18.1 - Recupero delle statistiche con successo
 
@@ -1334,7 +1346,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | 1                    | L'utente accede alla funzionalità di recupero delle statistiche. |
 | 2                    | L'utente specifica i sensori e l'intervallo temporale per cui richiede le statistiche. |
 | 3                    | Il sistema calcola le statistiche (media, varianza, soglie) per i sensori specificati. |
-| 4                    | Il sistema restituisce le statistiche all'utente (200).         |
+| 4                    | Il sistema restituisce le statistiche all'utente.         |
 
 #### Scenario UC18.2 - Recupero fallito per utente non autorizzato
 
@@ -1345,7 +1357,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente tenta di accedere alla funzionalità di recupero delle statistiche. |
 | 2                    | Il sistema verifica che l'utente non è autenticato.             |
-| 3                    | Il sistema notifica l'errore all'utente (401).                  |
+| 3                    | Il sistema notifica l'errore all'utente.                  |
 
 #### Scenario UC18.3 - Recupero fallito per rete non trovata
 
@@ -1357,7 +1369,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | 1                    | L'utente accede alla funzionalità di recupero delle statistiche. |
 | 2                    | L'utente specifica i sensori e l'intervallo temporale per cui richiede le statistiche. |
 | 3                    | Il sistema verifica che la rete specificata non esiste nel database. |
-| 4                    | Il sistema notifica l'errore all'utente (404).                  |
+| 4                    | Il sistema notifica l'errore all'utente.                  |
 
 #### Scenario UC18.4 - Recupero fallito per errore interno del server
 
@@ -1369,7 +1381,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | 1                    | L'utente accede alla funzionalità di recupero delle statistiche. |
 | 2                    | L'utente specifica i sensori e l'intervallo temporale per cui richiede le statistiche. |
 | 3                    | Si verifica un errore interno del server durante il calcolo delle statistiche. |
-| 4                    | Il sistema notifica l'errore all'utente (500).                  |
+| 4                    | Il sistema notifica l'errore all'utente.                  |
 
 ---
 
@@ -1381,7 +1393,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | **Post condition**    | L'utente riceve solo le misurazioni anomale per i sensori specificati. |
 | **Nominal Scenario** | L'utente richiede le misurazioni anomale per un insieme di sensori di una rete specifica e il sistema restituisce i dati richiesti. |
 | **Variants**         | Nessuna variante significativa.                                 |
-| **Exceptions**       | - Scenario UC19.2: Utente non autorizzato (401). <br> - Scenario UC19.3: Rete non trovata (404). <br> - Scenario UC19.4: Errore interno del server (500). |
+| **Exceptions**       | - Scenario UC19.2: Utente non autorizzato. <br> - Scenario UC19.3: Rete non trovata. <br> - Scenario UC19.4: Errore interno del server. |
 
 #### Scenario UC19.1 - Recupero delle misurazioni anomale con successo
 
@@ -1394,7 +1406,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | 2                    | L'utente specifica i sensori e l'intervallo temporale per cui richiede le misurazioni anomale. |
 | 3                    | Il sistema calcola le soglie (media ± 2σ) per i sensori specificati. |
 | 4                    | Il sistema filtra le misurazioni che superano le soglie calcolate. |
-| 5                    | Il sistema restituisce le misurazioni anomale all'utente (200). |
+| 5                    | Il sistema restituisce le misurazioni anomale all'utente. |
 
 #### Scenario UC19.2 - Recupero fallito per utente non autorizzato
 
@@ -1405,7 +1417,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente tenta di accedere alla funzionalità di recupero delle misurazioni anomale. |
 | 2                    | Il sistema verifica che l'utente non è autenticato.             |
-| 3                    | Il sistema notifica l'errore all'utente (401).                  |
+| 3                    | Il sistema notifica l'errore all'utente.                  |
 
 #### Scenario UC19.3 - Recupero fallito per rete non trovata
 
@@ -1417,7 +1429,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | 1                    | L'utente accede alla funzionalità di recupero delle misurazioni anomale. |
 | 2                    | L'utente specifica i sensori e l'intervallo temporale per cui richiede le misurazioni anomale. |
 | 3                    | Il sistema verifica che la rete specificata non esiste nel database. |
-| 4                    | Il sistema notifica l'errore all'utente (404).                  |
+| 4                    | Il sistema notifica l'errore all'utente.                  |
 
 #### Scenario UC19.4 - Recupero fallito per errore interno del server
 
@@ -1429,7 +1441,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | 1                    | L'utente accede alla funzionalità di recupero delle misurazioni anomale. |
 | 2                    | L'utente specifica i sensori e l'intervallo temporale per cui richiede le misurazioni anomale. |
 | 3                    | Si verifica un errore interno del server durante il calcolo delle soglie o il filtraggio delle misurazioni. |
-| 4                    | Il sistema notifica l'errore all'utente (500).                  |
+| 4                    | Il sistema notifica l'errore all'utente.                  |
 
 ---
 
@@ -1441,7 +1453,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | **Post condition**    | Le misurazioni fornite vengono memorizzate nel sistema e associate al sensore specificato. |
 | **Nominal Scenario** | L'utente fornisce le misurazioni per un sensore specifico e il sistema le memorizza. |
 | **Variants**         | Nessuna variante significativa.                                 |
-| **Exceptions**       | - Scenario UC20.2: Dati mancanti o non validi (400). <br> - Scenario UC20.3: Utente non autorizzato (401). <br> - Scenario UC20.4: Permessi insufficienti (403). <br> - Scenario UC20.5: Sensore non trovato (404). <br> - Scenario UC20.6: Errore interno del server (500). |
+| **Exceptions**       | - Scenario UC20.2: Dati mancanti o non validi. <br> - Scenario UC20.3: Utente non autorizzato. <br> - Scenario UC20.4: Permessi insufficienti. <br> - Scenario UC20.5: Sensore non trovato. <br> - Scenario UC20.6: Errore interno del server. |
 
 #### Scenario UC20.1 - Memorizzazione delle misurazioni con successo
 
@@ -1455,7 +1467,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | 3                    | Il sistema verifica che i dati siano validi.                    |
 | 4                    | Il sistema associa le misurazioni al sensore specificato.       |
 | 5                    | Il sistema salva le misurazioni nel database.                   |
-| 6                    | Il sistema conferma la memorizzazione delle misurazioni all'utente (201).|
+| 6                    | Il sistema conferma la memorizzazione delle misurazioni all'utente.|
 
 #### Scenario UC20.2 - Memorizzazione fallita per dati mancanti o non validi
 
@@ -1468,7 +1480,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | 2                    | L'utente fornisce dati incompleti o non validi.                 |
 | 3                    | Il sistema valida i dati forniti dall'utente.                   |
 | 4                    | Il sistema rileva che i dati sono incompleti o non validi.      |
-| 5                    | Il sistema notifica l'errore all'utente (400).                  |
+| 5                    | Il sistema notifica l'errore all'utente.                  |
 
 #### Scenario UC20.3 - Memorizzazione fallita per utente non autorizzato
 
@@ -1479,7 +1491,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente tenta di accedere alla funzionalità di memorizzazione delle misurazioni. |
 | 2                    | Il sistema verifica che l'utente non è autenticato.             |
-| 3                    | Il sistema notifica l'errore all'utente (401).                  |
+| 3                    | Il sistema notifica l'errore all'utente.                  |
 
 #### Scenario UC20.4 - Memorizzazione fallita per permessi insufficienti
 
@@ -1490,7 +1502,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente tenta di accedere alla funzionalità di memorizzazione delle misurazioni. |
 | 2                    | Il sistema verifica che l'utente non ha i permessi necessari.   |
-| 3                    | Il sistema notifica l'errore all'utente (403).                  |
+| 3                    | Il sistema notifica l'errore all'utente.                  |
 
 #### Scenario UC20.5 - Memorizzazione fallita per sensore non trovato
 
@@ -1502,7 +1514,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | 1                    | L'utente accede alla funzionalità di memorizzazione delle misurazioni. |
 | 2                    | L'utente specifica il sensore a cui associare le misurazioni.   |
 | 3                    | Il sistema verifica che il sensore non esiste nel database.     |
-| 4                    | Il sistema notifica l'errore all'utente (404).                  |
+| 4                    | Il sistema notifica l'errore all'utente.                  |
 
 #### Scenario UC20.6 - Memorizzazione fallita per errore interno del server
 
@@ -1514,7 +1526,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | 1                    | L'utente accede alla funzionalità di memorizzazione delle misurazioni. |
 | 2                    | L'utente fornisce le misurazioni: timestamp e valore.           |
 | 3                    | Si verifica un errore interno del server.                       |
-| 4                    | Il sistema notifica l'errore all'utente (500).                  |
+| 4                    | Il sistema notifica l'errore all'utente.                  |
 
 ---
 
@@ -1526,7 +1538,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | **Post condition**    | L'utente riceve le misurazioni richieste per il sensore specificato. |
 | **Nominal Scenario** | L'utente richiede le misurazioni per un sensore specifico e il sistema restituisce i dati richiesti. |
 | **Variants**         | Nessuna variante significativa.                                 |
-| **Exceptions**       | - Scenario UC21.2: Utente non autorizzato (401). <br> - Scenario UC21.3: Sensore non trovato (404). <br> - Scenario UC21.4: Errore interno del server (500). |
+| **Exceptions**       | - Scenario UC21.2: Utente non autorizzato. <br> - Scenario UC21.3: Sensore non trovato. <br> - Scenario UC21.4: Errore interno del server. |
 
 #### Scenario UC21.1 - Recupero delle misurazioni con successo
 
@@ -1538,7 +1550,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | 1                    | L'utente accede alla funzionalità di recupero delle misurazioni. |
 | 2                    | L'utente specifica il sensore e l'intervallo temporale per cui richiede le misurazioni. |
 | 3                    | Il sistema recupera le misurazioni dal database.                |
-| 4                    | Il sistema restituisce le misurazioni all'utente (200).         |
+| 4                    | Il sistema restituisce le misurazioni all'utente.         |
 
 #### Scenario UC21.2 - Recupero fallito per utente non autorizzato
 
@@ -1549,7 +1561,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente tenta di accedere alla funzionalità di recupero delle misurazioni. |
 | 2                    | Il sistema verifica che l'utente non è autenticato.             |
-| 3                    | Il sistema notifica l'errore all'utente (401).                  |
+| 3                    | Il sistema notifica l'errore all'utente.                  |
 
 #### Scenario UC21.3 - Recupero fallito per sensore non trovato
 
@@ -1561,7 +1573,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | 1                    | L'utente accede alla funzionalità di recupero delle misurazioni. |
 | 2                    | L'utente specifica il sensore e l'intervallo temporale per cui richiede le misurazioni. |
 | 3                    | Il sistema verifica che il sensore specificato non esiste nel database. |
-| 4                    | Il sistema notifica l'errore all'utente (404).                  |
+| 4                    | Il sistema notifica l'errore all'utente.                  |
 
 #### Scenario UC21.4 - Recupero fallito per errore interno del server
 
@@ -1573,7 +1585,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | 1                    | L'utente accede alla funzionalità di recupero delle misurazioni. |
 | 2                    | L'utente specifica il sensore e l'intervallo temporale per cui richiede le misurazioni. |
 | 3                    | Si verifica un errore interno del server durante il recupero dei dati. |
-| 4                    | Il sistema notifica l'errore all'utente (500).                  |
+| 4                    | Il sistema notifica l'errore all'utente.                  |
 
 ---
 
@@ -1585,7 +1597,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | **Post condition**    | L'utente riceve le statistiche richieste per il sensore specificato. |
 | **Nominal Scenario** | L'utente richiede le statistiche per un sensore specifico e il sistema restituisce i dati richiesti. |
 | **Variants**         | Nessuna variante significativa.                                 |
-| **Exceptions**       | - Scenario UC22.2: Utente non autorizzato (401). <br> - Scenario UC22.3: Sensore non trovato (404). <br> - Scenario UC22.4: Errore interno del server (500). |
+| **Exceptions**       | - Scenario UC22.2: Utente non autorizzato. <br> - Scenario UC22.3: Sensore non trovato. <br> - Scenario UC22.4: Errore interno del server. |
 
 #### Scenario UC22.1 - Recupero delle statistiche con successo
 
@@ -1597,7 +1609,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | 1                    | L'utente accede alla funzionalità di recupero delle statistiche. |
 | 2                    | L'utente specifica il sensore e l'intervallo temporale per cui richiede le statistiche. |
 | 3                    | Il sistema calcola le statistiche (media, varianza, soglie) per il sensore specificato. |
-| 4                    | Il sistema restituisce le statistiche all'utente (200).         |
+| 4                    | Il sistema restituisce le statistiche all'utente.         |
 
 #### Scenario UC22.2 - Recupero fallito per utente non autorizzato
 
@@ -1608,7 +1620,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente tenta di accedere alla funzionalità di recupero delle statistiche. |
 | 2                    | Il sistema verifica che l'utente non è autenticato.             |
-| 3                    | Il sistema notifica l'errore all'utente (401).                  |
+| 3                    | Il sistema notifica l'errore all'utente.                  |
 
 #### Scenario UC22.3 - Recupero fallito per sensore non trovato
 
@@ -1620,7 +1632,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | 1                    | L'utente accede alla funzionalità di recupero delle statistiche. |
 | 2                    | L'utente specifica il sensore e l'intervallo temporale per cui richiede le statistiche. |
 | 3                    | Il sistema verifica che il sensore specificato non esiste nel database. |
-| 4                    | Il sistema notifica l'errore all'utente (404).                  |
+| 4                    | Il sistema notifica l'errore all'utente.                  |
 
 #### Scenario UC22.4 - Recupero fallito per errore interno del server
 
@@ -1632,7 +1644,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | 1                    | L'utente accede alla funzionalità di recupero delle statistiche. |
 | 2                    | L'utente specifica il sensore e l'intervallo temporale per cui richiede le statistiche. |
 | 3                    | Si verifica un errore interno del server durante il calcolo delle statistiche. |
-| 4                    | Il sistema notifica l'errore all'utente (500).                  |
+| 4                    | Il sistema notifica l'errore all'utente.                  |
 
 ---
 
@@ -1644,7 +1656,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | **Post condition**    | L'utente riceve solo le misurazioni anomale per il sensore specificato. |
 | **Nominal Scenario** | L'utente richiede le misurazioni anomale per un sensore specifico e il sistema restituisce i dati richiesti. |
 | **Variants**         | Nessuna variante significativa.                                 |
-| **Exceptions**       | - Scenario UC23.2: Utente non autorizzato (401). <br> - Scenario UC23.3: Sensore non trovato (404). <br> - Scenario UC23.4: Errore interno del server (500). |
+| **Exceptions**       | - Scenario UC23.2: Utente non autorizzato. <br> - Scenario UC23.3: Sensore non trovato. <br> - Scenario UC23.4: Errore interno del server. |
 
 #### Scenario UC23.1 - Recupero delle misurazioni anomale con successo
 
@@ -1657,7 +1669,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | 2                    | L'utente specifica il sensore e l'intervallo temporale per cui richiede le misurazioni anomale. |
 | 3                    | Il sistema calcola le soglie (media ± 2σ) per il sensore specificato. |
 | 4                    | Il sistema filtra le misurazioni che superano le soglie calcolate. |
-| 5                    | Il sistema restituisce le misurazioni anomale all'utente (200). |
+| 5                    | Il sistema restituisce le misurazioni anomale all'utente. |
 
 #### Scenario UC23.2 - Recupero fallito per utente non autorizzato
 
@@ -1668,7 +1680,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente tenta di accedere alla funzionalità di recupero delle misurazioni anomale. |
 | 2                    | Il sistema verifica che l'utente non è autenticato.             |
-| 3                    | Il sistema notifica l'errore all'utente (401).                  |
+| 3                    | Il sistema notifica l'errore all'utente.                  |
 
 #### Scenario UC23.3 - Recupero fallito per sensore non trovato
 
@@ -1680,7 +1692,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | 1                    | L'utente accede alla funzionalità di recupero delle misurazioni anomale. |
 | 2                    | L'utente specifica il sensore e l'intervallo temporale per cui richiede le misurazioni anomale. |
 | 3                    | Il sistema verifica che il sensore specificato non esiste nel database. |
-| 4                    | Il sistema notifica l'errore all'utente (404).                  |
+| 4                    | Il sistema notifica l'errore all'utente.                  |
 
 #### Scenario UC23.4 - Recupero fallito per errore interno del server
 
@@ -1692,7 +1704,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | 1                    | L'utente accede alla funzionalità di recupero delle misurazioni anomale. |
 | 2                    | L'utente specifica il sensore e l'intervallo temporale per cui richiede le misurazioni anomale. |
 | 3                    | Si verifica un errore interno del server durante il calcolo delle soglie o il filtraggio delle misurazioni. |
-| 4                    | Il sistema notifica l'errore all'utente (500).                  |
+| 4                    | Il sistema notifica l'errore all'utente.                  |
 
 ---
 
