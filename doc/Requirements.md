@@ -61,7 +61,7 @@ Il sistema è venduto come prodotto software isolato da eseguire su un server co
 
 ## Context Diagram
 
-![Context Diagram](diagrams/context.svg)
+![Context Diagram](diagrams/context_diagram.svg)
 
 ## Interfaces
 
@@ -147,7 +147,7 @@ Il sistema è venduto come prodotto software isolato da eseguire su un server co
 
 ## Use case diagram
 
-![UCD](diagrams/use_cases_diagram.svg)
+![UCD](diagrams/use-cases_diagram.svg)
 
 
 ### Autenticazione, UC1
@@ -392,7 +392,7 @@ Il sistema è venduto come prodotto software isolato da eseguire su un server co
 
 # System Design
 
-![System Design Diagram](diagrams/system-design.svg)
+![System Design Diagram](diagrams/system-design_diagram.svg)
 
 # Deployment Diagram
 
