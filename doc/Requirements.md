@@ -73,11 +73,17 @@ Il sistema è venduto come prodotto software isolato da eseguire su un server co
 
 # Stories and personas
 
-\<A Persona is a realistic impersonation of an actor. Define here a few personas and describe in plain text how a persona interacts with the system>
+**Giorgio**, 25 anni: Giorgio è un ricercatore scientifico in campo idrogeologico, sta effettuando degli studi in collaborazione con l'Unione delle Comunità Montane del Piemonte, è un utente di tipo *Viewer* ed è interessato alla lettura dei dati e delle misure per scopi di ricerca.
 
-\<Persona is-an-instance-of actor>
+**Silvia**, 47 anni: Silvia lavora per il Museo Egizio di Torino, è un utente di tipo *Admin* e si occupa della gestione delle reti, gateway, sensori e profili utente del sistema GeoControl, utilizzato dal museo per tenere sotto controllo i livelli di umidità e temperatura delle sale.
 
-\<stories will be formalized later as scenarios in use cases>
+**Francesca**, 35 anni: Francesca lavora per uno studio di amministrazione condominiale (Studio Amministra-To) e si occupa della manutenzione del sistema GeoControl utilizzato nei condomini amministrati dallo studio per la gestione delle temperature degli alloggi. E' un utente di tipo *Operator* in quanto può gestire le reti, gateway e sensori e anche inserire misure in maniera manuale (ad esempio durante controlli tecnici) ma non ha accesso alle informazioni utente che sono invece gestite dagli amministratori.
+
+**Giuseppe**, 68 anni: Giuseppe è un utente di tipo *Viewer* e utilizza GeoControl per monitorare la temperatura del suo alloggio. Il sistema GeoControl è gestito dallo studio di amministrazione Amministra-To che amministra il condominio.
+
+**Renata**, 55 anni: Renata lavora come amministratore condominiale per lo studio Amministra-To, è un utente di tipo *Admin*.
+
+
 
 # Functional and non functional requirements
 
