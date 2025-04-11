@@ -2,13 +2,14 @@
 
 Date: 11/04/2025
 
-Version: V1 - description of Geocontrol as described in the swagger
-
 | Version number | Change |
 | :------------: | :----: |
+|        V1        |    Description of Geocontrol as described in the swagger   |
 |        V1.1        |    Aggiunti i requisiti funzionali e non funzionali    |
 |        V1.2        |    Aggiunto: interfacce logiche e fisiche e il deployment diagram   |
 |        V1.3        |    Aggiunto: Business Model, Stakeholders, Context Diagram e System Design   |
+|        V1.4        |    Aggiunto Use Case Diagram   |
+|        V1.5        |    Aggiunte Stories & Personas   |
 
 # Contents
 
@@ -121,7 +122,7 @@ Il sistema è venduto come prodotto software isolato da eseguire su un server co
 | FR6.7 | Recupera solo le misurazioni anomale per un sensore specifico |
 | **FR7**  | **Calcoli** |
 | FR7.1 | Calcola Media e Varianza |
-| FR7.2 | Calcola le Thresholds come: \( \text{sogliaMax} = \mu + 2\sigma \), \( \text{sogliaMin} = \mu - 2\sigma \) |
+| FR7.2 | Calcola le Thresholds come: $$ \text{sogliaMax} = \mu + 2\sigma $$ $$ \text{sogliaMin} = \mu - 2\sigma $$ |
 | FR7.3 | Identifica Outliers considerando i valori oltre le soglie come anomali |
 | FR7.4 | Converte fusi orari |
 
