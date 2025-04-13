@@ -42,7 +42,7 @@ Consider the GeoControl project as described in the swagger, assume that you are
 | ------------- | :-------------------------------:|
 |**WP1   Produzione documentazione**    |                                 |
 |T1.1 Intervista con il committente e stesura della descrizione informale|6|
-|T1.2 analisi del sistema basandosi sulla descrizione informale|6|
+|T1.2 Analisi del sistema basandosi sulla descrizione informale|6|
 |T1.3 Identificazione dei requisiti funzionali e non funzionali|12|
 |T1.4 Identificazione use cases|12|
 |T1.5 Definizione del glossario|12|
@@ -50,9 +50,9 @@ Consider the GeoControl project as described in the swagger, assume that you are
 |T1.7 Approvazione dei requisiti identificati da parte degli stakeholder (*milestone*)|2|
 |**WP2 Implementazione design**    |  |
 |T2.1 Identificazione pattern applicabili|6|
-|T2.2 progettazione classi e metodi |22|
-|T2.3 progettazione interfaccia grafica|18|
-|T2.4 approvazione interfaccia grafica (*milestone*)|2|
+|T2.2 Progettazione classi e metodi |22|
+|T2.3 Progettazione interfaccia grafica|18|
+|T2.4 Approvazione interfaccia grafica (*milestone*)|2|
 |**WP3 Implementazione codice**  |                                 |
 |T3.1 Sviluppo dei metodi|40|
 |T3.2 Implementazione delle API|40|
@@ -64,7 +64,7 @@ Consider the GeoControl project as described in the swagger, assume that you are
 
 ###
 
-Insert here Gantt chart with above activities
+![gantt-diagram](diagrams/gantt_chart.svg)
 
 # Summary
 
@@ -75,6 +75,6 @@ Insert here Gantt chart with above activities
 | estimate by activity decomposition |   244 ph         | 8 giorni
 
 La prima previsione, siccome è basata solamente sulle linee di codice, sottostima abbastanza l'effort poiché appunto non considera al meglio la stesura dei documenti, che sono parte fondamentale - nonché la maggior parte - del lavoro.
-La seconda, invece, sovrastima poiché resta troppo ampio sui vari artefatti da produrre, lasciando abbastanza al caso le stime.
+La seconda, invece, sovrastima poiché resta troppo ampia sui vari artefatti da produrre, lasciando abbastanza al caso le stime.
 L'ultima, infine, è a parer nostro la più verosimile, dato che, decomponendo le attività e concentrandoci anche sugli artefatti da produrre per ognuna, siamo riusciti a dare una stima più puntuale per ognuna di loro.
 In ogni caso, ognuna delle stime temporali ha i suoi difetti, siccome non tutte le attività sono davvero parallelizzabili e quindi dividere l'effort per il numero di persone non dà sempre risultati corretti. 
