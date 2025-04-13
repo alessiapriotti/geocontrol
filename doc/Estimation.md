@@ -64,6 +64,9 @@ Consider the GeoControl project as described in the swagger, assume that you are
 
 ###
 
+# Diagramma di Gantt
+
+Il Gantt è stato sviluppato supponendo quattro persone per 8 ore di lavoro al giorno.
 ![gantt-diagram](diagrams/gantt_chart.svg)
 
 # Summary
