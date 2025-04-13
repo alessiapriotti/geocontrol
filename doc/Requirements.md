@@ -891,7 +891,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | **Precondition**     | L'utente deve essere autenticato e avere il ruolo di Admin o Operator. |
 | **Post condition**    | Un nuovo gateway viene creato con successo e associato alla rete specificata. |
 | **Nominal Scenario** | L'utente fornisce i dati richiesti e il sistema crea un nuovo gateway per la rete specificata. |
-| **Variants**         | - Scenario UC10.2: La richiesta contiene oggetti annidati. |
+| **Variants**         | - Scenario UC10.2: Dati superflui allegati |
 | **Exceptions**       | - Scenario UC10.3: Dati mancanti o non validi. <br> - Scenario UC10.4: Utente non autorizzato. <br> - Scenario UC10.5: Permessi insufficienti. <br> - Scenario UC10.6: Rete non trovata. <br> - Scenario UC10.7: Indirizzo MAC già in uso. <br> - Scenario UC10.8: Errore interno del server. |
 
 #### Scenario UC10.1 - Creazione di un nuovo gateway con successo
@@ -907,17 +907,17 @@ GeoControl is a software system designed for monitoring physical and environment
 | 4                    | Il sistema salva il nuovo gateway nel database e lo associa alla rete specificata. |
 | 5                    | Il sistema conferma la creazione del gateway all'utente.  |
 
-#### Scenario UC10.2 - Creazione di un gateway ignorando oggetti annidati
+#### Scenario UC10.2 - Creazione di un gateway con dati superflui allegati
 
 | **Scenario UC10.2**   | Creazione di un gateway ignorando oggetti annidati.            |
 | :------------------: | :-------------------------------------------------------------: |
 | **Precondition**     | L'utente è autenticato come Admin o Operator.                   |
-| **Post condition**    | Il gateway viene creato con successo, ma gli oggetti annidati nella richiesta vengono ignorati. |
+| **Post condition**    | Il gateway viene creato con successo; i dati superflui sono stati ignorati. |
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente accede alla funzionalità di creazione di un nuovo gateway. |
-| 2                    | L'utente fornisce i dati richiesti, inclusi eventuali oggetti annidati. |
+| 2                    | L'utente fornisce i dati richiesti, inclusi eventuali dati superflui. |
 | 3                    | Il sistema verifica che i dati del gateway siano validi.        |
-| 4                    | Il sistema ignora gli oggetti annidati e salva solo i dati del gateway nel database. |
+| 4                    | Il sistema ignora i dati superflui e salva solo i dati del gateway nel database. |
 | 5                    | Il sistema conferma la creazione del gateway all'utente.        |
 
 #### Scenario UC10.3 - Creazione fallita per dati mancanti o non validi
@@ -1000,7 +1000,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | **Precondition**     | L'utente deve essere autenticato e avere il ruolo di Admin o Operator. |
 | **Post condition**    | Il gateway specificato viene aggiornato con i nuovi dati forniti. |
 | **Nominal Scenario** | L'utente fornisce i dati aggiornati per un gateway esistente e il sistema li salva. |
-| **Variants**         | - Scenario UC11.2: La richiesta contiene oggetti annidati. |
+| **Variants**         | - Scenario UC11.2: Dati superflui allegati |
 | **Exceptions**       | - Scenario UC11.3: Dati mancanti o non validi. <br> - Scenario UC11.4: Utente non autorizzato. <br> - Scenario UC11.5: Permessi insufficienti. <br> - Scenario UC11.6: Gateway non trovato. <br> - Scenario UC11.7: Indirizzo MAC già in uso. <br> - Scenario UC11.8: Errore interno del server. |
 
 #### Scenario UC11.1 - Aggiornamento di un gateway con successo
@@ -1017,17 +1017,17 @@ GeoControl is a software system designed for monitoring physical and environment
 | 5                    | Il sistema conferma l'aggiornamento del gateway all'utente.|
 
 
-#### Scenario UC11.2 - Aggiornamento di un gateway ignorando oggetti annidati
+#### Scenario UC11.2 - Aggiornamento di un gateway con dati superflui allegati
 
 | **Scenario UC11.2**   | Aggiornamento di un gateway ignorando oggetti annidati.         |
 | :------------------: | :-------------------------------------------------------------: |
 | **Precondition**     | L'utente è autenticato come Admin o Operator.                   |
-| **Post condition**    | Il gateway viene aggiornato con successo, ma gli oggetti annidati nella richiesta vengono ignorati. |
+| **Post condition**    | Il gateway viene aggiornato con successo; i dati superflui sono stati ignorati. |
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente accede alla funzionalità di aggiornamento di un gateway. |
-| 2                    | L'utente fornisce i dati aggiornati, inclusi eventuali oggetti annidati (es. sensori). |
+| 2                    | L'utente fornisce i dati aggiornati, inclusi eventuali dati superflui. |
 | 3                    | Il sistema verifica che i dati del gateway siano validi.        |
-| 4                    | Il sistema ignora gli oggetti annidati e aggiorna solo i dati del gateway nel database, incluso l'indirizzo MAC. |
+| 4                    | Il sistema ignora i dati superflui e aggiorna solo i dati del gateway nel database, incluso l'indirizzo MAC. |
 | 5                    | Il sistema conferma l'aggiornamento del gateway all'utente.     |
 
 #### Scenario UC11.3 - Aggiornamento fallito per dati mancanti o non validi
