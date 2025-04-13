@@ -27,8 +27,8 @@ Consider the GeoControl project as described in the swagger, assume that you are
 
 | component name       | Estimated effort (person hours) |
 | -------------------- | :-------------------------------: |
-| requirement document |   50                            |
-| design document      |            60                     |
+| requirement document |   60                            |
+| design document      |            50                     |
 | code                 |   90                              |
 | unit tests           |             30                    |
 | api tests            |      20                           |
@@ -41,21 +41,24 @@ Consider the GeoControl project as described in the swagger, assume that you are
 | Activity name | Estimated effort (person hours) |
 | ------------- | :-------------------------------:|
 |**WP1   Produzione documentazione**    |                                 |
-|T1.1 analisi del sistema basandosi sulle specifiche fornite|12|
-|T1.2 Identificazione dei requisiti funzionali e non funzionali|12|
-|T1.3 Identificazione use cases|12|
-|T1.4 Definizione del glossario|12|
-|T1.5 Approvazione dei requisiti identificati da parte degli stakeholder (*milestone*)|2|
+|T1.1 Intervista con il committente e stesura della descrizione informale||
+|T1.2 analisi del sistema basandosi sulla descrizione informale|12|
+|T1.3 Identificazione dei requisiti funzionali e non funzionali|12|
+|T1.4 Identificazione use cases|12|
+|T1.5 Definizione del glossario|12|
 |T1.6 Stima tempi e costi|8|
-|**WP2 Implementazione design**    |                                 |
-|T2.1 progettazione classi e metodi |16|
-|T2.2 progettazione interfaccia grafica|30|
+|T1.7 Approvazione dei requisiti identificati da parte degli stakeholder (*milestone*)|2|
+|**WP2 Implementazione design**    |  |
+|T2.1 Identificazione pattern applicabili||
+|T2.2 progettazione classi e metodi |16|
+|T2.3 progettazione interfaccia grafica|30|
+|T2.4 approvazione interfaccia grafica (*milestone*)||
 |**WP3 Implementazione codice**  |                                 |
 |T3.1 Sviluppo dei metodi|40|
 |T3.2 Implementazione delle API|40|
-|T3.3 Sviluppo codice di integrazione con database|16|
+|T3.3 Sviluppo codice di integrazione con persistenza|16|
 |**WP4 Testing**   |                                 |
-|T4.1 Identificazione dei test da effettuare (basandosi su use cases)|12|
+|T4.1 Stesura test cases|12|
 |T4.2 Implementazione dei test|20|
 |T4.3 Verifica superamento tutti i test (*milestone*)|10|
 
