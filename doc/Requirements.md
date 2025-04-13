@@ -238,7 +238,7 @@ Il sistema è venduto come prodotto software isolato da eseguire su un server co
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente accede alla funzionalità di visualizzazione degli utenti. |
 | 2                    | L'utente richiede di visualizzare tutti gli utenti.       |
-| 3                    | Il sistema recupera i dati degli utenti dal database.           |
+| 3                    | Il sistema recupera i dati degli utenti da persistenza.           |
 | 4                    | Il sistema restituisce i dati degli utenti all'utente.    |
 
 #### Scenario UC2.2 - Visualizzazione di un utente con successo
@@ -250,7 +250,7 @@ Il sistema è venduto come prodotto software isolato da eseguire su un server co
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente accede alla funzionalità di visualizzazione degli utenti. |
 | 2                    | L'utente richiede di visualizzare un utente tramite username.       |
-| 3                    | Il sistema recupera i dati dell'utente richiesto dal database.           |
+| 3                    | Il sistema recupera i dati dell'utente richiesto da persistenza.           |
 | 4                    | Il sistema restituisce i dati dell'utente richiesto all'utente.    |
 
 #### Scenario UC2.2.1 - Visualizzazione fallita per utente non trovato
@@ -262,7 +262,7 @@ Il sistema è venduto come prodotto software isolato da eseguire su un server co
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente accede alla funzionalità di visualizzazione degli utenti. |
 | 2                    | L'utente richiede di visualizzare un utente tramite username.       |
-| 3                    | Il sistema verifica che l'utente non esiste nel database.           |
+| 3                    | Il sistema verifica che l'utente non esiste in persistenza.           |
 | 4                    | Il sistema notifica l'errore all'utente.    |
 
 #### Scenario UC2.3 - Visualizzazione fallita per utente non autorizzato
@@ -310,7 +310,7 @@ Il sistema è venduto come prodotto software isolato da eseguire su un server co
 | 1                    | L'utente accede alla funzionalità di creazione di un nuovo utente. |
 | 2                    | L'utente inserisce i dati richiesti: username, password, ruolo. |
 | 3                    | Il sistema verifica che i dati siano validi e che l'username non sia già in uso. |
-| 4                    | Il sistema salva il nuovo utente nel database.                  |
+| 4                    | Il sistema salva il nuovo utente in persistenza.                  |
 | 5                    | Il sistema conferma la creazione del nuovo utente all'utente.|
 
 #### Scenario UC3.2 - Creazione fallita per dati mancanti o non validi
@@ -393,8 +393,8 @@ Il sistema è venduto come prodotto software isolato da eseguire su un server co
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente accede alla funzionalità di eliminazione di un utente. |
 | 2                    | L'utente specifica il nome dell'utente da eliminare.            |
-| 3                    | Il sistema verifica che l'utente esiste nel database.           |
-| 4                    | Il sistema elimina l'utente dal database.                       |
+| 3                    | Il sistema verifica che l'utente esiste in persistenza.           |
+| 4                    | Il sistema elimina l'utente da persistenza.                       |
 | 5                    | Il sistema conferma l'eliminazione all'utente.            |
 
 #### Scenario UC4.2 - Eliminazione fallita per utente non trovato
@@ -406,7 +406,7 @@ Il sistema è venduto come prodotto software isolato da eseguire su un server co
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente accede alla funzionalità di eliminazione di un utente. |
 | 2                    | L'utente specifica il nome dell'utente da eliminare.            |
-| 3                    | Il sistema verifica che l'utente non esiste nel database.       |
+| 3                    | Il sistema verifica che l'utente non esiste in persistenza.       |
 | 4                    | Il sistema notifica l'errore all'utente.                  |
 
 #### Scenario UC4.3 - Eliminazione fallita per utente non autorizzato
@@ -464,7 +464,7 @@ Il sistema è venduto come prodotto software isolato da eseguire su un server co
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente accede alla funzionalità di visualizzazione delle reti. |
 | 2                    | L'utente richiede di visualizzare tutte le reti. |
-| 3                    | Il sistema recupera i dati delle reti richieste dal database.   |
+| 3                    | Il sistema recupera i dati delle reti richieste da persistenza.   |
 | 4                    | Il sistema restituisce i dati delle reti all'utente.      |
 
 #### Scenario UC5.2 - Visualizzazione di una rete con successo
@@ -476,7 +476,7 @@ Il sistema è venduto come prodotto software isolato da eseguire su un server co
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente accede alla funzionalità di visualizzazione delle reti. |
 | 2                    | L'utente richiede di visualizzare una rete specifica tramite codice identificativo. |
-| 3                    | Il sistema recupera i dati della rete richiesta dal database.   |
+| 3                    | Il sistema recupera i dati della rete richiesta da persistenza.   |
 | 4                    | Il sistema restituisce i dati della rete all'utente.      |
 
 #### Scenario UC5.2.1 - Visualizzazione fallita per rete non trovata
@@ -488,7 +488,7 @@ Il sistema è venduto come prodotto software isolato da eseguire su un server co
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente accede alla funzionalità di visualizzazione delle reti. |
 | 2                    | L'utente richiede di visualizzare una rete specifica tramite codice identificativo. |
-| 3                    | Il sistema verifica che la rete non esiste nel database.   |
+| 3                    | Il sistema verifica che la rete non esiste in persistenza.   |
 | 4                    | Il sistema notifica l'errore all'utente.      |
 
 
@@ -537,7 +537,7 @@ Il sistema è venduto come prodotto software isolato da eseguire su un server co
 | 1                    | L'utente accede alla funzionalità di creazione di una nuova rete. |
 | 2                    | L'utente inserisce i dati richiesti: codice, nome, descrizione. |
 | 3                    | Il sistema verifica che il codice della rete sia univoco.       |
-| 4                    | Il sistema salva la rete nel database.                          |
+| 4                    | Il sistema salva la rete in persistenza.                          |
 | 5                    | Il sistema conferma la creazione della rete all'utente.   |
 
 #### Scenario UC6.2 - Creazione di una rete con dati superflui allegati
@@ -550,7 +550,7 @@ Il sistema è venduto come prodotto software isolato da eseguire su un server co
 | 1                    | L'utente accede alla funzionalità di creazione di una nuova rete. |
 | 2                    | L'utente inserisce i dati richiesti: codice, nome, descrizione, oltre che dati su Gateway o Sensori contenuti nella rete. |
 | 3                    | Il sistema verifica che il codice della rete sia univoco.       |
-| 4                    | Il sistema salva la rete nel database, ignorando i dati su Gateway e Sensori.                          |
+| 4                    | Il sistema salva la rete in persistenza, ignorando i dati su Gateway e Sensori.                          |
 | 5                    | Il sistema conferma la creazione della rete all'utente.   |
 
 #### Scenario UC6.3 - Creazione fallita per codice rete duplicato
@@ -610,7 +610,7 @@ Il sistema è venduto come prodotto software isolato da eseguire su un server co
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente accede alla funzionalità di creazione di una nuova rete. |
 | 2                    | L'utente inserisce i dati richiesti: codice, nome, descrizione. |
-| 3                    | Il sistema tenta di salvare la rete nel database.               |
+| 3                    | Il sistema tenta di salvare la rete in persistenza.               |
 | 4                    | Si verifica un errore interno del server.                       |
 | 5                    | Il sistema notifica l'errore all'utente.                  |
 
@@ -636,7 +636,7 @@ Il sistema è venduto come prodotto software isolato da eseguire su un server co
 | 1                    | L'utente accede alla funzionalità di aggiornamento di una rete. |
 | 2                    | L'utente fornisce i dati aggiornati: codice, nome, descrizione. |
 | 3                    | Il sistema verifica che i dati siano validi.                    |
-| 4                    | Il sistema salva i nuovi dati della rete nel database.          |
+| 4                    | Il sistema salva i nuovi dati della rete in persistenza.          |
 | 5                    | Il sistema conferma l'aggiornamento della rete all'utente.|
 
 #### Scenario UC7.2 - Aggiornamento di una rete con dati superflui allegati
@@ -649,7 +649,7 @@ Il sistema è venduto come prodotto software isolato da eseguire su un server co
 | 1                    | L'utente accede alla funzionalità di aggiornamento di una rete. |
 | 2                    | L'utente fornisce i dati aggiornati: codice, nome, descrizione, oltre che dati su Gateway o Sensori contenuti nella rete. |
 | 3                    | Il sistema verifica che i dati siano validi.                    |
-| 4                    | Il sistema salva i nuovi dati della rete nel database, ignorando quelli su Gateway e Sensori.          |
+| 4                    | Il sistema salva i nuovi dati della rete in persistenza, ignorando quelli su Gateway e Sensori.          |
 | 5                    | Il sistema conferma l'aggiornamento della rete all'utente.|
 
 #### Scenario UC7.3 - Aggiornamento fallito per dati mancanti o non validi
@@ -696,7 +696,7 @@ Il sistema è venduto come prodotto software isolato da eseguire su un server co
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente accede alla funzionalità di aggiornamento di una rete. |
 | 2                    | L'utente fornisce il codice della rete da aggiornare.           |
-| 3                    | Il sistema verifica che la rete non esiste nel database.        |
+| 3                    | Il sistema verifica che la rete non esiste in persistenza.        |
 | 4                    | Il sistema notifica l'errore all'utente.                  |
 
 #### Scenario UC7.7 - Aggiornamento fallito per codice rete già in uso
@@ -744,8 +744,8 @@ Il sistema è venduto come prodotto software isolato da eseguire su un server co
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente accede alla funzionalità di eliminazione di una rete. |
 | 2                    | L'utente specifica il codice della rete da eliminare.            |
-| 3                    | Il sistema verifica che la rete esiste nel database.           |
-| 4                    | Il sistema elimina la rete dal database.                       |
+| 3                    | Il sistema verifica che la rete esiste in persistenza.           |
+| 4                    | Il sistema elimina la rete da persistenza.                       |
 | 5                    | Il sistema conferma l'eliminazione all'utente.            |
 
 #### Scenario UC8.2 - Eliminazione fallita per rete non trovata
@@ -757,7 +757,7 @@ Il sistema è venduto come prodotto software isolato da eseguire su un server co
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente accede alla funzionalità di eliminazione di una rete. |
 | 2                    | L'utente specifica il codice della rete da eliminare.            |
-| 3                    | Il sistema verifica che la rete non esiste nel database.       |
+| 3                    | Il sistema verifica che la rete non esiste in persistenza.       |
 | 4                    | Il sistema notifica l'errore all'utente.                  |
 
 #### Scenario UC8.3 - Eliminazione fallita per utente non autorizzato
@@ -815,7 +815,7 @@ Il sistema è venduto come prodotto software isolato da eseguire su un server co
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente accede alla funzionalità di visualizzazione dei gateway. |
 | 2                    | L'utente richiede di visualizzare tutti i gateway di una specifica rete.       |
-| 3                    | Il sistema recupera i dati dei gateway dal database.           |
+| 3                    | Il sistema recupera i dati dei gateway da persistenza.           |
 | 4                    | Il sistema restituisce i dati dei gateway all'utente.    |
 
 #### Scenario UC9.2 - Visualizzazione di un gateway con successo
@@ -827,7 +827,7 @@ Il sistema è venduto come prodotto software isolato da eseguire su un server co
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente accede alla funzionalità di visualizzazione dei gateway. |
 | 2                    | L'utente richiede di visualizzare un gateway tramite codice rete e MAC del gateway.       |
-| 3                    | Il sistema recupera i dati del gateway richiesto dal database.           |
+| 3                    | Il sistema recupera i dati del gateway richiesto da persistenza.           |
 | 4                    | Il sistema restituisce i dati del gateway richiesto all'utente.    |
 
 #### Scenario UC9.3 - Visualizzazione fallita per rete/gateway non trovato 
@@ -839,7 +839,7 @@ Il sistema è venduto come prodotto software isolato da eseguire su un server co
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente accede alla funzionalità di visualizzazione dei gateway. |
 | 2                    | L'utente richiede di visualizzare un gateway tramite codice rete e MAC del gateway.       |
-| 3                    | Il sistema verifica che la rete o il gateway non esiste nel database.           |
+| 3                    | Il sistema verifica che la rete o il gateway non esiste in persistenza.           |
 | 4                    | Il sistema notifica l'errore all'utente.    |
 
 
@@ -888,7 +888,7 @@ Il sistema è venduto come prodotto software isolato da eseguire su un server co
 | 1                    | L'utente accede alla funzionalità di creazione di un nuovo gateway. |
 | 2                    | L'utente fornisce i dati richiesti: indirizzo MAC, nome, descrizione. |
 | 3                    | Il sistema verifica che i dati siano validi e che l'indirizzo MAC non sia già in uso. |
-| 4                    | Il sistema salva il nuovo gateway nel database e lo associa alla rete specificata. |
+| 4                    | Il sistema salva il nuovo gateway in persistenza e lo associa alla rete specificata. |
 | 5                    | Il sistema conferma la creazione del gateway all'utente.  |
 
 #### Scenario UC10.2 - Creazione di un gateway con dati superflui allegati
@@ -901,7 +901,7 @@ Il sistema è venduto come prodotto software isolato da eseguire su un server co
 | 1                    | L'utente accede alla funzionalità di creazione di un nuovo gateway. |
 | 2                    | L'utente fornisce i dati richiesti, inclusi eventuali dati superflui. |
 | 3                    | Il sistema verifica che i dati del gateway siano validi.        |
-| 4                    | Il sistema ignora i dati superflui e salva solo i dati del gateway nel database. |
+| 4                    | Il sistema ignora i dati superflui e salva solo i dati del gateway in persistenza. |
 | 5                    | Il sistema conferma la creazione del gateway all'utente.        |
 
 #### Scenario UC10.3 - Creazione fallita per dati mancanti o non validi
@@ -948,7 +948,7 @@ Il sistema è venduto come prodotto software isolato da eseguire su un server co
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente accede alla funzionalità di creazione di un nuovo gateway. |
 | 2                    | L'utente fornisce il codice della rete a cui associare il gateway. |
-| 3                    | Il sistema verifica che la rete non esiste nel database.        |
+| 3                    | Il sistema verifica che la rete non esiste in persistenza.        |
 | 4                    | Il sistema notifica l'errore all'utente.                  |
 
 #### Scenario UC10.7 - Creazione fallita per indirizzo MAC già in uso
@@ -997,7 +997,7 @@ Il sistema è venduto come prodotto software isolato da eseguire su un server co
 | 1                    | L'utente accede alla funzionalità di aggiornamento di un gateway. |
 | 2                    | L'utente fornisce i dati aggiornati: indirizzo MAC, nome, descrizione. |
 | 3                    | Il sistema verifica che i dati siano validi e che l'indirizzo MAC non sia già in uso. |
-| 4                    | Il sistema salva i nuovi dati del gateway nel database.         |
+| 4                    | Il sistema salva i nuovi dati del gateway in persistenza.         |
 | 5                    | Il sistema conferma l'aggiornamento del gateway all'utente.|
 
 
@@ -1011,7 +1011,7 @@ Il sistema è venduto come prodotto software isolato da eseguire su un server co
 | 1                    | L'utente accede alla funzionalità di aggiornamento di un gateway. |
 | 2                    | L'utente fornisce i dati aggiornati, inclusi eventuali dati superflui. |
 | 3                    | Il sistema verifica che i dati del gateway siano validi.        |
-| 4                    | Il sistema ignora i dati superflui e aggiorna solo i dati del gateway nel database, incluso l'indirizzo MAC. |
+| 4                    | Il sistema ignora i dati superflui e aggiorna solo i dati del gateway in persistenza, incluso l'indirizzo MAC. |
 | 5                    | Il sistema conferma l'aggiornamento del gateway all'utente.     |
 
 #### Scenario UC11.3 - Aggiornamento fallito per dati mancanti o non validi
@@ -1058,7 +1058,7 @@ Il sistema è venduto come prodotto software isolato da eseguire su un server co
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente accede alla funzionalità di aggiornamento di un gateway. |
 | 2                    | L'utente fornisce l'indirizzo MAC del gateway da aggiornare.    |
-| 3                    | Il sistema verifica che il gateway non esiste nel database.     |
+| 3                    | Il sistema verifica che il gateway non esiste in persistenza.     |
 | 4                    | Il sistema notifica l'errore all'utente.                  |
 
 #### Scenario UC11.7 - Aggiornamento fallito per indirizzo MAC già in uso
@@ -1106,8 +1106,8 @@ Il sistema è venduto come prodotto software isolato da eseguire su un server co
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente accede alla funzionalità di eliminazione di un gateway. |
 | 2                    | L'utente specifica l'indirizzo MAC del gateway da eliminare.    |
-| 3                    | Il sistema verifica che il gateway esiste nel database.         |
-| 4                    | Il sistema elimina il gateway dal database.                    |
+| 3                    | Il sistema verifica che il gateway esiste in persistenza.         |
+| 4                    | Il sistema elimina il gateway da persistenza.                    |
 | 5                    | Il sistema conferma l'eliminazione del gateway all'utente.|
 
 #### Scenario UC12.2 - Eliminazione fallita per utente non autorizzato
@@ -1141,7 +1141,7 @@ Il sistema è venduto come prodotto software isolato da eseguire su un server co
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente accede alla funzionalità di eliminazione di un gateway. |
 | 2                    | L'utente specifica l'indirizzo MAC del gateway da eliminare.    |
-| 3                    | Il sistema verifica che il gateway non esiste nel database.     |
+| 3                    | Il sistema verifica che il gateway non esiste in persistenza.     |
 | 4                    | Il sistema notifica l'errore all'utente.                  |
 
 #### Scenario UC12.5 - Eliminazione fallita per errore interno del server
@@ -1177,7 +1177,7 @@ Il sistema è venduto come prodotto software isolato da eseguire su un server co
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente accede alla funzionalità di visualizzazione dei sensori. |
 | 2                    | L'utente richiede di visualizzare tutti i sensori di un gateway. |
-| 3                    | Il sistema recupera i dati dei sensori richiesti dal database.  |
+| 3                    | Il sistema recupera i dati dei sensori richiesti da persistenza.  |
 | 4                    | Il sistema restituisce i dati dei sensori all'utente.     |
 
 #### Scenario UC13.2 - Visualizzazione di un sensore con successo
@@ -1189,7 +1189,7 @@ Il sistema è venduto come prodotto software isolato da eseguire su un server co
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente accede alla funzionalità di visualizzazione dei sensori. |
 | 2                    | L'utente richiede di visualizzare un sensore specifico di un gateway. |
-| 3                    | Il sistema recupera i dati del sensore richiesto dal database.  |
+| 3                    | Il sistema recupera i dati del sensore richiesto da persistenza.  |
 | 4                    | Il sistema restituisce i dati del sensore all'utente.     |
 
 #### Scenario UC13.3 - Visualizzazione fallita per utente non autorizzato
@@ -1212,7 +1212,7 @@ Il sistema è venduto come prodotto software isolato da eseguire su un server co
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente accede alla funzionalità di visualizzazione dei sensori. |
 | 2                    | L'utente richiede di visualizzare un sensore specifico o tutti i sensori di un gateway. |
-| 3                    | Il sistema verifica che la rete/gateway/sensore non esiste nel database.     |
+| 3                    | Il sistema verifica che la rete/gateway/sensore non esiste in persistenza.     |
 | 4                    | Il sistema notifica l'errore all'utente.                  |
 
 #### Scenario UC13.5 - Visualizzazione fallita per errore interno del server
@@ -1249,7 +1249,7 @@ Il sistema è venduto come prodotto software isolato da eseguire su un server co
 | 1                    | L'utente accede alla funzionalità di creazione di un nuovo sensore. |
 | 2                    | L'utente fornisce i dati richiesti: indirizzo MAC, nome, descrizione, variabile, unità. |
 | 3                    | Il sistema verifica che i dati siano validi e che l'indirizzo MAC non sia già in uso. |
-| 4                    | Il sistema salva il nuovo sensore nel database e lo associa al gateway specificato. |
+| 4                    | Il sistema salva il nuovo sensore in persistenza e lo associa al gateway specificato. |
 | 5                    | Il sistema conferma la creazione del sensore all'utente.  |
 
 #### Scenario UC14.2 - Creazione fallita per dati mancanti o non validi
@@ -1296,7 +1296,7 @@ Il sistema è venduto come prodotto software isolato da eseguire su un server co
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente accede alla funzionalità di creazione di un nuovo sensore. |
 | 2                    | L'utente fornisce il codice del gateway a cui associare il sensore. |
-| 3                    | Il sistema verifica che il gateway non esiste nel database.     |
+| 3                    | Il sistema verifica che il gateway non esiste in persistenza.     |
 | 4                    | Il sistema notifica l'errore all'utente.                  |
 
 #### Scenario UC14.6 - Creazione fallita per indirizzo MAC già in uso
@@ -1345,7 +1345,7 @@ Il sistema è venduto come prodotto software isolato da eseguire su un server co
 | 1                    | L'utente accede alla funzionalità di aggiornamento di un sensore. |
 | 2                    | L'utente fornisce i dati aggiornati: indirizzo MAC, nome, descrizione, variabile, unità. |
 | 3                    | Il sistema verifica che i dati siano validi e che l'indirizzo MAC non sia già in uso. |
-| 4                    | Il sistema salva i nuovi dati del sensore nel database.         |
+| 4                    | Il sistema salva i nuovi dati del sensore in persistenza.         |
 | 5                    | Il sistema conferma l'aggiornamento del sensore all'utente.|
 
 #### Scenario UC15.2 - Aggiornamento fallito per dati mancanti o non validi
@@ -1392,7 +1392,7 @@ Il sistema è venduto come prodotto software isolato da eseguire su un server co
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente accede alla funzionalità di aggiornamento di un sensore. |
 | 2                    | L'utente fornisce l'indirizzo MAC del sensore da aggiornare.    |
-| 3                    | Il sistema verifica che il sensore non esiste nel database.     |
+| 3                    | Il sistema verifica che il sensore non esiste in persistenza.     |
 | 4                    | Il sistema notifica l'errore all'utente.                  |
 
 #### Scenario UC15.6 - Aggiornamento fallito per indirizzo MAC già in uso
@@ -1440,8 +1440,8 @@ Il sistema è venduto come prodotto software isolato da eseguire su un server co
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente accede alla funzionalità di eliminazione di un sensore. |
 | 2                    | L'utente specifica l'indirizzo MAC del sensore da eliminare.    |
-| 3                    | Il sistema verifica che il sensore esiste nel database.         |
-| 4                    | Il sistema elimina il sensore dal database.                    |
+| 3                    | Il sistema verifica che il sensore esiste in persistenza.         |
+| 4                    | Il sistema elimina il sensore da persistenza.                    |
 | 5                    | Il sistema conferma l'eliminazione del sensore all'utente.|
 
 #### Scenario UC16.2 - Eliminazione fallita per utente non autorizzato
@@ -1475,7 +1475,7 @@ Il sistema è venduto come prodotto software isolato da eseguire su un server co
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente accede alla funzionalità di eliminazione di un sensore. |
 | 2                    | L'utente specifica l'indirizzo MAC del sensore da eliminare.    |
-| 3                    | Il sistema verifica che il sensore non esiste nel database.     |
+| 3                    | Il sistema verifica che il sensore non esiste in persistenza.     |
 | 4                    | Il sistema notifica l'errore all'utente.                  |
 
 #### Scenario UC16.5 - Eliminazione fallita per errore interno del server
@@ -1511,7 +1511,7 @@ Il sistema è venduto come prodotto software isolato da eseguire su un server co
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente accede alla funzionalità di recupero delle misurazioni. |
 | 2                    | L'utente specifica i sensori e l'intervallo temporale per cui richiede le misurazioni. |
-| 3                    | Il sistema recupera le misurazioni dal database.                |
+| 3                    | Il sistema recupera le misurazioni da persistenza.                |
 | 4                    | Il sistema restituisce le misurazioni all'utente.         |
 
 #### Scenario UC17.2 - Recupero fallito per utente non autorizzato
@@ -1534,7 +1534,7 @@ Il sistema è venduto come prodotto software isolato da eseguire su un server co
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente accede alla funzionalità di recupero delle misurazioni. |
 | 2                    | L'utente specifica i sensori e l'intervallo temporale per cui richiede le misurazioni. |
-| 3                    | Il sistema verifica che la rete specificata non esiste nel database. |
+| 3                    | Il sistema verifica che la rete specificata non esiste in persistenza. |
 | 4                    | Il sistema notifica l'errore all'utente.                  |
 
 #### Scenario UC17.4 - Recupero fallito per errore interno del server
@@ -1593,7 +1593,7 @@ Il sistema è venduto come prodotto software isolato da eseguire su un server co
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente accede alla funzionalità di recupero delle statistiche. |
 | 2                    | L'utente specifica i sensori e l'intervallo temporale per cui richiede le statistiche. |
-| 3                    | Il sistema verifica che la rete specificata non esiste nel database. |
+| 3                    | Il sistema verifica che la rete specificata non esiste in persistenza. |
 | 4                    | Il sistema notifica l'errore all'utente.                  |
 
 #### Scenario UC18.4 - Recupero fallito per errore interno del server
@@ -1785,7 +1785,7 @@ Il sistema è venduto come prodotto software isolato da eseguire su un server co
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente accede alla funzionalità di recupero delle misurazioni. |
 | 2                    | L'utente specifica il sensore, i relativi gateway e rete a cui appartiene e l'intervallo temporale per cui richiede le misurazioni. |
-| 3                    | Il sistema recupera le misurazioni dal database.                |
+| 3                    | Il sistema recupera le misurazioni da persistenza.                |
 | 4                    | Il sistema restituisce le misurazioni all'utente.         |
 
 #### Scenario UC21.2 - Recupero fallito per utente non autorizzato
