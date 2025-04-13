@@ -1438,12 +1438,12 @@ GeoControl is a software system designed for monitoring physical and environment
 
 | **Scenario UC19.1**   | Recupero delle misurazioni anomale con successo.               |
 | :------------------: | :-------------------------------------------------------------: |
-| **Precondition**     | L'utente è autenticato come Admin, Operator o Viewer.           |
+| **Precondition**     | L'utente è autenticato come Admin, Operator o Viewer.          |
 | **Post condition**    | Il sistema restituisce solo le misurazioni anomale richieste.  |
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente accede alla funzionalità di recupero delle misurazioni anomale. |
-| 2                    | L'utente specifica i sensori e l'intervallo temporale per cui richiede le misurazioni anomale. |
-| 3                    | Il sistema calcola le soglie (media ± 2σ) per i sensori specificati. |
+| 2                    | L'utente specifica la rete e l'intervallo temporale per cui richiede le misurazioni anomale. |
+| 3                    | Il sistema calcola le soglie per i sensori all'interno della rete specificata. |
 | 4                    | Il sistema filtra le misurazioni che superano le soglie calcolate. |
 | 5                    | Il sistema restituisce le misurazioni anomale all'utente. |
 
@@ -1451,7 +1451,7 @@ GeoControl is a software system designed for monitoring physical and environment
 
 | **Scenario UC19.2**   | Recupero fallito per utente non autorizzato.                   |
 | :------------------: | :-------------------------------------------------------------: |
-| **Precondition**     | L'utente non è autenticato.                                     |
+| **Precondition**     | L'utente non ha effettuato correttamente l'autenticazione.                                     |
 | **Post condition**    | Il sistema non restituisce alcuna misurazione e notifica l'errore. |
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente tenta di accedere alla funzionalità di recupero delle misurazioni anomale. |
@@ -1466,8 +1466,8 @@ GeoControl is a software system designed for monitoring physical and environment
 | **Post condition**    | Il sistema non restituisce alcuna misurazione e notifica l'errore. |
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente accede alla funzionalità di recupero delle misurazioni anomale. |
-| 2                    | L'utente specifica i sensori e l'intervallo temporale per cui richiede le misurazioni anomale. |
-| 3                    | Il sistema verifica che la rete specificata non esiste nel database. |
+| 2                    | L'utente specifica la rete e l'intervallo temporale per cui richiede le misurazioni anomale. |
+| 3                    | Il sistema verifica che la rete specificata non è presente in persistenza. |
 | 4                    | Il sistema notifica l'errore all'utente.                  |
 
 #### Scenario UC19.4 - Recupero fallito per errore interno del server
@@ -1478,7 +1478,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | **Post condition**    | Il sistema non restituisce alcuna misurazione e notifica l'errore. |
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente accede alla funzionalità di recupero delle misurazioni anomale. |
-| 2                    | L'utente specifica i sensori e l'intervallo temporale per cui richiede le misurazioni anomale. |
+| 2                    | L'utente specifica la rete e l'intervallo temporale per cui richiede le misurazioni anomale. |
 | 3                    | Si verifica un errore interno del server durante il calcolo delle soglie o il filtraggio delle misurazioni. |
 | 4                    | Il sistema notifica l'errore all'utente.                  |
 
@@ -1490,27 +1490,38 @@ GeoControl is a software system designed for monitoring physical and environment
 | :------------------: | :-------------------------------------------------------------: |
 | **Precondition**     | L'utente deve essere autenticato e avere il ruolo di Admin o Operator. |
 | **Post condition**    | Le misurazioni fornite vengono memorizzate nel sistema e associate al sensore specificato. |
-| **Nominal Scenario** | L'utente fornisce le misurazioni per un sensore specifico e il sistema le memorizza. |
-| **Variants**         | Nessuna variante significativa.                                 |
+| **Nominal Scenario** | L'utente specifica il sensore (ed i relativi gateway e rete a cui appartiene) ed il sistema registra una misurazione per quel sensore. |
+| **Variants**         | La misurazione viene registrata autonomamente dal gateway.                                 |
 | **Exceptions**       | - Scenario UC20.2: Dati mancanti o non validi. <br> - Scenario UC20.3: Utente non autorizzato. <br> - Scenario UC20.4: Permessi insufficienti. <br> - Scenario UC20.5: Sensore non trovato. <br> - Scenario UC20.6: Errore interno del server. |
 
-#### Scenario UC20.1 - Memorizzazione delle misurazioni con successo
+#### Scenario UC20.1 - Memorizzazione manuale delle misurazioni con successo
 
-| **Scenario UC20.1**   | Memorizzazione delle misurazioni con successo.                 |
+| **Scenario UC20.1**   | Memorizzazione manuale delle misurazioni con successo.                 |
 | :------------------: | :-------------------------------------------------------------: |
 | **Precondition**     | L'utente è autenticato come Admin o Operator.                   |
 | **Post condition**    | Le misurazioni vengono memorizzate nel sistema.                |
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente accede alla funzionalità di memorizzazione delle misurazioni. |
-| 2                    | L'utente fornisce le misurazioni: timestamp e valore.           |
+| 2                    | L'utente fornisce l'identificativo del sensore e i relativi gateway e rete di cui vuole memorizzare la misurazione           |
 | 3                    | Il sistema verifica che i dati siano validi.                    |
-| 4                    | Il sistema associa le misurazioni al sensore specificato.       |
-| 5                    | Il sistema salva le misurazioni nel database.                   |
+| 4                    | Il sistema si interfaccia col sensore specificato.       |
+| 5                    | Il sistema salva le misurazioni in persistenza con il relativo timestamp.                   |
 | 6                    | Il sistema conferma la memorizzazione delle misurazioni all'utente.|
 
-#### Scenario UC20.2 - Memorizzazione fallita per dati mancanti o non validi
+#### Scenario UC20.2 - Memorizzazione autonoma delle misurazioni con successo
 
-| **Scenario UC20.2**   | Memorizzazione fallita per dati mancanti o non validi.         |
+| **Scenario UC20.2**   | Memorizzazione autonoma delle misurazioni con successo.                 |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin o Operator.                   |
+| **Post condition**    | Le misurazioni vengono memorizzate nel sistema.                |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | Il gateway viene notificato dal timer di memorizzare le misurazioni dei sensori a lui collegati. |
+| 4                    | Il sistema si interfaccia con i sensori specificati.       |
+| 5                    | Il sistema salva le misurazioni in persistenza con il relativo timestamp.                   |
+
+#### Scenario UC20.3 - Memorizzazione fallita per dati mancanti o non validi
+
+| **Scenario UC20.3**   | Memorizzazione fallita per dati mancanti o non validi.         |
 | :------------------: | :-------------------------------------------------------------: |
 | **Precondition**     | L'utente è autenticato come Admin o Operator.                   |
 | **Post condition**    | Le misurazioni non vengono memorizzate e il sistema notifica l'errore. |
@@ -1521,9 +1532,9 @@ GeoControl is a software system designed for monitoring physical and environment
 | 4                    | Il sistema rileva che i dati sono incompleti o non validi.      |
 | 5                    | Il sistema notifica l'errore all'utente.                  |
 
-#### Scenario UC20.3 - Memorizzazione fallita per utente non autorizzato
+#### Scenario UC20.4 - Memorizzazione fallita per utente non autorizzato
 
-| **Scenario UC20.3**   | Memorizzazione fallita per utente non autorizzato.             |
+| **Scenario UC20.4**   | Memorizzazione fallita per utente non autorizzato.             |
 | :------------------: | :-------------------------------------------------------------: |
 | **Precondition**     | L'utente non è autenticato.                                     |
 | **Post condition**    | Le misurazioni non vengono memorizzate e il sistema notifica l'errore. |
@@ -1532,9 +1543,9 @@ GeoControl is a software system designed for monitoring physical and environment
 | 2                    | Il sistema verifica che l'utente non è autenticato.             |
 | 3                    | Il sistema notifica l'errore all'utente.                  |
 
-#### Scenario UC20.4 - Memorizzazione fallita per permessi insufficienti
+#### Scenario UC20.5 - Memorizzazione fallita per permessi insufficienti
 
-| **Scenario UC20.4**   | Memorizzazione fallita per permessi insufficienti.             |
+| **Scenario UC20.5**   | Memorizzazione fallita per permessi insufficienti.             |
 | :------------------: | :-------------------------------------------------------------: |
 | **Precondition**     | L'utente è autenticato ma non ha il ruolo richiesto.            |
 | **Post condition**    | Le misurazioni non vengono memorizzate e il sistema notifica l'errore. |
@@ -1543,27 +1554,27 @@ GeoControl is a software system designed for monitoring physical and environment
 | 2                    | Il sistema verifica che l'utente non ha i permessi necessari.   |
 | 3                    | Il sistema notifica l'errore all'utente.                  |
 
-#### Scenario UC20.5 - Memorizzazione fallita per sensore non trovato
+#### Scenario UC20.6 - Memorizzazione fallita per rete/gateway/sensore non trovato
 
-| **Scenario UC20.5**   | Memorizzazione fallita per sensore non trovato.                |
+| **Scenario UC20.6**   | Memorizzazione fallita per rete/gateway/sensore non trovato.                |
 | :------------------: | :-------------------------------------------------------------: |
 | **Precondition**     | L'utente è autenticato come Admin o Operator.                   |
 | **Post condition**    | Le misurazioni non vengono memorizzate e il sistema notifica l'errore. |
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente accede alla funzionalità di memorizzazione delle misurazioni. |
-| 2                    | L'utente specifica il sensore a cui associare le misurazioni.   |
-| 3                    | Il sistema verifica che il sensore non esiste nel database.     |
+| 2                    | L'utente specifica il sensore e i relativi gateway e rete a lui associati di cui memorizzare la misurazione.   |
+| 3                    | Il sistema verifica che il sensore/gateway/rete non coincide con alcun elemento in persistenza.     |
 | 4                    | Il sistema notifica l'errore all'utente.                  |
 
-#### Scenario UC20.6 - Memorizzazione fallita per errore interno del server
+#### Scenario UC20.7 - Memorizzazione fallita per errore interno del server
 
-| **Scenario UC20.6**   | Memorizzazione fallita per errore interno del server.          |
+| **Scenario UC20.7**   | Memorizzazione fallita per errore interno del server.          |
 | :------------------: | :-------------------------------------------------------------: |
 | **Precondition**     | L'utente è autenticato come Admin o Operator.                   |
 | **Post condition**    | Le misurazioni non vengono memorizzate e il sistema notifica l'errore. |
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente accede alla funzionalità di memorizzazione delle misurazioni. |
-| 2                    | L'utente fornisce le misurazioni: timestamp e valore.           |
+| 2                    | L'utente specifica il sensore e i relativi gateway e rete a lui associati di cui memorizzare la misurazione.           |
 | 3                    | Si verifica un errore interno del server.                       |
 | 4                    | Il sistema notifica l'errore all'utente.                  |
 
@@ -1587,7 +1598,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | **Post condition**    | Il sistema restituisce le misurazioni richieste.               |
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente accede alla funzionalità di recupero delle misurazioni. |
-| 2                    | L'utente specifica il sensore e l'intervallo temporale per cui richiede le misurazioni. |
+| 2                    | L'utente specifica il sensore, i relativi gateway e rete a cui appartiene e l'intervallo temporale per cui richiede le misurazioni. |
 | 3                    | Il sistema recupera le misurazioni dal database.                |
 | 4                    | Il sistema restituisce le misurazioni all'utente.         |
 
@@ -1602,16 +1613,16 @@ GeoControl is a software system designed for monitoring physical and environment
 | 2                    | Il sistema verifica che l'utente non è autenticato.             |
 | 3                    | Il sistema notifica l'errore all'utente.                  |
 
-#### Scenario UC21.3 - Recupero fallito per sensore non trovato
+#### Scenario UC21.3 - Recupero fallito per sensore/gateway/rete non trovato
 
-| **Scenario UC21.3**   | Recupero fallito per sensore non trovato.                      |
+| **Scenario UC21.3**   | Recupero fallito per sensore/gateway/rete non trovato.                      |
 | :------------------: | :-------------------------------------------------------------: |
 | **Precondition**     | L'utente è autenticato come Admin, Operator o Viewer.           |
 | **Post condition**    | Il sistema non restituisce alcuna misurazione e notifica l'errore. |
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente accede alla funzionalità di recupero delle misurazioni. |
-| 2                    | L'utente specifica il sensore e l'intervallo temporale per cui richiede le misurazioni. |
-| 3                    | Il sistema verifica che il sensore specificato non esiste nel database. |
+| 2                    | L'utente specifica il sensore, i relativi gateway e rete a cui appartiene e l'intervallo temporale per cui richiede le misurazioni. |
+| 3                    | Il sistema verifica che il sensore/gateway/rete specificato non è presente in persistenza. |
 | 4                    | Il sistema notifica l'errore all'utente.                  |
 
 #### Scenario UC21.4 - Recupero fallito per errore interno del server
@@ -1622,7 +1633,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | **Post condition**    | Il sistema non restituisce alcuna misurazione e notifica l'errore. |
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente accede alla funzionalità di recupero delle misurazioni. |
-| 2                    | L'utente specifica il sensore e l'intervallo temporale per cui richiede le misurazioni. |
+| 2                    | L'utente specifica il sensore, i relativi gateway e rete a cui appartiene e l'intervallo temporale per cui richiede le misurazioni. |
 | 3                    | Si verifica un errore interno del server durante il recupero dei dati. |
 | 4                    | Il sistema notifica l'errore all'utente.                  |
 
@@ -1646,7 +1657,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | **Post condition**    | Il sistema restituisce le statistiche richieste.               |
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente accede alla funzionalità di recupero delle statistiche. |
-| 2                    | L'utente specifica il sensore e l'intervallo temporale per cui richiede le statistiche. |
+| 2                    | L'utente specifica il sensore, i relativi gateway e rete a cui appartiene e l'intervallo temporale per cui richiede le statistiche. |
 | 3                    | Il sistema calcola le statistiche (media, varianza, soglie) per il sensore specificato. |
 | 4                    | Il sistema restituisce le statistiche all'utente.         |
 
@@ -1661,16 +1672,16 @@ GeoControl is a software system designed for monitoring physical and environment
 | 2                    | Il sistema verifica che l'utente non è autenticato.             |
 | 3                    | Il sistema notifica l'errore all'utente.                  |
 
-#### Scenario UC22.3 - Recupero fallito per sensore non trovato
+#### Scenario UC22.3 - Recupero fallito per sensore/gateway/rete non trovato
 
-| **Scenario UC22.3**   | Recupero fallito per sensore non trovato.                      |
+| **Scenario UC22.3**   | Recupero fallito per sensore/gateway/rete non trovato.                      |
 | :------------------: | :-------------------------------------------------------------: |
 | **Precondition**     | L'utente è autenticato come Admin, Operator o Viewer.           |
 | **Post condition**    | Il sistema non restituisce alcuna statistica e notifica l'errore. |
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente accede alla funzionalità di recupero delle statistiche. |
-| 2                    | L'utente specifica il sensore e l'intervallo temporale per cui richiede le statistiche. |
-| 3                    | Il sistema verifica che il sensore specificato non esiste nel database. |
+| 2                    | L'utente specifica il sensore, i relativi gateway e rete a cui appartiene e l'intervallo temporale per cui richiede le statistiche. |
+| 3                    | Il sistema verifica che il sensore/gateway/rete specificato non è presente in persistenza. |
 | 4                    | Il sistema notifica l'errore all'utente.                  |
 
 #### Scenario UC22.4 - Recupero fallito per errore interno del server
@@ -1681,7 +1692,7 @@ GeoControl is a software system designed for monitoring physical and environment
 | **Post condition**    | Il sistema non restituisce alcuna statistica e notifica l'errore. |
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente accede alla funzionalità di recupero delle statistiche. |
-| 2                    | L'utente specifica il sensore e l'intervallo temporale per cui richiede le statistiche. |
+| 2                    | L'utente specifica il sensore, i relativi gateway e rete a cui appartiene e l'intervallo temporale per cui richiede le statistiche. |
 | 3                    | Si verifica un errore interno del server durante il calcolo delle statistiche. |
 | 4                    | Il sistema notifica l'errore all'utente.                  |
 
@@ -1705,8 +1716,8 @@ GeoControl is a software system designed for monitoring physical and environment
 | **Post condition**    | Il sistema restituisce solo le misurazioni anomale richieste.  |
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente accede alla funzionalità di recupero delle misurazioni anomale. |
-| 2                    | L'utente specifica il sensore e l'intervallo temporale per cui richiede le misurazioni anomale. |
-| 3                    | Il sistema calcola le soglie (media ± 2σ) per il sensore specificato. |
+| 2                    | L'utente specifica il sensore, i relativi gateway e rete a cui appartiene e l'intervallo temporale per cui richiede le misurazioni anomale. |
+| 3                    | Il sistema calcola le soglie per il sensore specificato. |
 | 4                    | Il sistema filtra le misurazioni che superano le soglie calcolate. |
 | 5                    | Il sistema restituisce le misurazioni anomale all'utente. |
 
@@ -1721,16 +1732,16 @@ GeoControl is a software system designed for monitoring physical and environment
 | 2                    | Il sistema verifica che l'utente non è autenticato.             |
 | 3                    | Il sistema notifica l'errore all'utente.                  |
 
-#### Scenario UC23.3 - Recupero fallito per sensore non trovato
+#### Scenario UC23.3 - Recupero fallito per sensore/gateway/rete non trovato
 
-| **Scenario UC23.3**   | Recupero fallito per sensore non trovato.                      |
+| **Scenario UC23.3**   | Recupero fallito per sensore/gateway/rete non trovato.                      |
 | :------------------: | :-------------------------------------------------------------: |
 | **Precondition**     | L'utente è autenticato come Admin, Operator o Viewer.           |
 | **Post condition**    | Il sistema non restituisce alcuna misurazione e notifica l'errore. |
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente accede alla funzionalità di recupero delle misurazioni anomale. |
-| 2                    | L'utente specifica il sensore e l'intervallo temporale per cui richiede le misurazioni anomale. |
-| 3                    | Il sistema verifica che il sensore specificato non esiste nel database. |
+| 2                    | L'utente specifica il sensore, i relativi gateway e rete a cui appartiene e l'intervallo temporale per cui richiede le misurazioni anomale. |
+| 3                    | Il sistema verifica che il sensore/gateway/rete specificato non è presente in persistenza. |
 | 4                    | Il sistema notifica l'errore all'utente.                  |
 
 #### Scenario UC23.4 - Recupero fallito per errore interno del server
@@ -1741,9 +1752,113 @@ GeoControl is a software system designed for monitoring physical and environment
 | **Post condition**    | Il sistema non restituisce alcuna misurazione e notifica l'errore. |
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente accede alla funzionalità di recupero delle misurazioni anomale. |
-| 2                    | L'utente specifica il sensore e l'intervallo temporale per cui richiede le misurazioni anomale. |
+| 2                    | L'utente specifica il sensore, i relativi gateway e rete a cui appartiene e l'intervallo temporale per cui richiede le misurazioni anomale. |
 | 3                    | Si verifica un errore interno del server durante il calcolo delle soglie o il filtraggio delle misurazioni. |
 | 4                    | Il sistema notifica l'errore all'utente.                  |
+
+
+### Converti fuso orario, UC24
+
+| **Actors Involved**  | Admin, Operator, Viewer                                          |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente deve essere autenticato.                               |
+| **Post condition**    | L'utente riceve i dati convertiti nel fuso orario richiesto.   |
+| **Nominal Scenario** | L'utente richiede di visualizzare delle misurazioni o statistiche ed il sistema restituisce i dati con il fuso orario corretto. |
+| **Variants**         | Nessuna variante significativa.                                 |
+| **Exceptions**       | Nessuna eccezione significativa. |
+
+#### Scenario UC24.1 - Conversione del fuso orario con successo
+
+| **Scenario UC24.1**   | Conversione del fuso orario con successo.                      |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin, Operator o Viewer.           |
+| **Post condition**    | Il sistema restituisce i dati con il timestamp convertito.                |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di recupero delle misurazioni/statistiche. |
+| 2                    | L'utente specifica i dati oltre all'intervallo temporale per cui richiede le misurazioni/statistiche. |
+| 3                    | Il sistema converte il timestamp nel fuso orario dell'utente.     |
+| 4                    | Il sistema restituisce le misurazioni con il timestamp corretto.      |
+
+### Calcola Media e Varianza, UC25
+
+| **Actors Involved**  | Admin, Operator, Viewer                                          |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente deve essere autenticato.                               |
+| **Post condition**    | Il sistema restituisce i valori di media e varianza calcolati.        |
+| **Nominal Scenario** | L'utente richiede la visualizzazione delle statistiche per uno o più sensori. |
+| **Variants**         | L'utente richiede la visualizzazione delle misurazioni anomale per uno o più sensori                               |
+| **Exceptions**       | Nessuna eccezione significativa.|
+
+#### Scenario UC25.1 - Calcolo di media e varianza per visualizzare le statistiche
+
+| **Scenario UC25.1**   | Calcolo di media e varianza per visualizzare le statistiche.                      |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin, Operator o Viewer.           |
+| **Post condition**    | Il sistema restituisce i valori di media e varianza calcolati assieme alle altre statistiche. |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di recupero delle statistiche. |
+| 2                    | L'utente specifica il sensore, i relativi gateway e rete a cui appartiene e l'intervallo temporale per cui richiede le statistiche. |
+| 3                    | Il sistema chiama le funzioni per il calcolo della media e della varianza |
+| 4                    | Il sistema restituisce i risultati all'utente.                  |
+
+#### Scenario UC25.2 - Calcolo di media e varianza per visualizzare le misurazioni anomale
+
+| **Scenario UC25.2**   | Calcolo di media e varianza per visualizzare le misurazioni anomale.                      |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin, Operator o Viewer.           |
+| **Post condition**    | Il sistema calcola la soglia superiore e inferiore. |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di recupero delle misurazioni anomale. |
+| 2                    | L'utente specifica il sensore o la rete e l'intervallo temporale per cui richiede le misurazioni. |
+| 3                    | Il sistema chiama le funzioni per il calcolo della media e deviazione standard |
+| 4                    | Il sistema calcola le soglie per il sensore specificato                  |
+---
+
+### Calcolo Threshold, UC26
+
+| **Actors Involved**  | Admin, Operator, Viewer                                          |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente deve essere autenticato.                               |
+| **Post condition**    | L'utente riceve i valori di soglia calcolati.                  |
+| **Nominal Scenario** | L'utente richiede il calcolo delle soglie per un insieme di dati e il sistema restituisce i risultati. |
+| **Variants**         | Nessuna variante significativa.                                 |
+| **Exceptions**       | Nessuna eccezione significativa |
+
+#### Scenario UC26.1 - Calcolo delle soglie con successo
+
+| **Scenario UC26.1**   | Calcolo delle soglie con successo.                             |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin, Operator o Viewer.           |
+| **Post condition**    | Il sistema restituisce i valori di soglia calcolati.           |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di recupero delle misurazioni anomale. |
+| 2                    | L'utente specifica il sensore o la rete e l'intervallo temporale per cui richiede le misurazioni. |
+| 3                    | Il sistema calcola le soglie.                      |
+| 4                    | Il sistema restituisce i valori di soglia calcolati.           |
+
+---
+
+### Identifica Outlier, UC27
+
+| **Actors Involved**  | Admin, Operator, Viewer                                          |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente deve essere autenticato.                               |
+| **Post condition**    | L'utente riceve i dati identificati come outlier.              |
+| **Nominal Scenario** | L'utente richiede l'identificazione degli outlier in un insieme di dati e il sistema restituisce i risultati. |
+| **Variants**         | Nessuna variante significativa.                                 |
+| **Exceptions**       | Nessuna eccezione significativa. |
+
+#### Scenario UC27.1 - Identificazione degli outlier con successo
+
+| **Scenario UC27.1**   | Identificazione degli outlier con successo.                    |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin, Operator o Viewer.           |
+| **Post condition**    | Il sistema restituisce i dati identificati come outlier.       |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di recupero delle misurazioni anomale. |
+| 2                    | L'utente specifica il sensore o la rete e l'intervallo temporale per cui richiede le misurazioni. |
+| 3                    | Il sistema calcola le soglie.                      |
+| 4                    | Il sistema identifica le misurazioni al di fuori delle soglie come outlier.           |
 
 ---
 
