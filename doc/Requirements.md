@@ -1970,21 +1970,23 @@ Il sistema è venduto come prodotto software isolato da eseguire su un server co
 | :------------------: | :-------------------------------------------------------------: |
 | **Precondition**     | L'utente deve essere autenticato.                               |
 | **Post condition**    | L'utente riceve i dati convertiti nel fuso orario richiesto.   |
-| **Nominal Scenario** | L'utente richiede di visualizzare delle misurazioni o statistiche ed il sistema restituisce i dati con il fuso orario corretto. |
-| **Variants**         | Nessuna variante significativa.                                 |
+| **Nominal Scenario** | Il sistema, alla memorizzazione di una misurazione, converte il fuso orario locale del sensore nel formato UTC . |
+| **Variants**         | Nessuna variante significativa.   |
 | **Exceptions**       | Nessuna eccezione significativa. |
 
-#### Scenario UC24.1 - Conversione del fuso orario con successo
+#### Scenario UC24.1 - Conversione del fuso orario con successo alla memorizzazione
 
-| **Scenario UC24.1**   | Conversione del fuso orario con successo.                      |
+| **Scenario UC24.1**   | Conversione del fuso orario con successo alla memorizzazione.                      |
 | :------------------: | :-------------------------------------------------------------: |
 | **Precondition**     | L'utente è autenticato come Admin, Operator o Viewer.           |
-| **Post condition**    | Il sistema restituisce i dati con il timestamp convertito.                |
+| **Post condition**    | Il sistema salva i dati con il timestamp convertito in UTC.                |
 | **Step#**            | **Descrizione**                                                 |
-| 1                    | L'utente accede alla funzionalità di recupero delle misurazioni/statistiche. |
-| 2                    | L'utente specifica i dati oltre all'intervallo temporale per cui richiede le misurazioni/statistiche. |
-| 3                    | Il sistema converte il timestamp nel fuso orario dell'utente.     |
-| 4                    | Il sistema restituisce le misurazioni con il timestamp corretto.      |
+| 1                    | L'utente accede alla funzionalità di memorizzazione delle misurazioni. |
+| 2                    | L'utente fornisce l'identificativo del sensore e i relativi gateway e rete di cui vuole memorizzare la misurazione           |
+| 3                    | Il sistema verifica che i dati siano validi.                    |
+| 4                    | Il sistema si interfaccia col sensore specificato.       |
+| 5                    | Il sistema converte il timestamp del sensore in UTC.     |
+| 6                    | Il sistema memorizza con successo i dati con il timestamp convertito.      |
 
 ### Calcola Media e Varianza, UC25
 
