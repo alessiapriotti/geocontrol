@@ -689,8 +689,8 @@ GeoControl is a software system designed for monitoring physical and environment
 | **Precondition**     | L'utente deve essere autenticato e avere il ruolo di Admin o Operator. |
 | **Post condition**    | Un nuovo gateway viene creato con successo e associato alla rete specificata. |
 | **Nominal Scenario** | L'utente fornisce i dati richiesti e il sistema crea un nuovo gateway per la rete specificata. |
-| **Variants**         | Nessuna variante significativa.                                 |
-| **Exceptions**       | - Scenario UC10.2: Dati mancanti o non validi. <br> - Scenario UC10.3: Utente non autorizzato. <br> - Scenario UC10.4: Permessi insufficienti. <br> - Scenario UC10.5: Rete non trovata. <br> - Scenario UC10.6: Indirizzo MAC già in uso. <br> - Scenario UC10.7: Errore interno del server. |
+| **Variants**         | - Scenario UC10.2: La richiesta contiene oggetti annidati. |
+| **Exceptions**       | - Scenario UC10.3: Dati mancanti o non validi. <br> - Scenario UC10.4: Utente non autorizzato. <br> - Scenario UC10.5: Permessi insufficienti. <br> - Scenario UC10.6: Rete non trovata. <br> - Scenario UC10.7: Indirizzo MAC già in uso. <br> - Scenario UC10.8: Errore interno del server. |
 
 #### Scenario UC10.1 - Creazione di un nuovo gateway con successo
 
@@ -705,9 +705,22 @@ GeoControl is a software system designed for monitoring physical and environment
 | 4                    | Il sistema salva il nuovo gateway nel database e lo associa alla rete specificata. |
 | 5                    | Il sistema conferma la creazione del gateway all'utente.  |
 
-#### Scenario UC10.2 - Creazione fallita per dati mancanti o non validi
+#### Scenario UC10.2 - Creazione di un gateway ignorando oggetti annidati
 
-| **Scenario UC10.2**   | Creazione fallita per dati mancanti o non validi.              |
+| **Scenario UC10.2**   | Creazione di un gateway ignorando oggetti annidati.            |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin o Operator.                   |
+| **Post condition**    | Il gateway viene creato con successo, ma gli oggetti annidati nella richiesta vengono ignorati. |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di creazione di un nuovo gateway. |
+| 2                    | L'utente fornisce i dati richiesti, inclusi eventuali oggetti annidati. |
+| 3                    | Il sistema verifica che i dati del gateway siano validi.        |
+| 4                    | Il sistema ignora gli oggetti annidati e salva solo i dati del gateway nel database. |
+| 5                    | Il sistema conferma la creazione del gateway all'utente.        |
+
+#### Scenario UC10.3 - Creazione fallita per dati mancanti o non validi
+
+| **Scenario UC10.3**   | Creazione fallita per dati mancanti o non validi.              |
 | :------------------: | :-------------------------------------------------------------: |
 | **Precondition**     | L'utente è autenticato come Admin o Operator.                   |
 | **Post condition**    | Il gateway non viene creato e il sistema notifica l'errore.    |
@@ -718,9 +731,9 @@ GeoControl is a software system designed for monitoring physical and environment
 | 4                    | Il sistema rileva che i dati sono incompleti o non validi.      |
 | 5                    | Il sistema notifica l'errore all'utente.                  |
 
-#### Scenario UC10.3 - Creazione fallita per utente non autorizzato
+#### Scenario UC10.4 - Creazione fallita per utente non autorizzato
 
-| **Scenario UC10.3**   | Creazione fallita per utente non autorizzato.                  |
+| **Scenario UC10.4**   | Creazione fallita per utente non autorizzato.                  |
 | :------------------: | :-------------------------------------------------------------: |
 | **Precondition**     | L'utente non è autenticato.                                     |
 | **Post condition**    | Il gateway non viene creato e il sistema notifica l'errore.    |
@@ -729,9 +742,9 @@ GeoControl is a software system designed for monitoring physical and environment
 | 2                    | Il sistema verifica che l'utente non è autenticato.             |
 | 3                    | Il sistema notifica l'errore all'utente.                  |
 
-#### Scenario UC10.4 - Creazione fallita per permessi insufficienti
+#### Scenario UC10.5 - Creazione fallita per permessi insufficienti
 
-| **Scenario UC10.4**   | Creazione fallita per permessi insufficienti.                  |
+| **Scenario UC10.5**   | Creazione fallita per permessi insufficienti.                  |
 | :------------------: | :-------------------------------------------------------------: |
 | **Precondition**     | L'utente è autenticato ma non ha il ruolo richiesto.            |
 | **Post condition**    | Il gateway non viene creato e il sistema notifica l'errore.    |
@@ -740,9 +753,9 @@ GeoControl is a software system designed for monitoring physical and environment
 | 2                    | Il sistema verifica che l'utente non ha i permessi necessari.   |
 | 3                    | Il sistema notifica l'errore all'utente.                  |
 
-#### Scenario UC10.5 - Creazione fallita per rete non trovata
+#### Scenario UC10.6 - Creazione fallita per rete non trovata
 
-| **Scenario UC10.5**   | Creazione fallita per rete non trovata.                        |
+| **Scenario UC10.6**   | Creazione fallita per rete non trovata.                        |
 | :------------------: | :-------------------------------------------------------------: |
 | **Precondition**     | L'utente è autenticato come Admin o Operator.                   |
 | **Post condition**    | Il gateway non viene creato e il sistema notifica l'errore.    |
@@ -752,9 +765,9 @@ GeoControl is a software system designed for monitoring physical and environment
 | 3                    | Il sistema verifica che la rete non esiste nel database.        |
 | 4                    | Il sistema notifica l'errore all'utente.                  |
 
-#### Scenario UC10.6 - Creazione fallita per indirizzo MAC già in uso
+#### Scenario UC10.7 - Creazione fallita per indirizzo MAC già in uso
 
-| **Scenario UC10.6**   | Creazione fallita per indirizzo MAC già in uso.                |
+| **Scenario UC10.7**   | Creazione fallita per indirizzo MAC già in uso.                |
 | :------------------: | :-------------------------------------------------------------: |
 | **Precondition**     | L'utente è autenticato come Admin o Operator.                   |
 | **Post condition**    | Il gateway non viene creato e il sistema notifica l'errore.    |
@@ -764,9 +777,9 @@ GeoControl is a software system designed for monitoring physical and environment
 | 3                    | Il sistema verifica che l'indirizzo MAC è già in uso.           |
 | 4                    | Il sistema notifica l'errore all'utente.                  |
 
-#### Scenario UC10.7 - Creazione fallita per errore interno del server
+#### Scenario UC10.8 - Creazione fallita per errore interno del server
 
-| **Scenario UC10.7**   | Creazione fallita per errore interno del server.               |
+| **Scenario UC10.8**   | Creazione fallita per errore interno del server.               |
 | :------------------: | :-------------------------------------------------------------: |
 | **Precondition**     | L'utente è autenticato come Admin o Operator.                   |
 | **Post condition**    | Il gateway non viene creato e il sistema notifica l'errore.    |
@@ -785,8 +798,8 @@ GeoControl is a software system designed for monitoring physical and environment
 | **Precondition**     | L'utente deve essere autenticato e avere il ruolo di Admin o Operator. |
 | **Post condition**    | Il gateway specificato viene aggiornato con i nuovi dati forniti. |
 | **Nominal Scenario** | L'utente fornisce i dati aggiornati per un gateway esistente e il sistema li salva. |
-| **Variants**         | Nessuna variante significativa.                                 |
-| **Exceptions**       | - Scenario UC11.2: Dati mancanti o non validi. <br> - Scenario UC11.3: Utente non autorizzato. <br> - Scenario UC11.4: Permessi insufficienti. <br> - Scenario UC11.5: Gateway non trovato. <br> - Scenario UC11.6: Indirizzo MAC già in uso. <br> - Scenario UC11.7: Errore interno del server. |
+| **Variants**         | - Scenario UC11.2: La richiesta contiene oggetti annidati. |
+| **Exceptions**       | - Scenario UC11.3: Dati mancanti o non validi. <br> - Scenario UC11.4: Utente non autorizzato. <br> - Scenario UC11.5: Permessi insufficienti. <br> - Scenario UC11.6: Gateway non trovato. <br> - Scenario UC11.7: Indirizzo MAC già in uso. <br> - Scenario UC11.8: Errore interno del server. |
 
 #### Scenario UC11.1 - Aggiornamento di un gateway con successo
 
@@ -801,9 +814,23 @@ GeoControl is a software system designed for monitoring physical and environment
 | 4                    | Il sistema salva i nuovi dati del gateway nel database.         |
 | 5                    | Il sistema conferma l'aggiornamento del gateway all'utente.|
 
-#### Scenario UC11.2 - Aggiornamento fallito per dati mancanti o non validi
 
-| **Scenario UC11.2**   | Aggiornamento fallito per dati mancanti o non validi.           |
+#### Scenario UC11.2 - Aggiornamento di un gateway ignorando oggetti annidati
+
+| **Scenario UC11.2**   | Aggiornamento di un gateway ignorando oggetti annidati.         |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin o Operator.                   |
+| **Post condition**    | Il gateway viene aggiornato con successo, ma gli oggetti annidati nella richiesta vengono ignorati. |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di aggiornamento di un gateway. |
+| 2                    | L'utente fornisce i dati aggiornati, inclusi eventuali oggetti annidati (es. sensori). |
+| 3                    | Il sistema verifica che i dati del gateway siano validi.        |
+| 4                    | Il sistema ignora gli oggetti annidati e aggiorna solo i dati del gateway nel database, incluso l'indirizzo MAC. |
+| 5                    | Il sistema conferma l'aggiornamento del gateway all'utente.     |
+
+#### Scenario UC11.3 - Aggiornamento fallito per dati mancanti o non validi
+
+| **Scenario UC11.3**   | Aggiornamento fallito per dati mancanti o non validi.           |
 | :------------------: | :-------------------------------------------------------------: |
 | **Precondition**     | L'utente è autenticato come Admin o Operator.                   |
 | **Post condition**    | Il gateway non viene aggiornato e il sistema notifica l'errore. |
@@ -814,9 +841,9 @@ GeoControl is a software system designed for monitoring physical and environment
 | 4                    | Il sistema rileva che i dati sono incompleti o non validi.      |
 | 5                    | Il sistema notifica l'errore all'utente.                  |
 
-#### Scenario UC11.3 - Aggiornamento fallito per utente non autorizzato
+#### Scenario UC11.4 - Aggiornamento fallito per utente non autorizzato
 
-| **Scenario UC11.3**   | Aggiornamento fallito per utente non autorizzato.               |
+| **Scenario UC11.4**   | Aggiornamento fallito per utente non autorizzato.               |
 | :------------------: | :-------------------------------------------------------------: |
 | **Precondition**     | L'utente non è autenticato.                                     |
 | **Post condition**    | Il gateway non viene aggiornato e il sistema notifica l'errore. |
@@ -825,9 +852,9 @@ GeoControl is a software system designed for monitoring physical and environment
 | 2                    | Il sistema verifica che l'utente non è autenticato.             |
 | 3                    | Il sistema notifica l'errore all'utente.                  |
 
-#### Scenario UC11.4 - Aggiornamento fallito per permessi insufficienti
+#### Scenario UC11.5 - Aggiornamento fallito per permessi insufficienti
 
-| **Scenario UC11.4**   | Aggiornamento fallito per permessi insufficienti.               |
+| **Scenario UC11.5**   | Aggiornamento fallito per permessi insufficienti.               |
 | :------------------: | :-------------------------------------------------------------: |
 | **Precondition**     | L'utente è autenticato ma non ha il ruolo richiesto.            |
 | **Post condition**    | Il gateway non viene aggiornato e il sistema notifica l'errore. |
@@ -836,9 +863,9 @@ GeoControl is a software system designed for monitoring physical and environment
 | 2                    | Il sistema verifica che l'utente non ha i permessi necessari.   |
 | 3                    | Il sistema notifica l'errore all'utente.                  |
 
-#### Scenario UC11.5 - Aggiornamento fallito per gateway non trovato
+#### Scenario UC11.6 - Aggiornamento fallito per gateway non trovato
 
-| **Scenario UC11.5**   | Aggiornamento fallito per gateway non trovato.                  |
+| **Scenario UC11.6**   | Aggiornamento fallito per gateway non trovato.                  |
 | :------------------: | :-------------------------------------------------------------: |
 | **Precondition**     | L'utente è autenticato come Admin o Operator.                   |
 | **Post condition**    | Il gateway non viene aggiornato e il sistema notifica l'errore. |
@@ -848,9 +875,9 @@ GeoControl is a software system designed for monitoring physical and environment
 | 3                    | Il sistema verifica che il gateway non esiste nel database.     |
 | 4                    | Il sistema notifica l'errore all'utente.                  |
 
-#### Scenario UC11.6 - Aggiornamento fallito per indirizzo MAC già in uso
+#### Scenario UC11.7 - Aggiornamento fallito per indirizzo MAC già in uso
 
-| **Scenario UC11.6**   | Aggiornamento fallito per indirizzo MAC già in uso.             |
+| **Scenario UC11.7**   | Aggiornamento fallito per indirizzo MAC già in uso.             |
 | :------------------: | :-------------------------------------------------------------: |
 | **Precondition**     | L'utente è autenticato come Admin o Operator.                   |
 | **Post condition**    | Il gateway non viene aggiornato e il sistema notifica l'errore. |
@@ -860,9 +887,9 @@ GeoControl is a software system designed for monitoring physical and environment
 | 3                    | Il sistema verifica che l'indirizzo MAC è già in uso.           |
 | 4                    | Il sistema notifica l'errore all'utente.                  |
 
-#### Scenario UC11.7 - Aggiornamento fallito per errore interno del server
+#### Scenario UC11.8 - Aggiornamento fallito per errore interno del server
 
-| **Scenario UC11.7**   | Aggiornamento fallito per errore interno del server.            |
+| **Scenario UC11.8**   | Aggiornamento fallito per errore interno del server.            |
 | :------------------: | :-------------------------------------------------------------: |
 | **Precondition**     | L'utente è autenticato come Admin o Operator.                   |
 | **Post condition**    | Il gateway non viene aggiornato e il sistema notifica l'errore. |
@@ -950,12 +977,12 @@ GeoControl is a software system designed for monitoring physical and environment
 | **Actors Involved**  | Admin, Operator, Viewer                                          |
 | :------------------: | :-------------------------------------------------------------: |
 | **Precondition**     | L'utente deve essere autenticato.                               |
-| **Post condition**    | L'utente visualizza i sensori richiesti.                       |
+| **Post condition**    | Il sistema restituisce i sensori richiesti.                      |
 | **Nominal Scenario** | L'utente richiede di visualizzare uno o tutti i sensori di un gateway e il sistema restituisce i dati richiesti. |
-| **Variants**         | Nessuna variante significativa.                                 |
-| **Exceptions**       | - Scenario UC13.2: Utente non autorizzato. <br> - Scenario UC13.3: Gateway non trovato. <br> - Scenario UC13.4: Errore interno del server. |
+| **Variants**         | -Scenario UC13.2: Sensore specifico richiesto. |
+| **Exceptions**       | - Scenario UC13.3: Utente non autorizzato. <br> - Scenario UC13.4: Rete/Gateway/Sensore non trovato. <br> - Scenario UC13.5: Errore interno del server. |
 
-#### Scenario UC13.1 - Visualizzazione di uno o tutti i sensori con successo
+#### Scenario UC13.1 - Visualizzazione di tutti i sensori con successo
 
 | **Scenario UC13.1**   | Visualizzazione di uno o tutti i sensori con successo.         |
 | :------------------: | :-------------------------------------------------------------: |
@@ -963,13 +990,25 @@ GeoControl is a software system designed for monitoring physical and environment
 | **Post condition**    | Il sistema restituisce i sensori richiesti.                    |
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente accede alla funzionalità di visualizzazione dei sensori. |
-| 2                    | L'utente richiede di visualizzare un sensore specifico o tutti i sensori di un gateway. |
+| 2                    | L'utente richiede di visualizzare tutti i sensori di un gateway. |
 | 3                    | Il sistema recupera i dati dei sensori richiesti dal database.  |
 | 4                    | Il sistema restituisce i dati dei sensori all'utente.     |
 
-#### Scenario UC13.2 - Visualizzazione fallita per utente non autorizzato
+#### Scenario UC13.2 - Visualizzazione di un sensore con successo
 
-| **Scenario UC13.2**   | Visualizzazione fallita per utente non autorizzato.            |
+| **Scenario UC13.2**   | Visualizzazione di un sensore con successo.         |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin, Operator o Viewer.           |
+| **Post condition**    | Il sistema restituisce il sensore richiesto.                    |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di visualizzazione dei sensori. |
+| 2                    | L'utente richiede di visualizzare un sensore specifico di un gateway. |
+| 3                    | Il sistema recupera i dati del sensore richiesto dal database.  |
+| 4                    | Il sistema restituisce i dati del sensore all'utente.     |
+
+#### Scenario UC13.3 - Visualizzazione fallita per utente non autorizzato
+
+| **Scenario UC13.3**   | Visualizzazione fallita per utente non autorizzato.            |
 | :------------------: | :-------------------------------------------------------------: |
 | **Precondition**     | L'utente non è autenticato.                                     |
 | **Post condition**    | Il sistema non restituisce alcun sensore e notifica l'errore.  |
@@ -978,21 +1017,21 @@ GeoControl is a software system designed for monitoring physical and environment
 | 2                    | Il sistema verifica che l'utente non è autenticato.             |
 | 3                    | Il sistema notifica l'errore all'utente.                  |
 
-#### Scenario UC13.3 - Visualizzazione fallita per gateway non trovato
+#### Scenario UC13.4 - Visualizzazione fallita per gateway non trovato
 
-| **Scenario UC13.3**   | Visualizzazione fallita per gateway non trovato.               |
+| **Scenario UC13.4**   | Visualizzazione fallita per rete/gateway/sensore non trovato.               |
 | :------------------: | :-------------------------------------------------------------: |
 | **Precondition**     | L'utente è autenticato come Admin, Operator o Viewer.           |
 | **Post condition**    | Il sistema non restituisce alcun sensore e notifica l'errore.  |
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente accede alla funzionalità di visualizzazione dei sensori. |
 | 2                    | L'utente richiede di visualizzare un sensore specifico o tutti i sensori di un gateway. |
-| 3                    | Il sistema verifica che il gateway non esiste nel database.     |
+| 3                    | Il sistema verifica che la rete/gateway/sensore non esiste nel database.     |
 | 4                    | Il sistema notifica l'errore all'utente.                  |
 
-#### Scenario UC13.4 - Visualizzazione fallita per errore interno del server
+#### Scenario UC13.5 - Visualizzazione fallita per errore interno del server
 
-| **Scenario UC13.4**   | Visualizzazione fallita per errore interno del server.         |
+| **Scenario UC13.5**   | Visualizzazione fallita per errore interno del server.         |
 | :------------------: | :-------------------------------------------------------------: |
 | **Precondition**     | L'utente è autenticato come Admin, Operator o Viewer.           |
 | **Post condition**    | Il sistema non restituisce alcun sensore e notifica l'errore.  |
