@@ -1,6 +1,6 @@
 # Requirements Document - GeoControl
 
-Date: 11/04/2025
+Date: 13/04/2025
 
 | Version number | Change |
 | :------------: | :----: |
@@ -10,6 +10,8 @@ Date: 11/04/2025
 |        V1.3        |    Aggiunto: Business Model, Stakeholders, Context Diagram e System Design   |
 |        V1.4        |    Aggiunto Use Case Diagram   |
 |        V1.5        |    Aggiunte Stories & Personas   |
+|        V1.6        |    Aggiunti Use Cases e Scenarios   |
+|        V1.7        |    Aggiunto Glossario   |
 
 # Contents
 
@@ -152,243 +154,1903 @@ Il sistema è venduto come prodotto software isolato da eseguire su un server co
 
 ### Autenticazione, UC1
 
-| Actors Involved  |                                                                      |
-| :--------------: | :------------------------------------------------------------------: |
-|   Precondition   | \<Boolean expression, must evaluate to true before the UC can start> |
-|  Post condition  |  \<Boolean expression, must evaluate to true after UC is finished>   |
-| Nominal Scenario |         \<Textual description of actions executed by the UC>         |
-|     Variants     |                      \<other normal executions>                      |
-|    Exceptions    |                        \<exceptions, errors >                        |
+| **Actors Involved**  | Admin, Operator, Viewer                                          |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente deve fornire credenziali valide (username e password).  |
+| **Post condition**    | L'utente riceve un token bearer per accedere alle funzionalità del sistema. |
+| **Nominal Scenario** | L'utente invia credenziali valide e il sistema restituisce un token bearer. |
+| **Variants**         | Nessuna variante significativa.                                 |
+| **Exceptions**       | - Scenario UC1.2: Credenziali non valide. <br> - Scenario UC1.3: Errore interno del server. <br> - Scenario UC1.4: Utente non trovato. <br> - Scenario UC1.5: Dati di input non validi. |
 
+#### Scenario UC1.1 - Autenticazione con successo
+
+| **Scenario UC1.1**   | Autenticazione con successo.                                     |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente fornisce credenziali valide.                           |
+| **Post condition**    | Il sistema restituisce un token bearer valido.                 |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente invia username e password al sistema.                  |
+| 2                    | Il sistema verifica le credenziali.                             |
+| 3                    | Il sistema genera un token bearer e lo restituisce all'utente.|
+
+#### Scenario UC1.2 - Autenticazione fallita per credenziali non valide
+
+| **Scenario UC1.2**   | Autenticazione fallita per credenziali non valide.              |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente fornisce credenziali non valide.                       |
+| **Post condition**    | Il sistema non autentica l'utente e notifica l'errore.         |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente invia username e password al sistema.                  |
+| 2                    | Il sistema verifica che le credenziali non sono valide.         |
+| 3                    | Il sistema notifica l'errore all'utente.                  |
+
+#### Scenario UC1.3 - Autenticazione fallita per errore interno del server
+
+| **Scenario UC1.3**   | Autenticazione fallita per errore interno del server.           |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente invia credenziali valide.                              |
+| **Post condition**    | Il sistema non autentica l'utente e notifica l'errore.         |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente invia username e password al sistema.                  |
+| 2                    | Si verifica un errore interno del server.                       |
+| 3                    | Il sistema notifica l'errore all'utente.                  |
+
+#### Scenario UC1.4 - Autenticazione fallita per utente non trovato
+
+| **Scenario UC1.4**   | Autenticazione fallita per utente non trovato.                  |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente invia credenziali valide.                              |
+| **Post condition**    | Il sistema non autentica l'utente e notifica l'errore.         |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente invia username e password al sistema.                  |
+| 2                    | Il sistema verifica che l'utente non esiste.                    |
+| 3                    | Il sistema notifica l'errore all'utente.                  |
+
+#### Scenario UC1.5 - Autenticazione fallita per dati di input non validi
+
+| **Scenario UC1.5**   | Autenticazione fallita per dati di input non validi.            |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente invia dati di input non validi.                        |
+| **Post condition**    | Il sistema non autentica l'utente e notifica l'errore.         |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente invia dati di input non validi al sistema.             |
+| 2                    | Il sistema rileva che i dati di input non sono validi.          |
+| 3                    | Il sistema notifica l'errore all'utente.                  |
+
+---
 
 ### Visualizza utenti (uno o tutti), UC2
 
-| Actors Involved  |                                                                      |
-| :--------------: | :------------------------------------------------------------------: |
-|   Precondition   | \<Boolean expression, must evaluate to true before the UC can start> |
-|  Post condition  |  \<Boolean expression, must evaluate to true after UC is finished>   |
-| Nominal Scenario |         \<Textual description of actions executed by the UC>         |
-|     Variants     |                      \<other normal executions>                      |
-|    Exceptions    |                        \<exceptions, errors >                        |
+| **Actors Involved**  | Admin                                                            |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente deve essere autenticato come Admin.                    |
+| **Post condition**    | Il sistema restituisce i dati degli utenti richiesti.          |
+| **Nominal Scenario** | L'utente richiede di visualizzare tutti gli utenti e il sistema restituisce i dati richiesti. |
+| **Variants**         | - Scenario UC2.2: Utente specifico richiesto. |
+| **Exceptions**       | - Scenario UC2.2.1: Utente specifico non trovato. <br> - Scenario UC2.3: Utente non autorizzato. <br> - Scenario UC2.4: Errore interno del server. |
+
+#### Scenario UC2.1 - Visualizzazione di tutti gli utenti con successo
+
+| **Scenario UC2.1**   | Visualizzazione di tutti gli utenti con successo.         |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin.                              |
+| **Post condition**    | Il sistema restituisce i dati degli utenti richiesti.          |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di visualizzazione degli utenti. |
+| 2                    | L'utente richiede di visualizzare tutti gli utenti.       |
+| 3                    | Il sistema recupera i dati degli utenti dal database.           |
+| 4                    | Il sistema restituisce i dati degli utenti all'utente.    |
+
+#### Scenario UC2.2 - Visualizzazione di un utente con successo
+
+| **Scenario UC2.2**   | Visualizzazione di un utente con successo.         |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin.                              |
+| **Post condition**    | Il sistema restituisce i dati dell'utente richiesti.          |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di visualizzazione degli utenti. |
+| 2                    | L'utente richiede di visualizzare un utente tramite username.       |
+| 3                    | Il sistema recupera i dati dell'utente richiesto dal database.           |
+| 4                    | Il sistema restituisce i dati dell'utente richiesto all'utente.    |
+
+#### Scenario UC2.2.1 - Visualizzazione fallita per utente non trovato
+
+| **Scenario UC2.2.1**   | Visualizzazione fallita per utente non trovato.         |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin.                              |
+| **Post condition**    | Il sistema non restituisce alcun dato e notifica l'errore.          |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di visualizzazione degli utenti. |
+| 2                    | L'utente richiede di visualizzare un utente tramite username.       |
+| 3                    | Il sistema verifica che l'utente non esiste nel database.           |
+| 4                    | Il sistema notifica l'errore all'utente.    |
+
+#### Scenario UC2.3 - Visualizzazione fallita per utente non autorizzato
+
+| **Scenario UC2.3**   | Visualizzazione fallita per utente non autorizzato.             |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente non è autenticato o non ha il ruolo di Admin.          |
+| **Post condition**    | Il sistema non restituisce alcun dato e notifica l'errore.     |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente tenta di accedere alla funzionalità di visualizzazione degli utenti. |
+| 2                    | Il sistema verifica che l'utente non è autorizzato.             |
+| 3                    | Il sistema notifica l'errore all'utente.                  |
+
+#### Scenario UC2.4 - Visualizzazione fallita per errore interno del server
+
+| **Scenario UC2.4**   | Visualizzazione fallita per errore interno del server.          |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin.                              |
+| **Post condition**    | Il sistema non restituisce alcun dato e notifica l'errore.     |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di visualizzazione degli utenti. |
+| 2                    | L'utente richiede di visualizzare uno o tutti gli utenti.       |
+| 3                    | Si verifica un errore interno del server.                       |
+| 4                    | Il sistema notifica l'errore all'utente.                  |
+
+---
 
 ### Crea un nuovo utente, UC3
 
-| Actors Involved  |                                                                      |
-| :--------------: | :------------------------------------------------------------------: |
-|   Precondition   | \<Boolean expression, must evaluate to true before the UC can start> |
-|  Post condition  |  \<Boolean expression, must evaluate to true after UC is finished>   |
-| Nominal Scenario |         \<Textual description of actions executed by the UC>         |
-|     Variants     |                      \<other normal executions>                      |
-|    Exceptions    |                        \<exceptions, errors >                        |
+| **Actors Involved**  | Admin                                                            |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente deve essere autenticato come Admin.                    |
+| **Post condition**    | Un nuovo utente viene creato con successo nel sistema.         |
+| **Nominal Scenario** | L'utente fornisce i dati richiesti e il sistema crea un nuovo utente. |
+| **Variants**         | Nessuna variante significativa.                                 |
+| **Exceptions**       | - Scenario UC3.2: Dati mancanti o non validi. <br> - Scenario UC3.3: Username già in uso. <br> - Scenario UC3.4: Utente non autorizzato. <br> - Scenario UC3.5: Permessi insufficienti. <br> - Scenario UC3.6: Errore interno del server. |
+
+#### Scenario UC3.1 - Creazione di un nuovo utente con successo
+
+| **Scenario UC3.1**   | Creazione di un nuovo utente con successo.                      |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin.                              |
+| **Post condition**    | Un nuovo utente viene creato con successo nel sistema.         |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di creazione di un nuovo utente. |
+| 2                    | L'utente inserisce i dati richiesti: username, password, ruolo. |
+| 3                    | Il sistema verifica che i dati siano validi e che l'username non sia già in uso. |
+| 4                    | Il sistema salva il nuovo utente nel database.                  |
+| 5                    | Il sistema conferma la creazione del nuovo utente all'utente.|
+
+#### Scenario UC3.2 - Creazione fallita per dati mancanti o non validi
+
+| **Scenario UC3.2**   | Creazione fallita per dati mancanti o non validi.               |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin.                              |
+| **Post condition**    | Il sistema non crea l'utente e notifica l'errore.              |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di creazione di un nuovo utente. |
+| 2                    | L'utente inserisce dati incompleti o non validi.                |
+| 3                    | Il sistema valida i dati forniti dall'utente.                   |
+| 4                    | Il sistema rileva che i dati sono incompleti o non validi.      |
+| 5                    | Il sistema notifica l'errore all'utente.                  |
+
+#### Scenario UC3.3 - Creazione fallita per username già in uso
+
+| **Scenario UC3.3**   | Creazione fallita per username già in uso.                      |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin.                              |
+| **Post condition**    | Il sistema non crea l'utente e notifica l'errore.              |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di creazione di un nuovo utente. |
+| 2                    | L'utente inserisce i dati richiesti: username, password, ruolo. |
+| 3                    | Il sistema verifica che l'username è già in uso.                |
+| 4                    | Il sistema notifica l'errore all'utente.                  |
+
+#### Scenario UC3.4 - Creazione fallita per utente non autorizzato
+
+| **Scenario UC3.4**   | Creazione fallita per utente non autorizzato.                   |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente non è autenticato.                                     |
+| **Post condition**    | Il sistema non crea l'utente e notifica l'errore.              |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente tenta di accedere alla funzionalità di creazione di un nuovo utente. |
+| 2                    | Il sistema verifica che l'utente non è autenticato.             |
+| 3                    | Il sistema notifica l'errore all'utente.                  |
+
+#### Scenario UC3.5 - Creazione fallita per permessi insufficienti
+
+| **Scenario UC3.5**   | Creazione fallita per permessi insufficienti.                   |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato ma non ha il ruolo di Admin.            |
+| **Post condition**    | Il sistema non crea l'utente e notifica l'errore.              |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente tenta di accedere alla funzionalità di creazione di un nuovo utente. |
+| 2                    | Il sistema verifica che l'utente non ha i permessi necessari.   |
+| 3                    | Il sistema notifica l'errore all'utente.                  |
+
+#### Scenario UC3.6 - Creazione fallita per errore interno del server
+
+| **Scenario UC3.6**   | Creazione fallita per errore interno del server.                |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin.                              |
+| **Post condition**    | Il sistema non crea l'utente e notifica l'errore.              |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di creazione di un nuovo utente. |
+| 2                    | L'utente inserisce i dati richiesti: username, password, ruolo. |
+| 3                    | Si verifica un errore interno del server.                       |
+| 4                    | Il sistema notifica l'errore all'utente.                  |
+
+---
 
 ### Elimina un utente, UC4
 
-| Actors Involved  |                                                                      |
-| :--------------: | :------------------------------------------------------------------: |
-|   Precondition   | \<Boolean expression, must evaluate to true before the UC can start> |
-|  Post condition  |  \<Boolean expression, must evaluate to true after UC is finished>   |
-| Nominal Scenario |         \<Textual description of actions executed by the UC>         |
-|     Variants     |                      \<other normal executions>                      |
-|    Exceptions    |                        \<exceptions, errors >                        |
+| **Actors Involved**  | Admin                                                            |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente deve essere autenticato come Admin.                    |
+| **Post condition**    | L'utente specificato viene eliminato dal sistema.              |
+| **Nominal Scenario** | L'utente fornisce il nome dell'utente da eliminare e il sistema lo elimina. |
+| **Variants**         | Nessuna variante significativa.                                 |
+| **Exceptions**       | - Scenario UC4.2: Utente non trovato. <br> - Scenario UC4.3: Utente non autorizzato. <br> - Scenario UC4.4: Permessi insufficienti. <br> - Scenario UC4.5: Errore interno del server. |
+
+#### Scenario UC4.1 - Eliminazione di un utente con successo
+
+| **Scenario UC4.1**   | Eliminazione di un utente con successo.                         |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin.                              |
+| **Post condition**    | L'utente specificato viene eliminato dal sistema.              |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di eliminazione di un utente. |
+| 2                    | L'utente specifica il nome dell'utente da eliminare.            |
+| 3                    | Il sistema verifica che l'utente esiste nel database.           |
+| 4                    | Il sistema elimina l'utente dal database.                       |
+| 5                    | Il sistema conferma l'eliminazione all'utente.            |
+
+#### Scenario UC4.2 - Eliminazione fallita per utente non trovato
+
+| **Scenario UC4.2**   | Eliminazione fallita per utente non trovato.                    |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin.                              |
+| **Post condition**    | Il sistema non elimina alcun utente e notifica l'errore.       |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di eliminazione di un utente. |
+| 2                    | L'utente specifica il nome dell'utente da eliminare.            |
+| 3                    | Il sistema verifica che l'utente non esiste nel database.       |
+| 4                    | Il sistema notifica l'errore all'utente.                  |
+
+#### Scenario UC4.3 - Eliminazione fallita per utente non autorizzato
+
+| **Scenario UC4.3**   | Eliminazione fallita per utente non autorizzato.                |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente non è autenticato.                                     |
+| **Post condition**    | Il sistema non elimina alcun utente e notifica l'errore.       |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente tenta di accedere alla funzionalità di eliminazione di un utente. |
+| 2                    | Il sistema verifica che l'utente non è autenticato.             |
+| 3                    | Il sistema notifica l'errore all'utente.                  |
+
+#### Scenario UC4.4 - Eliminazione fallita per permessi insufficienti
+
+| **Scenario UC4.4**   | Eliminazione fallita per permessi insufficienti.                |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato ma non ha il ruolo di Admin.            |
+| **Post condition**    | Il sistema non elimina alcun utente e notifica l'errore.       |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente tenta di accedere alla funzionalità di eliminazione di un utente. |
+| 2                    | Il sistema verifica che l'utente non ha i permessi necessari.   |
+| 3                    | Il sistema notifica l'errore all'utente.                  |
+
+#### Scenario UC4.5 - Eliminazione fallita per errore interno del server
+
+| **Scenario UC4.5**   | Eliminazione fallita per errore interno del server.             |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin.                              |
+| **Post condition**    | Il sistema non elimina alcun utente e notifica l'errore.       |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di eliminazione di un utente. |
+| 2                    | L'utente specifica il nome dell'utente da eliminare.            |
+| 3                    | Si verifica un errore interno del server.                       |
+| 4                    | Il sistema notifica l'errore all'utente.                  |
+
+---
 
 ### Visualizza reti (una o tutte), UC5
 
-| Actors Involved  |                                                                      |
-| :--------------: | :------------------------------------------------------------------: |
-|   Precondition   | \<Boolean expression, must evaluate to true before the UC can start> |
-|  Post condition  |  \<Boolean expression, must evaluate to true after UC is finished>   |
-| Nominal Scenario |         \<Textual description of actions executed by the UC>         |
-|     Variants     |                      \<other normal executions>                      |
-|    Exceptions    |                        \<exceptions, errors >                        |
+| **Actors Involved**  | Admin, Operator, Viewer                                          |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente deve essere autenticato.                               |
+| **Post condition**    | L'utente visualizza le reti richieste.                         |
+| **Nominal Scenario** | L'utente richiede di visualizzare tutte le reti e il sistema restituisce i dati richiesti. |
+| **Variants**         | - Scenario UC5.2: Rete specifica richiesta.                                 |
+| **Exceptions**       | - Scenario UC5.2.1: Rete specifica non trovata. <br> - Scenario UC5.3: Utente non autenticato. <br> - Scenario UC5.4: Errore interno del server. |
+
+#### Scenario UC5.1 - Visualizzazione di tutte le reti con successo
+
+| **Scenario UC5.1**   | Visualizzazione di tutte le reti con successo.            |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin, Operator o Viewer.           |
+| **Post condition**    | Il sistema restituisce le reti richieste.                      |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di visualizzazione delle reti. |
+| 2                    | L'utente richiede di visualizzare tutte le reti. |
+| 3                    | Il sistema recupera i dati delle reti richieste dal database.   |
+| 4                    | Il sistema restituisce i dati delle reti all'utente.      |
+
+#### Scenario UC5.2 - Visualizzazione di una rete con successo
+
+| **Scenario UC5.2**   | Visualizzazione di una rete con successo.            |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin, Operator o Viewer.           |
+| **Post condition**    | Il sistema restituisce la rete richiesta.                      |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di visualizzazione delle reti. |
+| 2                    | L'utente richiede di visualizzare una rete specifica tramite codice identificativo. |
+| 3                    | Il sistema recupera i dati della rete richiesta dal database.   |
+| 4                    | Il sistema restituisce i dati della rete all'utente.      |
+
+#### Scenario UC5.2.1 - Visualizzazione fallita per rete non trovata
+
+| **Scenario UC5.2.1**   | Visualizzazione fallita per rete non trovata.            |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin, Operator o Viewer.           |
+| **Post condition**    | Il sistema non restituisce alcuna rete e notifica l'errore.                      |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di visualizzazione delle reti. |
+| 2                    | L'utente richiede di visualizzare una rete specifica tramite codice identificativo. |
+| 3                    | Il sistema verifica che la rete non esiste nel database.   |
+| 4                    | Il sistema notifica l'errore all'utente.      |
+
+
+#### Scenario UC5.3 - Visualizzazione fallita per utente non autenticato
+
+| **Scenario UC5.3**   | Visualizzazione fallita per utente non autenticato.             |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente non è autenticato.                                     |
+| **Post condition**    | Il sistema non restituisce alcuna rete e notifica l'errore.    |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente tenta di accedere alla funzionalità di visualizzazione delle reti. |
+| 2                    | Il sistema verifica che l'utente non è autenticato.             |
+| 3                    | Il sistema notifica l'errore all'utente.                  |
+
+#### Scenario UC5.4 - Visualizzazione fallita per errore interno del server
+
+| **Scenario UC5.4**   | Visualizzazione fallita per errore interno del server.          |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin, Operator o Viewer.           |
+| **Post condition**    | Il sistema non restituisce alcuna rete e notifica l'errore.    |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di visualizzazione delle reti. |
+| 2                    | L'utente richiede di visualizzare una rete specifica o tutte le reti. |
+| 3                    | Si verifica un errore interno del server durante il recupero dei dati. |
+| 4                    | Il sistema notifica l'errore all'utente.                  |
+
+---
 
 ### Crea una nuova rete, UC6
 
-| Actors Involved  |                                                                      |
-| :--------------: | :------------------------------------------------------------------: |
-|   Precondition   | \<Boolean expression, must evaluate to true before the UC can start> |
-|  Post condition  |  \<Boolean expression, must evaluate to true after UC is finished>   |
-| Nominal Scenario |         \<Textual description of actions executed by the UC>         |
-|     Variants     |                      \<other normal executions>                      |
-|    Exceptions    |                        \<exceptions, errors >                        |
+| **Actors Involved**  | Admin, Operator                                                  |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente deve essere autenticato e avere il ruolo di Admin o Operator. |
+| **Post condition**    | Una nuova rete viene creata con un codice univoco e memorizzata nel sistema. |
+| **Nominal Scenario** | L'utente fornisce i dati richiesti (codice, nome, descrizione) e il sistema crea la rete. |
+| **Variants**         | - Scenario UC6.2: Dati superflui allegati.                                 |
+| **Exceptions**       | - Scenario UC6.3: Codice rete già esistente. <br> - Scenario UC6.4: Dati mancanti o non validi. <br> - Scenario UC6.5: Utente non autenticato. <br> - Scenario UC6.6: Permessi insufficienti. <br> - Scenario UC6.7: Errore interno del server. |
+
+#### Scenario UC6.1 - Creazione di una rete con dati validi
+
+| **Scenario UC6.1**   | Creazione di una rete con dati validi.                           |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin o Operator.                   |
+| **Post condition**    | La rete viene creata con successo e memorizzata nel sistema.    |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di creazione di una nuova rete. |
+| 2                    | L'utente inserisce i dati richiesti: codice, nome, descrizione. |
+| 3                    | Il sistema verifica che il codice della rete sia univoco.       |
+| 4                    | Il sistema salva la rete nel database.                          |
+| 5                    | Il sistema conferma la creazione della rete all'utente.   |
+
+#### Scenario UC6.2 - Creazione di una rete con dati superflui allegati
+
+| **Scenario UC6.2**   | Creazione di una rete con dati superflui allegati.                           |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin o Operator.                   |
+| **Post condition**    | La rete viene creata con successo e memorizzata nel sistema; i dati superflui sono stati ignorati.    |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di creazione di una nuova rete. |
+| 2                    | L'utente inserisce i dati richiesti: codice, nome, descrizione, oltre che dati su Gateway o Sensori contenuti nella rete. |
+| 3                    | Il sistema verifica che il codice della rete sia univoco.       |
+| 4                    | Il sistema salva la rete nel database, ignorando i dati su Gateway e Sensori.                          |
+| 5                    | Il sistema conferma la creazione della rete all'utente.   |
+
+#### Scenario UC6.3 - Creazione fallita per codice rete duplicato
+
+| **Scenario UC6.3**   | Creazione fallita per codice rete duplicato.                     |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin o Operator.                   |
+| **Post condition**    | La rete non viene creata e il sistema notifica l'errore.       |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di creazione di una nuova rete. |
+| 2                    | L'utente inserisce i dati richiesti: codice, nome, descrizione. |
+| 3                    | Il sistema verifica che il codice della rete sia univoco.       |
+| 4                    | Il sistema rileva che il codice è già in uso.                   |
+| 5                    | Il sistema notifica l'errore all'utente.                  |
+
+#### Scenario UC6.4 - Creazione fallita per dati mancanti o non validi
+
+| **Scenario UC6.4**   | Creazione fallita per dati mancanti o non validi.                |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin o Operator.                   |
+| **Post condition**    | La rete non viene creata e il sistema notifica l'errore.       |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di creazione di una nuova rete. |
+| 2                    | L'utente inserisce dati incompleti o non validi.                |
+| 3                    | Il sistema valida i dati forniti dall'utente.                   |
+| 4                    | Il sistema rileva che i dati sono incompleti o non validi.      |
+| 5                    | Il sistema notifica l'errore all'utente.                  |
+
+#### Scenario UC6.5 - Creazione fallita per utente non autenticato
+
+| **Scenario UC6.5** | Creazione fallita per utente non autenticato.                   |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente non è autenticato.                                     |
+| **Post condition**    | La rete non viene creata e il sistema notifica l'errore.       |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente tenta di accedere alla funzionalità di creazione di una nuova rete. |
+| 2                    | Il sistema verifica che l'utente non è autenticato.             |
+| 3                    | Il sistema notifica l'errore all'utente.                  |
+
+#### Scenario UC6.6 - Creazione fallita per permessi insufficienti
+
+| **Scenario UC6.6** | Creazione fallita per permessi insufficienti.                   |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato ma non ha il ruolo richiesto.            |
+| **Post condition**    | La rete non viene creata e il sistema notifica l'errore.       |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente tenta di accedere alla funzionalità di creazione di una nuova rete. |
+| 2                    | Il sistema verifica che l'utente non ha i permessi necessari.   |
+| 3                    | Il sistema notifica l'errore all'utente.                  |
+
+#### Scenario UC6.7 - Creazione fallita per errore interno del server
+
+| **Scenario UC6.7**   | Creazione fallita per errore interno del server.                |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin o Operator.                   |
+| **Post condition**    | La rete non viene creata e il sistema notifica l'errore.       |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di creazione di una nuova rete. |
+| 2                    | L'utente inserisce i dati richiesti: codice, nome, descrizione. |
+| 3                    | Il sistema tenta di salvare la rete nel database.               |
+| 4                    | Si verifica un errore interno del server.                       |
+| 5                    | Il sistema notifica l'errore all'utente.                  |
+
+---
 
 ### Aggiorna una rete, UC7
 
-| Actors Involved  |                                                                      |
-| :--------------: | :------------------------------------------------------------------: |
-|   Precondition   | \<Boolean expression, must evaluate to true before the UC can start> |
-|  Post condition  |  \<Boolean expression, must evaluate to true after UC is finished>   |
-| Nominal Scenario |         \<Textual description of actions executed by the UC>         |
-|     Variants     |                      \<other normal executions>                      |
-|    Exceptions    |                        \<exceptions, errors >                        |
+| **Actors Involved**  | Admin, Operator                                                  |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente deve essere autenticato e avere il ruolo di Admin o Operator. |
+| **Post condition**    | La rete specificata viene aggiornata con i nuovi dati forniti. |
+| **Nominal Scenario** | L'utente fornisce i dati aggiornati per una rete esistente e il sistema li salva. |
+| **Variants**         | - Scenario UC7.2: Dati superflui allegati.                                 |
+| **Exceptions**       | - Scenario UC7.3: Dati mancanti o non validi. <br> - Scenario UC7.4: Utente non autorizzato. <br> - Scenario UC7.5: Permessi insufficienti. <br> - Scenario UC7.6: Rete non trovata. <br> - Scenario UC7.7: Codice rete già in uso. <br> - Scenario UC7.8: Errore interno del server. |
+
+#### Scenario UC7.1 - Aggiornamento di una rete con successo
+
+| **Scenario UC7.1**   | Aggiornamento di una rete con successo.                          |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin o Operator.                   |
+| **Post condition**    | La rete viene aggiornata con i nuovi dati forniti.             |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di aggiornamento di una rete. |
+| 2                    | L'utente fornisce i dati aggiornati: codice, nome, descrizione. |
+| 3                    | Il sistema verifica che i dati siano validi.                    |
+| 4                    | Il sistema salva i nuovi dati della rete nel database.          |
+| 5                    | Il sistema conferma l'aggiornamento della rete all'utente.|
+
+#### Scenario UC7.2 - Aggiornamento di una rete con dati superflui allegati
+
+| **Scenario UC7.2**   | Aggiornamento di una rete con dati superflui allegati.                          |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin o Operator.                   |
+| **Post condition**    | La rete viene aggiornata con i nuovi dati forniti.             |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di aggiornamento di una rete. |
+| 2                    | L'utente fornisce i dati aggiornati: codice, nome, descrizione, oltre che dati su Gateway o Sensori contenuti nella rete. |
+| 3                    | Il sistema verifica che i dati siano validi.                    |
+| 4                    | Il sistema salva i nuovi dati della rete nel database, ignorando quelli su Gateway e Sensori.          |
+| 5                    | Il sistema conferma l'aggiornamento della rete all'utente.|
+
+#### Scenario UC7.3 - Aggiornamento fallito per dati mancanti o non validi
+
+| **Scenario UC7.3**   | Aggiornamento fallito per dati mancanti o non validi.           |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin o Operator.                   |
+| **Post condition**    | La rete non viene aggiornata e il sistema notifica l'errore.   |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di aggiornamento di una rete. |
+| 2                    | L'utente fornisce dati incompleti o non validi.                 |
+| 3                    | Il sistema valida i dati forniti dall'utente.                   |
+| 4                    | Il sistema rileva che i dati sono incompleti o non validi.      |
+| 5                    | Il sistema notifica l'errore all'utente.                  |
+
+#### Scenario UC7.4 - Aggiornamento fallito per utente non autorizzato
+
+| **Scenario UC7.4**   | Aggiornamento fallito per utente non autorizzato.               |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente non è autenticato.                                     |
+| **Post condition**    | La rete non viene aggiornata e il sistema notifica l'errore.   |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente tenta di accedere alla funzionalità di aggiornamento di una rete. |
+| 2                    | Il sistema verifica che l'utente non è autenticato.             |
+| 3                    | Il sistema notifica l'errore all'utente.                  |
+
+#### Scenario UC7.5 - Aggiornamento fallito per permessi insufficienti
+
+| **Scenario UC7.5**   | Aggiornamento fallito per permessi insufficienti.               |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato ma non ha il ruolo richiesto.            |
+| **Post condition**    | La rete non viene aggiornata e il sistema notifica l'errore.   |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente tenta di accedere alla funzionalità di aggiornamento di una rete. |
+| 2                    | Il sistema verifica che l'utente non ha i permessi necessari.   |
+| 3                    | Il sistema notifica l'errore all'utente.                  |
+
+#### Scenario UC7.6 - Aggiornamento fallito per rete non trovata
+
+| **Scenario UC7.6**   | Aggiornamento fallito per rete non trovata.                     |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin o Operator.                   |
+| **Post condition**    | La rete non viene aggiornata e il sistema notifica l'errore.   |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di aggiornamento di una rete. |
+| 2                    | L'utente fornisce il codice della rete da aggiornare.           |
+| 3                    | Il sistema verifica che la rete non esiste nel database.        |
+| 4                    | Il sistema notifica l'errore all'utente.                  |
+
+#### Scenario UC7.7 - Aggiornamento fallito per codice rete già in uso
+
+| **Scenario UC7.7**   | Aggiornamento fallito per codice rete già in uso.               |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin o Operator.                   |
+| **Post condition**    | La rete non viene aggiornata e il sistema notifica l'errore.   |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di aggiornamento di una rete. |
+| 2                    | L'utente fornisce un nuovo codice per la rete.                  |
+| 3                    | Il sistema verifica che il nuovo codice è già in uso.           |
+| 4                    | Il sistema notifica l'errore all'utente.                  |
+
+#### Scenario UC7.8 - Aggiornamento fallito per errore interno del server
+
+| **Scenario UC7.8**   | Aggiornamento fallito per errore interno del server.            |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin o Operator.                   |
+| **Post condition**    | La rete non viene aggiornata e il sistema notifica l'errore.   |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di aggiornamento di una rete. |
+| 2                    | L'utente fornisce i dati aggiornati: codice, nome, descrizione. |
+| 3                    | Si verifica un errore interno del server.                       |
+| 4                    | Il sistema notifica l'errore all'utente.                  |
+
+---
 
 ### Elimina una rete, UC8
 
-| Actors Involved  |                                                                      |
-| :--------------: | :------------------------------------------------------------------: |
-|   Precondition   | \<Boolean expression, must evaluate to true before the UC can start> |
-|  Post condition  |  \<Boolean expression, must evaluate to true after UC is finished>   |
-| Nominal Scenario |         \<Textual description of actions executed by the UC>         |
-|     Variants     |                      \<other normal executions>                      |
-|    Exceptions    |                        \<exceptions, errors >                        |
+| **Actors Involved**  | Admin, Operator                                                      |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente deve essere autenticato e avere il ruolo di Admin o Operator. |
+| **Post condition**    | La rete specificata viene eliminata dal sistema.              |
+| **Nominal Scenario** | L'utente fornisce il codice della rete da eliminare e il sistema la elimina. |
+| **Variants**         | Nessuna variante significativa.                                 |
+| **Exceptions**       | - Scenario UC8.2: Rete non trovata. <br> - Scenario UC8.3: Utente non autorizzato. <br> - Scenario UC8.4: Permessi insufficienti. <br> - Scenario UC8.5: Errore interno del server. |
 
-### Visualizza i gateway di una rete (uno o tutti), UC9
+#### Scenario UC8.1 - Eliminazione di una rete con successo
 
-| Actors Involved  |                                                                      |
-| :--------------: | :------------------------------------------------------------------: |
-|   Precondition   | \<Boolean expression, must evaluate to true before the UC can start> |
-|  Post condition  |  \<Boolean expression, must evaluate to true after UC is finished>   |
-| Nominal Scenario |         \<Textual description of actions executed by the UC>         |
-|     Variants     |                      \<other normal executions>                      |
-|    Exceptions    |                        \<exceptions, errors >                        |
+| **Scenario UC8.1**   | Eliminazione di una rete con successo.                         |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin o Operator.                              |
+| **Post condition**    | La rete specificata viene eliminata dal sistema.              |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di eliminazione di una rete. |
+| 2                    | L'utente specifica il codice della rete da eliminare.            |
+| 3                    | Il sistema verifica che la rete esiste nel database.           |
+| 4                    | Il sistema elimina la rete dal database.                       |
+| 5                    | Il sistema conferma l'eliminazione all'utente.            |
+
+#### Scenario UC8.2 - Eliminazione fallita per rete non trovata
+
+| **Scenario UC8.2**   | Eliminazione fallita per rete non trovata.                    |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin o Operator.                              |
+| **Post condition**    | Il sistema non elimina alcuna rete e notifica l'errore.       |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di eliminazione di una rete. |
+| 2                    | L'utente specifica il codice della rete da eliminare.            |
+| 3                    | Il sistema verifica che la rete non esiste nel database.       |
+| 4                    | Il sistema notifica l'errore all'utente.                  |
+
+#### Scenario UC8.3 - Eliminazione fallita per utente non autorizzato
+
+| **Scenario UC8.3**   | Eliminazione fallita per utente non autorizzato.                |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente non è autenticato.                                     |
+| **Post condition**    | Il sistema non elimina alcuna rete e notifica l'errore.       |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente tenta di accedere alla funzionalità di eliminazione di una rete. |
+| 2                    | Il sistema verifica che l'utente non è autenticato.             |
+| 3                    | Il sistema notifica l'errore all'utente.                  |
+
+#### Scenario UC8.4 - Eliminazione fallita per permessi insufficienti
+
+| **Scenario UC8.4**   | Eliminazione fallita per permessi insufficienti.                |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato ma non ha il ruolo di Admin o Operator.            |
+| **Post condition**    | Il sistema non elimina alcuna rete e notifica l'errore.       |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente tenta di accedere alla funzionalità di eliminazione di una rete. |
+| 2                    | Il sistema verifica che l'utente non ha i permessi necessari.   |
+| 3                    | Il sistema notifica l'errore all'utente.                  |
+
+#### Scenario UC8.5 - Eliminazione fallita per errore interno del server
+
+| **Scenario UC8.5**   | Eliminazione fallita per errore interno del server.             |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin o Operator.                              |
+| **Post condition**    | Il sistema non elimina alcuna rete e notifica l'errore.       |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di eliminazione di una rete. |
+| 2                    | L'utente specifica il codice della rete da eliminare.            |
+| 3                    | Si verifica un errore interno del server.                       |
+| 4                    | Il sistema notifica l'errore all'utente.                  |
+
+---
+
+### Visualizza gateway di una rete (uno o tutti), UC9
+
+| **Actors Involved**  | Admin, Operator, Viewer                                                            |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente deve essere autenticato.                    |
+| **Post condition**    | Il sistema restituisce i dati dei gateway richiesti.          |
+| **Nominal Scenario** | L'utente richiede di visualizzare tutti i gateway di una data rete e il sistema restituisce i dati richiesti. |
+| **Variants**         | - Scenario UC9.2: Gateway specifico richiesto. |
+| **Exceptions**       | - Scenario UC9.3: Rete/Gateway non trovato. <br> - Scenario UC9.4: Utente non autorizzato. <br> - Scenario UC9.5: Rete non trovata. <br> - Scenario UC9.6: Errore interno del server. |
+
+#### Scenario UC9.1 - Visualizzazione di tutti i gateway di una rete con successo
+
+| **Scenario UC9.1**   | Visualizzazione di tutti i gateway di una rete con successo.         |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato.                              |
+| **Post condition**    | Il sistema restituisce i dati dei gateway richiesti.          |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di visualizzazione dei gateway. |
+| 2                    | L'utente richiede di visualizzare tutti i gateway di una specifica rete.       |
+| 3                    | Il sistema recupera i dati dei gateway dal database.           |
+| 4                    | Il sistema restituisce i dati dei gateway all'utente.    |
+
+#### Scenario UC9.2 - Visualizzazione di un gateway con successo
+
+| **Scenario UC9.2**   | Visualizzazione di un gateway con successo.         |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato.                              |
+| **Post condition**    | Il sistema restituisce i dati del gateway richiesto.          |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di visualizzazione dei gateway. |
+| 2                    | L'utente richiede di visualizzare un gateway tramite codice rete e MAC del gateway.       |
+| 3                    | Il sistema recupera i dati del gateway richiesto dal database.           |
+| 4                    | Il sistema restituisce i dati del gateway richiesto all'utente.    |
+
+#### Scenario UC9.3 - Visualizzazione fallita per rete/gateway non trovato 
+
+| **Scenario UC9.3**   | Visualizzazione fallita per rete/gateway non trovato.         |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato.                              |
+| **Post condition**    | Il sistema non restituisce alcun dato e notifica l'errore.          |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di visualizzazione dei gateway. |
+| 2                    | L'utente richiede di visualizzare un gateway tramite codice rete e MAC del gateway.       |
+| 3                    | Il sistema verifica che la rete o il gateway non esiste nel database.           |
+| 4                    | Il sistema notifica l'errore all'utente.    |
+
+
+#### Scenario UC9.4 - Visualizzazione fallita per utente non autorizzato
+
+| **Scenario UC9.4**   | Visualizzazione fallita per utente non autorizzato.             |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente non è autenticato.          |
+| **Post condition**    | Il sistema non restituisce alcun dato e notifica l'errore.     |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente tenta di accedere alla funzionalità di visualizzazione dei gateway. |
+| 2                    | Il sistema verifica che l'utente non è autenticato.             |
+| 3                    | Il sistema notifica l'errore all'utente.                  |
+
+#### Scenario UC9.5 - Visualizzazione fallita per errore interno del server
+
+| **Scenario UC9.5**   | Visualizzazione fallita per errore interno del server.          |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato.                              |
+| **Post condition**    | Il sistema non restituisce alcun dato e notifica l'errore.     |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di visualizzazione dei gateway. |
+| 2                    | L'utente richiede di visualizzare uno o tutti i gateway tramite codice rete.       |
+| 3                    | Si verifica un errore interno del server.                       |
+| 4                    | Il sistema notifica l'errore all'utente.                  |
+
+---
 
 ### Crea un nuovo gateway per una rete, UC10
 
-| Actors Involved  |                                                                      |
-| :--------------: | :------------------------------------------------------------------: |
-|   Precondition   | \<Boolean expression, must evaluate to true before the UC can start> |
-|  Post condition  |  \<Boolean expression, must evaluate to true after UC is finished>   |
-| Nominal Scenario |         \<Textual description of actions executed by the UC>         |
-|     Variants     |                      \<other normal executions>                      |
-|    Exceptions    |                        \<exceptions, errors >                        |
+| **Actors Involved**  | Admin, Operator                                                  |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente deve essere autenticato e avere il ruolo di Admin o Operator. |
+| **Post condition**    | Un nuovo gateway viene creato con successo e associato alla rete specificata. |
+| **Nominal Scenario** | L'utente fornisce i dati richiesti e il sistema crea un nuovo gateway per la rete specificata. |
+| **Variants**         | - Scenario UC10.2: Dati superflui allegati |
+| **Exceptions**       | - Scenario UC10.3: Dati mancanti o non validi. <br> - Scenario UC10.4: Utente non autorizzato. <br> - Scenario UC10.5: Permessi insufficienti. <br> - Scenario UC10.6: Rete non trovata. <br> - Scenario UC10.7: Indirizzo MAC già in uso. <br> - Scenario UC10.8: Errore interno del server. |
+
+#### Scenario UC10.1 - Creazione di un nuovo gateway con successo
+
+| **Scenario UC10.1**   | Creazione di un nuovo gateway con successo.                    |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin o Operator.                   |
+| **Post condition**    | Il gateway viene creato con successo e associato alla rete specificata. |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di creazione di un nuovo gateway. |
+| 2                    | L'utente fornisce i dati richiesti: indirizzo MAC, nome, descrizione. |
+| 3                    | Il sistema verifica che i dati siano validi e che l'indirizzo MAC non sia già in uso. |
+| 4                    | Il sistema salva il nuovo gateway nel database e lo associa alla rete specificata. |
+| 5                    | Il sistema conferma la creazione del gateway all'utente.  |
+
+#### Scenario UC10.2 - Creazione di un gateway con dati superflui allegati
+
+| **Scenario UC10.2**   | Creazione di un gateway ignorando oggetti annidati.            |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin o Operator.                   |
+| **Post condition**    | Il gateway viene creato con successo; i dati superflui sono stati ignorati. |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di creazione di un nuovo gateway. |
+| 2                    | L'utente fornisce i dati richiesti, inclusi eventuali dati superflui. |
+| 3                    | Il sistema verifica che i dati del gateway siano validi.        |
+| 4                    | Il sistema ignora i dati superflui e salva solo i dati del gateway nel database. |
+| 5                    | Il sistema conferma la creazione del gateway all'utente.        |
+
+#### Scenario UC10.3 - Creazione fallita per dati mancanti o non validi
+
+| **Scenario UC10.3**   | Creazione fallita per dati mancanti o non validi.              |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin o Operator.                   |
+| **Post condition**    | Il gateway non viene creato e il sistema notifica l'errore.    |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di creazione di un nuovo gateway. |
+| 2                    | L'utente fornisce dati incompleti o non validi.                 |
+| 3                    | Il sistema valida i dati forniti dall'utente.                   |
+| 4                    | Il sistema rileva che i dati sono incompleti o non validi.      |
+| 5                    | Il sistema notifica l'errore all'utente.                  |
+
+#### Scenario UC10.4 - Creazione fallita per utente non autorizzato
+
+| **Scenario UC10.4**   | Creazione fallita per utente non autorizzato.                  |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente non è autenticato.                                     |
+| **Post condition**    | Il gateway non viene creato e il sistema notifica l'errore.    |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente tenta di accedere alla funzionalità di creazione di un nuovo gateway. |
+| 2                    | Il sistema verifica che l'utente non è autenticato.             |
+| 3                    | Il sistema notifica l'errore all'utente.                  |
+
+#### Scenario UC10.5 - Creazione fallita per permessi insufficienti
+
+| **Scenario UC10.5**   | Creazione fallita per permessi insufficienti.                  |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato ma non ha il ruolo richiesto.            |
+| **Post condition**    | Il gateway non viene creato e il sistema notifica l'errore.    |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente tenta di accedere alla funzionalità di creazione di un nuovo gateway. |
+| 2                    | Il sistema verifica che l'utente non ha i permessi necessari.   |
+| 3                    | Il sistema notifica l'errore all'utente.                  |
+
+#### Scenario UC10.6 - Creazione fallita per rete non trovata
+
+| **Scenario UC10.6**   | Creazione fallita per rete non trovata.                        |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin o Operator.                   |
+| **Post condition**    | Il gateway non viene creato e il sistema notifica l'errore.    |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di creazione di un nuovo gateway. |
+| 2                    | L'utente fornisce il codice della rete a cui associare il gateway. |
+| 3                    | Il sistema verifica che la rete non esiste nel database.        |
+| 4                    | Il sistema notifica l'errore all'utente.                  |
+
+#### Scenario UC10.7 - Creazione fallita per indirizzo MAC già in uso
+
+| **Scenario UC10.7**   | Creazione fallita per indirizzo MAC già in uso.                |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin o Operator.                   |
+| **Post condition**    | Il gateway non viene creato e il sistema notifica l'errore.    |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di creazione di un nuovo gateway. |
+| 2                    | L'utente fornisce i dati richiesti: indirizzo MAC, nome, descrizione. |
+| 3                    | Il sistema verifica che l'indirizzo MAC è già in uso.           |
+| 4                    | Il sistema notifica l'errore all'utente.                  |
+
+#### Scenario UC10.8 - Creazione fallita per errore interno del server
+
+| **Scenario UC10.8**   | Creazione fallita per errore interno del server.               |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin o Operator.                   |
+| **Post condition**    | Il gateway non viene creato e il sistema notifica l'errore.    |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di creazione di un nuovo gateway. |
+| 2                    | L'utente fornisce i dati richiesti: indirizzo MAC, nome, descrizione. |
+| 3                    | Si verifica un errore interno del server.                       |
+| 4                    | Il sistema notifica l'errore all'utente.                  |
+
+---
 
 ### Aggiorna un gateway, UC11
 
-| Actors Involved  |                                                                      |
-| :--------------: | :------------------------------------------------------------------: |
-|   Precondition   | \<Boolean expression, must evaluate to true before the UC can start> |
-|  Post condition  |  \<Boolean expression, must evaluate to true after UC is finished>   |
-| Nominal Scenario |         \<Textual description of actions executed by the UC>         |
-|     Variants     |                      \<other normal executions>                      |
-|    Exceptions    |                        \<exceptions, errors >                        |
+| **Actors Involved**  | Admin, Operator                                                  |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente deve essere autenticato e avere il ruolo di Admin o Operator. |
+| **Post condition**    | Il gateway specificato viene aggiornato con i nuovi dati forniti. |
+| **Nominal Scenario** | L'utente fornisce i dati aggiornati per un gateway esistente e il sistema li salva. |
+| **Variants**         | - Scenario UC11.2: Dati superflui allegati |
+| **Exceptions**       | - Scenario UC11.3: Dati mancanti o non validi. <br> - Scenario UC11.4: Utente non autorizzato. <br> - Scenario UC11.5: Permessi insufficienti. <br> - Scenario UC11.6: Gateway non trovato. <br> - Scenario UC11.7: Indirizzo MAC già in uso. <br> - Scenario UC11.8: Errore interno del server. |
+
+#### Scenario UC11.1 - Aggiornamento di un gateway con successo
+
+| **Scenario UC11.1**   | Aggiornamento di un gateway con successo.                      |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin o Operator.                   |
+| **Post condition**    | Il gateway viene aggiornato con i nuovi dati forniti.          |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di aggiornamento di un gateway. |
+| 2                    | L'utente fornisce i dati aggiornati: indirizzo MAC, nome, descrizione. |
+| 3                    | Il sistema verifica che i dati siano validi e che l'indirizzo MAC non sia già in uso. |
+| 4                    | Il sistema salva i nuovi dati del gateway nel database.         |
+| 5                    | Il sistema conferma l'aggiornamento del gateway all'utente.|
+
+
+#### Scenario UC11.2 - Aggiornamento di un gateway con dati superflui allegati
+
+| **Scenario UC11.2**   | Aggiornamento di un gateway ignorando oggetti annidati.         |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin o Operator.                   |
+| **Post condition**    | Il gateway viene aggiornato con successo; i dati superflui sono stati ignorati. |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di aggiornamento di un gateway. |
+| 2                    | L'utente fornisce i dati aggiornati, inclusi eventuali dati superflui. |
+| 3                    | Il sistema verifica che i dati del gateway siano validi.        |
+| 4                    | Il sistema ignora i dati superflui e aggiorna solo i dati del gateway nel database, incluso l'indirizzo MAC. |
+| 5                    | Il sistema conferma l'aggiornamento del gateway all'utente.     |
+
+#### Scenario UC11.3 - Aggiornamento fallito per dati mancanti o non validi
+
+| **Scenario UC11.3**   | Aggiornamento fallito per dati mancanti o non validi.           |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin o Operator.                   |
+| **Post condition**    | Il gateway non viene aggiornato e il sistema notifica l'errore. |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di aggiornamento di un gateway. |
+| 2                    | L'utente fornisce dati incompleti o non validi.                 |
+| 3                    | Il sistema valida i dati forniti dall'utente.                   |
+| 4                    | Il sistema rileva che i dati sono incompleti o non validi.      |
+| 5                    | Il sistema notifica l'errore all'utente.                  |
+
+#### Scenario UC11.4 - Aggiornamento fallito per utente non autorizzato
+
+| **Scenario UC11.4**   | Aggiornamento fallito per utente non autorizzato.               |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente non è autenticato.                                     |
+| **Post condition**    | Il gateway non viene aggiornato e il sistema notifica l'errore. |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente tenta di accedere alla funzionalità di aggiornamento di un gateway. |
+| 2                    | Il sistema verifica che l'utente non è autenticato.             |
+| 3                    | Il sistema notifica l'errore all'utente.                  |
+
+#### Scenario UC11.5 - Aggiornamento fallito per permessi insufficienti
+
+| **Scenario UC11.5**   | Aggiornamento fallito per permessi insufficienti.               |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato ma non ha il ruolo richiesto.            |
+| **Post condition**    | Il gateway non viene aggiornato e il sistema notifica l'errore. |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente tenta di accedere alla funzionalità di aggiornamento di un gateway. |
+| 2                    | Il sistema verifica che l'utente non ha i permessi necessari.   |
+| 3                    | Il sistema notifica l'errore all'utente.                  |
+
+#### Scenario UC11.6 - Aggiornamento fallito per gateway non trovato
+
+| **Scenario UC11.6**   | Aggiornamento fallito per gateway non trovato.                  |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin o Operator.                   |
+| **Post condition**    | Il gateway non viene aggiornato e il sistema notifica l'errore. |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di aggiornamento di un gateway. |
+| 2                    | L'utente fornisce l'indirizzo MAC del gateway da aggiornare.    |
+| 3                    | Il sistema verifica che il gateway non esiste nel database.     |
+| 4                    | Il sistema notifica l'errore all'utente.                  |
+
+#### Scenario UC11.7 - Aggiornamento fallito per indirizzo MAC già in uso
+
+| **Scenario UC11.7**   | Aggiornamento fallito per indirizzo MAC già in uso.             |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin o Operator.                   |
+| **Post condition**    | Il gateway non viene aggiornato e il sistema notifica l'errore. |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di aggiornamento di un gateway. |
+| 2                    | L'utente fornisce i dati aggiornati: indirizzo MAC, nome, descrizione. |
+| 3                    | Il sistema verifica che l'indirizzo MAC è già in uso.           |
+| 4                    | Il sistema notifica l'errore all'utente.                  |
+
+#### Scenario UC11.8 - Aggiornamento fallito per errore interno del server
+
+| **Scenario UC11.8**   | Aggiornamento fallito per errore interno del server.            |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin o Operator.                   |
+| **Post condition**    | Il gateway non viene aggiornato e il sistema notifica l'errore. |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di aggiornamento di un gateway. |
+| 2                    | L'utente fornisce i dati aggiornati: indirizzo MAC, nome, descrizione. |
+| 3                    | Si verifica un errore interno del server.                       |
+| 4                    | Il sistema notifica l'errore all'utente.                  |
+
+---
 
 ### Elimina un gateway, UC12
 
-| Actors Involved  |                                                                      |
-| :--------------: | :------------------------------------------------------------------: |
-|   Precondition   | \<Boolean expression, must evaluate to true before the UC can start> |
-|  Post condition  |  \<Boolean expression, must evaluate to true after UC is finished>   |
-| Nominal Scenario |         \<Textual description of actions executed by the UC>         |
-|     Variants     |                      \<other normal executions>                      |
-|    Exceptions    |                        \<exceptions, errors >                        |
+| **Actors Involved**  | Admin, Operator                                                  |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente deve essere autenticato e avere il ruolo di Admin o Operator. |
+| **Post condition**    | Il gateway specificato viene eliminato dal sistema.            |
+| **Nominal Scenario** | L'utente fornisce l'indirizzo MAC del gateway da eliminare e il sistema lo elimina. |
+| **Variants**         | Nessuna variante significativa.                                 |
+| **Exceptions**       | - Scenario UC12.2: Utente non autorizzato. <br> - Scenario UC12.3: Permessi insufficienti. <br> - Scenario UC12.4: Gateway non trovato. <br> - Scenario UC12.5: Errore interno del server. |
 
-...
+#### Scenario UC12.1 - Eliminazione di un gateway con successo
 
+| **Scenario UC12.1**   | Eliminazione di un gateway con successo.                       |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin o Operator.                   |
+| **Post condition**    | Il gateway specificato viene eliminato dal sistema.            |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di eliminazione di un gateway. |
+| 2                    | L'utente specifica l'indirizzo MAC del gateway da eliminare.    |
+| 3                    | Il sistema verifica che il gateway esiste nel database.         |
+| 4                    | Il sistema elimina il gateway dal database.                    |
+| 5                    | Il sistema conferma l'eliminazione del gateway all'utente.|
+
+#### Scenario UC12.2 - Eliminazione fallita per utente non autorizzato
+
+| **Scenario UC12.2**   | Eliminazione fallita per utente non autorizzato.               |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente non è autenticato.                                     |
+| **Post condition**    | Il gateway non viene eliminato e il sistema notifica l'errore. |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente tenta di accedere alla funzionalità di eliminazione di un gateway. |
+| 2                    | Il sistema verifica che l'utente non è autenticato.             |
+| 3                    | Il sistema notifica l'errore all'utente.                  |
+
+#### Scenario UC12.3 - Eliminazione fallita per permessi insufficienti
+
+| **Scenario UC12.3**   | Eliminazione fallita per permessi insufficienti.               |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato ma non ha il ruolo richiesto.            |
+| **Post condition**    | Il gateway non viene eliminato e il sistema notifica l'errore. |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente tenta di accedere alla funzionalità di eliminazione di un gateway. |
+| 2                    | Il sistema verifica che l'utente non ha i permessi necessari.   |
+| 3                    | Il sistema notifica l'errore all'utente.                  |
+
+#### Scenario UC12.4 - Eliminazione fallita per gateway non trovato
+
+| **Scenario UC12.4**   | Eliminazione fallita per gateway non trovato.                  |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin o Operator.                   |
+| **Post condition**    | Il gateway non viene eliminato e il sistema notifica l'errore. |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di eliminazione di un gateway. |
+| 2                    | L'utente specifica l'indirizzo MAC del gateway da eliminare.    |
+| 3                    | Il sistema verifica che il gateway non esiste nel database.     |
+| 4                    | Il sistema notifica l'errore all'utente.                  |
+
+#### Scenario UC12.5 - Eliminazione fallita per errore interno del server
+
+| **Scenario UC12.5**   | Eliminazione fallita per errore interno del server.            |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin o Operator.                   |
+| **Post condition**    | Il gateway non viene eliminato e il sistema notifica l'errore. |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di eliminazione di un gateway. |
+| 2                    | L'utente specifica l'indirizzo MAC del gateway da eliminare.    |
+| 3                    | Si verifica un errore interno del server.                       |
+| 4                    | Il sistema notifica l'errore all'utente.                  |
+
+---
 
 ### Visualizza i sensori di un gateway (uno o tutti), UC13
 
-| Actors Involved  |                                                                      |
-| :--------------: | :------------------------------------------------------------------: |
-|   Precondition   | \<Boolean expression, must evaluate to true before the UC can start> |
-|  Post condition  |  \<Boolean expression, must evaluate to true after UC is finished>   |
-| Nominal Scenario |         \<Textual description of actions executed by the UC>         |
-|     Variants     |                      \<other normal executions>                      |
-|    Exceptions    |                        \<exceptions, errors >                        |
+| **Actors Involved**  | Admin, Operator, Viewer                                          |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente deve essere autenticato.                               |
+| **Post condition**    | Il sistema restituisce i sensori richiesti.                      |
+| **Nominal Scenario** | L'utente richiede di visualizzare uno o tutti i sensori di un gateway e il sistema restituisce i dati richiesti. |
+| **Variants**         | -Scenario UC13.2: Sensore specifico richiesto. |
+| **Exceptions**       | - Scenario UC13.3: Utente non autorizzato. <br> - Scenario UC13.4: Rete/Gateway/Sensore non trovato. <br> - Scenario UC13.5: Errore interno del server. |
+
+#### Scenario UC13.1 - Visualizzazione di tutti i sensori con successo
+
+| **Scenario UC13.1**   | Visualizzazione di uno o tutti i sensori con successo.         |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin, Operator o Viewer.           |
+| **Post condition**    | Il sistema restituisce i sensori richiesti.                    |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di visualizzazione dei sensori. |
+| 2                    | L'utente richiede di visualizzare tutti i sensori di un gateway. |
+| 3                    | Il sistema recupera i dati dei sensori richiesti dal database.  |
+| 4                    | Il sistema restituisce i dati dei sensori all'utente.     |
+
+#### Scenario UC13.2 - Visualizzazione di un sensore con successo
+
+| **Scenario UC13.2**   | Visualizzazione di un sensore con successo.         |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin, Operator o Viewer.           |
+| **Post condition**    | Il sistema restituisce il sensore richiesto.                    |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di visualizzazione dei sensori. |
+| 2                    | L'utente richiede di visualizzare un sensore specifico di un gateway. |
+| 3                    | Il sistema recupera i dati del sensore richiesto dal database.  |
+| 4                    | Il sistema restituisce i dati del sensore all'utente.     |
+
+#### Scenario UC13.3 - Visualizzazione fallita per utente non autorizzato
+
+| **Scenario UC13.3**   | Visualizzazione fallita per utente non autorizzato.            |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente non è autenticato.                                     |
+| **Post condition**    | Il sistema non restituisce alcun sensore e notifica l'errore.  |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente tenta di accedere alla funzionalità di visualizzazione dei sensori. |
+| 2                    | Il sistema verifica che l'utente non è autenticato.             |
+| 3                    | Il sistema notifica l'errore all'utente.                  |
+
+#### Scenario UC13.4 - Visualizzazione fallita per gateway non trovato
+
+| **Scenario UC13.4**   | Visualizzazione fallita per rete/gateway/sensore non trovato.               |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin, Operator o Viewer.           |
+| **Post condition**    | Il sistema non restituisce alcun sensore e notifica l'errore.  |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di visualizzazione dei sensori. |
+| 2                    | L'utente richiede di visualizzare un sensore specifico o tutti i sensori di un gateway. |
+| 3                    | Il sistema verifica che la rete/gateway/sensore non esiste nel database.     |
+| 4                    | Il sistema notifica l'errore all'utente.                  |
+
+#### Scenario UC13.5 - Visualizzazione fallita per errore interno del server
+
+| **Scenario UC13.5**   | Visualizzazione fallita per errore interno del server.         |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin, Operator o Viewer.           |
+| **Post condition**    | Il sistema non restituisce alcun sensore e notifica l'errore.  |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di visualizzazione dei sensori. |
+| 2                    | L'utente richiede di visualizzare un sensore specifico o tutti i sensori di un gateway. |
+| 3                    | Si verifica un errore interno del server durante il recupero dei dati. |
+| 4                    | Il sistema notifica l'errore all'utente.                  |
+
+---
 
 ### Crea un nuovo sensore per un gateway, UC14
 
-| Actors Involved  |                                                                      |
-| :--------------: | :------------------------------------------------------------------: |
-|   Precondition   | \<Boolean expression, must evaluate to true before the UC can start> |
-|  Post condition  |  \<Boolean expression, must evaluate to true after UC is finished>   |
-| Nominal Scenario |         \<Textual description of actions executed by the UC>         |
-|     Variants     |                      \<other normal executions>                      |
-|    Exceptions    |                        \<exceptions, errors >                        |
+| **Actors Involved**  | Admin, Operator                                                  |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente deve essere autenticato e avere il ruolo di Admin o Operator. |
+| **Post condition**    | Un nuovo sensore viene creato con successo e associato al gateway specificato. |
+| **Nominal Scenario** | L'utente fornisce i dati richiesti e il sistema crea un nuovo sensore per il gateway specificato. |
+| **Variants**         | Nessuna variante significativa.                                 |
+| **Exceptions**       | - Scenario UC14.2: Dati mancanti o non validi. <br> - Scenario UC14.3: Utente non autorizzato. <br> - Scenario UC14.4: Permessi insufficienti. <br> - Scenario UC14.5: Gateway non trovato. <br> - Scenario UC14.6: Indirizzo MAC già in uso. <br> - Scenario UC14.7: Errore interno del server. |
+
+#### Scenario UC14.1 - Creazione di un nuovo sensore con successo
+
+| **Scenario UC14.1**   | Creazione di un nuovo sensore con successo.                    |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin o Operator.                   |
+| **Post condition**    | Il sensore viene creato con successo e associato al gateway specificato. |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di creazione di un nuovo sensore. |
+| 2                    | L'utente fornisce i dati richiesti: indirizzo MAC, nome, descrizione, variabile, unità. |
+| 3                    | Il sistema verifica che i dati siano validi e che l'indirizzo MAC non sia già in uso. |
+| 4                    | Il sistema salva il nuovo sensore nel database e lo associa al gateway specificato. |
+| 5                    | Il sistema conferma la creazione del sensore all'utente.  |
+
+#### Scenario UC14.2 - Creazione fallita per dati mancanti o non validi
+
+| **Scenario UC14.2**   | Creazione fallita per dati mancanti o non validi.              |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin o Operator.                   |
+| **Post condition**    | Il sensore non viene creato e il sistema notifica l'errore.    |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di creazione di un nuovo sensore. |
+| 2                    | L'utente fornisce dati incompleti o non validi.                 |
+| 3                    | Il sistema valida i dati forniti dall'utente.                   |
+| 4                    | Il sistema rileva che i dati sono incompleti o non validi.      |
+| 5                    | Il sistema notifica l'errore all'utente.                  |
+
+#### Scenario UC14.3 - Creazione fallita per utente non autorizzato
+
+| **Scenario UC14.3**   | Creazione fallita per utente non autorizzato.                  |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente non è autenticato.                                     |
+| **Post condition**    | Il sensore non viene creato e il sistema notifica l'errore.    |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente tenta di accedere alla funzionalità di creazione di un nuovo sensore. |
+| 2                    | Il sistema verifica che l'utente non è autenticato.             |
+| 3                    | Il sistema notifica l'errore all'utente.                  |
+
+#### Scenario UC14.4 - Creazione fallita per permessi insufficienti
+
+| **Scenario UC14.4**   | Creazione fallita per permessi insufficienti.                  |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato ma non ha il ruolo richiesto.            |
+| **Post condition**    | Il sensore non viene creato e il sistema notifica l'errore.    |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente tenta di accedere alla funzionalità di creazione di un nuovo sensore. |
+| 2                    | Il sistema verifica che l'utente non ha i permessi necessari.   |
+| 3                    | Il sistema notifica l'errore all'utente.                  |
+
+#### Scenario UC14.5 - Creazione fallita per gateway non trovato
+
+| **Scenario UC14.5**   | Creazione fallita per gateway non trovato.                     |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin o Operator.                   |
+| **Post condition**    | Il sensore non viene creato e il sistema notifica l'errore.    |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di creazione di un nuovo sensore. |
+| 2                    | L'utente fornisce il codice del gateway a cui associare il sensore. |
+| 3                    | Il sistema verifica che il gateway non esiste nel database.     |
+| 4                    | Il sistema notifica l'errore all'utente.                  |
+
+#### Scenario UC14.6 - Creazione fallita per indirizzo MAC già in uso
+
+| **Scenario UC14.6**   | Creazione fallita per indirizzo MAC già in uso.                |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin o Operator.                   |
+| **Post condition**    | Il sensore non viene creato e il sistema notifica l'errore.    |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di creazione di un nuovo sensore. |
+| 2                    | L'utente fornisce i dati richiesti: indirizzo MAC, nome, descrizione, variabile, unità. |
+| 3                    | Il sistema verifica che l'indirizzo MAC è già in uso.           |
+| 4                    | Il sistema notifica l'errore all'utente.                  |
+
+#### Scenario UC14.7 - Creazione fallita per errore interno del server
+
+| **Scenario UC14.7**   | Creazione fallita per errore interno del server.               |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin o Operator.                   |
+| **Post condition**    | Il sensore non viene creato e il sistema notifica l'errore.    |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di creazione di un nuovo sensore. |
+| 2                    | L'utente fornisce i dati richiesti: indirizzo MAC, nome, descrizione, variabile, unità. |
+| 3                    | Si verifica un errore interno del server.                       |
+| 4                    | Il sistema notifica l'errore all'utente.                  |
+
+---
 
 ### Aggiorna un sensore, UC15
 
-| Actors Involved  |                                                                      |
-| :--------------: | :------------------------------------------------------------------: |
-|   Precondition   | \<Boolean expression, must evaluate to true before the UC can start> |
-|  Post condition  |  \<Boolean expression, must evaluate to true after UC is finished>   |
-| Nominal Scenario |         \<Textual description of actions executed by the UC>         |
-|     Variants     |                      \<other normal executions>                      |
-|    Exceptions    |                        \<exceptions, errors >                        |
+| **Actors Involved**  | Admin, Operator                                                  |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente deve essere autenticato e avere il ruolo di Admin o Operator. |
+| **Post condition**    | Il sensore specificato viene aggiornato con i nuovi dati forniti. |
+| **Nominal Scenario** | L'utente fornisce i dati aggiornati per un sensore esistente e il sistema li salva. |
+| **Variants**         | Nessuna variante significativa.                                 |
+| **Exceptions**       | - Scenario UC15.2: Dati mancanti o non validi. <br> - Scenario UC15.3: Utente non autorizzato. <br> - Scenario UC15.4: Permessi insufficienti. <br> - Scenario UC15.5: Sensore non trovato. <br> - Scenario UC15.6: Indirizzo MAC già in uso. <br> - Scenario UC15.7: Errore interno del server. |
+
+#### Scenario UC15.1 - Aggiornamento di un sensore con successo
+
+| **Scenario UC15.1**   | Aggiornamento di un sensore con successo.                      |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin o Operator.                   |
+| **Post condition**    | Il sensore viene aggiornato con i nuovi dati forniti.          |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di aggiornamento di un sensore. |
+| 2                    | L'utente fornisce i dati aggiornati: indirizzo MAC, nome, descrizione, variabile, unità. |
+| 3                    | Il sistema verifica che i dati siano validi e che l'indirizzo MAC non sia già in uso. |
+| 4                    | Il sistema salva i nuovi dati del sensore nel database.         |
+| 5                    | Il sistema conferma l'aggiornamento del sensore all'utente.|
+
+#### Scenario UC15.2 - Aggiornamento fallito per dati mancanti o non validi
+
+| **Scenario UC15.2**   | Aggiornamento fallito per dati mancanti o non validi.           |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin o Operator.                   |
+| **Post condition**    | Il sensore non viene aggiornato e il sistema notifica l'errore. |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di aggiornamento di un sensore. |
+| 2                    | L'utente fornisce dati incompleti o non validi.                 |
+| 3                    | Il sistema valida i dati forniti dall'utente.                   |
+| 4                    | Il sistema rileva che i dati sono incompleti o non validi.      |
+| 5                    | Il sistema notifica l'errore all'utente.                  |
+
+#### Scenario UC15.3 - Aggiornamento fallito per utente non autorizzato
+
+| **Scenario UC15.3**   | Aggiornamento fallito per utente non autorizzato.               |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente non è autenticato.                                     |
+| **Post condition**    | Il sensore non viene aggiornato e il sistema notifica l'errore. |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente tenta di accedere alla funzionalità di aggiornamento di un sensore. |
+| 2                    | Il sistema verifica che l'utente non è autenticato.             |
+| 3                    | Il sistema notifica l'errore all'utente.                  |
+
+#### Scenario UC15.4 - Aggiornamento fallito per permessi insufficienti
+
+| **Scenario UC15.4**   | Aggiornamento fallito per permessi insufficienti.               |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato ma non ha il ruolo richiesto.            |
+| **Post condition**    | Il sensore non viene aggiornato e il sistema notifica l'errore. |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente tenta di accedere alla funzionalità di aggiornamento di un sensore. |
+| 2                    | Il sistema verifica che l'utente non ha i permessi necessari.   |
+| 3                    | Il sistema notifica l'errore all'utente.                  |
+
+#### Scenario UC15.5 - Aggiornamento fallito per sensore non trovato
+
+| **Scenario UC15.5**   | Aggiornamento fallito per sensore non trovato.                  |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin o Operator.                   |
+| **Post condition**    | Il sensore non viene aggiornato e il sistema notifica l'errore. |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di aggiornamento di un sensore. |
+| 2                    | L'utente fornisce l'indirizzo MAC del sensore da aggiornare.    |
+| 3                    | Il sistema verifica che il sensore non esiste nel database.     |
+| 4                    | Il sistema notifica l'errore all'utente.                  |
+
+#### Scenario UC15.6 - Aggiornamento fallito per indirizzo MAC già in uso
+
+| **Scenario UC15.6**   | Aggiornamento fallito per indirizzo MAC già in uso.             |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin o Operator.                   |
+| **Post condition**    | Il sensore non viene aggiornato e il sistema notifica l'errore. |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di aggiornamento di un sensore. |
+| 2                    | L'utente fornisce i dati aggiornati: indirizzo MAC, nome, descrizione, variabile, unità. |
+| 3                    | Il sistema verifica che l'indirizzo MAC è già in uso.           |
+| 4                    | Il sistema notifica l'errore all'utente.                  |
+
+#### Scenario UC15.7 - Aggiornamento fallito per errore interno del server
+
+| **Scenario UC15.7**   | Aggiornamento fallito per errore interno del server.            |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin o Operator.                   |
+| **Post condition**    | Il sensore non viene aggiornato e il sistema notifica l'errore. |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di aggiornamento di un sensore. |
+| 2                    | L'utente fornisce i dati aggiornati: indirizzo MAC, nome, descrizione, variabile, unità. |
+| 3                    | Si verifica un errore interno del server.                       |
+| 4                    | Il sistema notifica l'errore all'utente.                  |
+
+---
 
 ### Elimina un sensore, UC16
 
-| Actors Involved  |                                                                      |
-| :--------------: | :------------------------------------------------------------------: |
-|   Precondition   | \<Boolean expression, must evaluate to true before the UC can start> |
-|  Post condition  |  \<Boolean expression, must evaluate to true after UC is finished>   |
-| Nominal Scenario |         \<Textual description of actions executed by the UC>         |
-|     Variants     |                      \<other normal executions>                      |
-|    Exceptions    |                        \<exceptions, errors >                        |
+| **Actors Involved**  | Admin, Operator                                                  |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente deve essere autenticato e avere il ruolo di Admin o Operator. |
+| **Post condition**    | Il sensore specificato viene eliminato dal sistema.            |
+| **Nominal Scenario** | L'utente fornisce l'indirizzo MAC del sensore da eliminare e il sistema lo elimina. |
+| **Variants**         | Nessuna variante significativa.                                 |
+| **Exceptions**       | - Scenario UC16.2: Utente non autorizzato. <br> - Scenario UC16.3: Permessi insufficienti. <br> - Scenario UC16.4: Sensore non trovato. <br> - Scenario UC16.5: Errore interno del server. |
+
+#### Scenario UC16.1 - Eliminazione di un sensore con successo
+
+| **Scenario UC16.1**   | Eliminazione di un sensore con successo.                       |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin o Operator.                   |
+| **Post condition**    | Il sensore specificato viene eliminato dal sistema.            |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di eliminazione di un sensore. |
+| 2                    | L'utente specifica l'indirizzo MAC del sensore da eliminare.    |
+| 3                    | Il sistema verifica che il sensore esiste nel database.         |
+| 4                    | Il sistema elimina il sensore dal database.                    |
+| 5                    | Il sistema conferma l'eliminazione del sensore all'utente.|
+
+#### Scenario UC16.2 - Eliminazione fallita per utente non autorizzato
+
+| **Scenario UC16.2**   | Eliminazione fallita per utente non autorizzato.               |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente non è autenticato.                                     |
+| **Post condition**    | Il sensore non viene eliminato e il sistema notifica l'errore. |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente tenta di accedere alla funzionalità di eliminazione di un sensore. |
+| 2                    | Il sistema verifica che l'utente non è autenticato.             |
+| 3                    | Il sistema notifica l'errore all'utente.                  |
+
+#### Scenario UC16.3 - Eliminazione fallita per permessi insufficienti
+
+| **Scenario UC16.3**   | Eliminazione fallita per permessi insufficienti.               |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato ma non ha il ruolo richiesto.            |
+| **Post condition**    | Il sensore non viene eliminato e il sistema notifica l'errore. |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente tenta di accedere alla funzionalità di eliminazione di un sensore. |
+| 2                    | Il sistema verifica che l'utente non ha i permessi necessari.   |
+| 3                    | Il sistema notifica l'errore all'utente.                  |
+
+#### Scenario UC16.4 - Eliminazione fallita per sensore non trovato
+
+| **Scenario UC16.4**   | Eliminazione fallita per sensore non trovato.                  |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin o Operator.                   |
+| **Post condition**    | Il sensore non viene eliminato e il sistema notifica l'errore. |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di eliminazione di un sensore. |
+| 2                    | L'utente specifica l'indirizzo MAC del sensore da eliminare.    |
+| 3                    | Il sistema verifica che il sensore non esiste nel database.     |
+| 4                    | Il sistema notifica l'errore all'utente.                  |
+
+#### Scenario UC16.5 - Eliminazione fallita per errore interno del server
+
+| **Scenario UC16.5**   | Eliminazione fallita per errore interno del server.            |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin o Operator.                   |
+| **Post condition**    | Il sensore non viene eliminato e il sistema notifica l'errore. |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di eliminazione di un sensore. |
+| 2                    | L'utente specifica l'indirizzo MAC del sensore da eliminare.    |
+| 3                    | Si verifica un errore interno del server.                       |
+| 4                    | Il sistema notifica l'errore all'utente.                  |
+
+---
 
 ### Recupera le misurazioni per un insieme di sensori di una rete specifica, UC17
 
-| Actors Involved  |                                                                      |
-| :--------------: | :------------------------------------------------------------------: |
-|   Precondition   | \<Boolean expression, must evaluate to true before the UC can start> |
-|  Post condition  |  \<Boolean expression, must evaluate to true after UC is finished>   |
-| Nominal Scenario |         \<Textual description of actions executed by the UC>         |
-|     Variants     |                      \<other normal executions>                      |
-|    Exceptions    |                        \<exceptions, errors >                        |
+| **Actors Involved**  | Admin, Operator, Viewer                                          |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente deve essere autenticato.                               |
+| **Post condition**    | L'utente riceve le misurazioni richieste per i sensori specificati. |
+| **Nominal Scenario** | L'utente richiede le misurazioni per un insieme di sensori di una rete specifica e il sistema restituisce i dati richiesti. |
+| **Variants**         | Nessuna variante significativa.                                 |
+| **Exceptions**       | - Scenario UC17.2: Utente non autorizzato. <br> - Scenario UC17.3: Rete non trovata. <br> - Scenario UC17.4: Errore interno del server. |
+
+#### Scenario UC17.1 - Recupero delle misurazioni con successo
+
+| **Scenario UC17.1**   | Recupero delle misurazioni con successo.                       |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin, Operator o Viewer.           |
+| **Post condition**    | Il sistema restituisce le misurazioni richieste.               |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di recupero delle misurazioni. |
+| 2                    | L'utente specifica i sensori e l'intervallo temporale per cui richiede le misurazioni. |
+| 3                    | Il sistema recupera le misurazioni dal database.                |
+| 4                    | Il sistema restituisce le misurazioni all'utente.         |
+
+#### Scenario UC17.2 - Recupero fallito per utente non autorizzato
+
+| **Scenario UC17.2**   | Recupero fallito per utente non autorizzato.                   |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente non è autenticato.                                     |
+| **Post condition**    | Il sistema non restituisce alcuna misurazione e notifica l'errore. |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente tenta di accedere alla funzionalità di recupero delle misurazioni. |
+| 2                    | Il sistema verifica che l'utente non è autenticato.             |
+| 3                    | Il sistema notifica l'errore all'utente.                  |
+
+#### Scenario UC17.3 - Recupero fallito per rete non trovata
+
+| **Scenario UC17.3**   | Recupero fallito per rete non trovata.                         |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin, Operator o Viewer.           |
+| **Post condition**    | Il sistema non restituisce alcuna misurazione e notifica l'errore. |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di recupero delle misurazioni. |
+| 2                    | L'utente specifica i sensori e l'intervallo temporale per cui richiede le misurazioni. |
+| 3                    | Il sistema verifica che la rete specificata non esiste nel database. |
+| 4                    | Il sistema notifica l'errore all'utente.                  |
+
+#### Scenario UC17.4 - Recupero fallito per errore interno del server
+
+| **Scenario UC17.4**   | Recupero fallito per errore interno del server.                |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin, Operator o Viewer.           |
+| **Post condition**    | Il sistema non restituisce alcuna misurazione e notifica l'errore. |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di recupero delle misurazioni. |
+| 2                    | L'utente specifica i sensori e l'intervallo temporale per cui richiede le misurazioni. |
+| 3                    | Si verifica un errore interno del server durante il recupero dei dati. |
+| 4                    | Il sistema notifica l'errore all'utente.                  |
+
+---
 
 ### Recupera solo le statistiche per un insieme di sensori di una rete specifica, UC18
 
-| Actors Involved  |                                                                      |
-| :--------------: | :------------------------------------------------------------------: |
-|   Precondition   | \<Boolean expression, must evaluate to true before the UC can start> |
-|  Post condition  |  \<Boolean expression, must evaluate to true after UC is finished>   |
-| Nominal Scenario |         \<Textual description of actions executed by the UC>         |
-|     Variants     |                      \<other normal executions>                      |
-|    Exceptions    |                        \<exceptions, errors >                        |
+| **Actors Involved**  | Admin, Operator, Viewer                                          |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente deve essere autenticato.                               |
+| **Post condition**    | L'utente riceve le statistiche richieste per i sensori specificati. |
+| **Nominal Scenario** | L'utente richiede le statistiche per un insieme di sensori di una rete specifica e il sistema restituisce i dati richiesti. |
+| **Variants**         | Nessuna variante significativa.                                 |
+| **Exceptions**       | - Scenario UC18.2: Utente non autorizzato. <br> - Scenario UC18.3: Rete non trovata. <br> - Scenario UC18.4: Errore interno del server. |
+
+#### Scenario UC18.1 - Recupero delle statistiche con successo
+
+| **Scenario UC18.1**   | Recupero delle statistiche con successo.                       |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin, Operator o Viewer.           |
+| **Post condition**    | Il sistema restituisce le statistiche richieste.               |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di recupero delle statistiche. |
+| 2                    | L'utente specifica i sensori e l'intervallo temporale per cui richiede le statistiche. |
+| 3                    | Il sistema calcola le statistiche (media, varianza, soglie) per i sensori specificati. |
+| 4                    | Il sistema restituisce le statistiche all'utente.         |
+
+#### Scenario UC18.2 - Recupero fallito per utente non autorizzato
+
+| **Scenario UC18.2**   | Recupero fallito per utente non autorizzato.                   |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente non è autenticato.                                     |
+| **Post condition**    | Il sistema non restituisce alcuna statistica e notifica l'errore. |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente tenta di accedere alla funzionalità di recupero delle statistiche. |
+| 2                    | Il sistema verifica che l'utente non è autenticato.             |
+| 3                    | Il sistema notifica l'errore all'utente.                  |
+
+#### Scenario UC18.3 - Recupero fallito per rete non trovata
+
+| **Scenario UC18.3**   | Recupero fallito per rete non trovata.                         |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin, Operator o Viewer.           |
+| **Post condition**    | Il sistema non restituisce alcuna statistica e notifica l'errore. |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di recupero delle statistiche. |
+| 2                    | L'utente specifica i sensori e l'intervallo temporale per cui richiede le statistiche. |
+| 3                    | Il sistema verifica che la rete specificata non esiste nel database. |
+| 4                    | Il sistema notifica l'errore all'utente.                  |
+
+#### Scenario UC18.4 - Recupero fallito per errore interno del server
+
+| **Scenario UC18.4**   | Recupero fallito per errore interno del server.                |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin, Operator o Viewer.           |
+| **Post condition**    | Il sistema non restituisce alcuna statistica e notifica l'errore. |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di recupero delle statistiche. |
+| 2                    | L'utente specifica i sensori e l'intervallo temporale per cui richiede le statistiche. |
+| 3                    | Si verifica un errore interno del server durante il calcolo delle statistiche. |
+| 4                    | Il sistema notifica l'errore all'utente.                  |
+
+---
 
 ### Recupera solo le misurazioni anomale per un insieme di sensori di una rete specifica, UC19
 
-| Actors Involved  |                                                                      |
-| :--------------: | :------------------------------------------------------------------: |
-|   Precondition   | \<Boolean expression, must evaluate to true before the UC can start> |
-|  Post condition  |  \<Boolean expression, must evaluate to true after UC is finished>   |
-| Nominal Scenario |         \<Textual description of actions executed by the UC>         |
-|     Variants     |                      \<other normal executions>                      |
-|    Exceptions    |                        \<exceptions, errors >                        |
+| **Actors Involved**  | Admin, Operator, Viewer                                          |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente deve essere autenticato.                               |
+| **Post condition**    | L'utente riceve solo le misurazioni anomale per i sensori specificati. |
+| **Nominal Scenario** | L'utente richiede le misurazioni anomale per un insieme di sensori di una rete specifica e il sistema restituisce i dati richiesti. |
+| **Variants**         | Nessuna variante significativa.                                 |
+| **Exceptions**       | - Scenario UC19.2: Utente non autorizzato. <br> - Scenario UC19.3: Rete non trovata. <br> - Scenario UC19.4: Errore interno del server. |
+
+#### Scenario UC19.1 - Recupero delle misurazioni anomale con successo
+
+| **Scenario UC19.1**   | Recupero delle misurazioni anomale con successo.               |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin, Operator o Viewer.          |
+| **Post condition**    | Il sistema restituisce solo le misurazioni anomale richieste.  |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di recupero delle misurazioni anomale. |
+| 2                    | L'utente specifica la rete e l'intervallo temporale per cui richiede le misurazioni anomale. |
+| 3                    | Il sistema calcola le soglie per i sensori all'interno della rete specificata. |
+| 4                    | Il sistema filtra le misurazioni che superano le soglie calcolate. |
+| 5                    | Il sistema restituisce le misurazioni anomale all'utente. |
+
+#### Scenario UC19.2 - Recupero fallito per utente non autorizzato
+
+| **Scenario UC19.2**   | Recupero fallito per utente non autorizzato.                   |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente non ha effettuato correttamente l'autenticazione.                                     |
+| **Post condition**    | Il sistema non restituisce alcuna misurazione e notifica l'errore. |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente tenta di accedere alla funzionalità di recupero delle misurazioni anomale. |
+| 2                    | Il sistema verifica che l'utente non è autenticato.             |
+| 3                    | Il sistema notifica l'errore all'utente.                  |
+
+#### Scenario UC19.3 - Recupero fallito per rete non trovata
+
+| **Scenario UC19.3**   | Recupero fallito per rete non trovata.                         |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin, Operator o Viewer.           |
+| **Post condition**    | Il sistema non restituisce alcuna misurazione e notifica l'errore. |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di recupero delle misurazioni anomale. |
+| 2                    | L'utente specifica la rete e l'intervallo temporale per cui richiede le misurazioni anomale. |
+| 3                    | Il sistema verifica che la rete specificata non è presente in persistenza. |
+| 4                    | Il sistema notifica l'errore all'utente.                  |
+
+#### Scenario UC19.4 - Recupero fallito per errore interno del server
+
+| **Scenario UC19.4**   | Recupero fallito per errore interno del server.                |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin, Operator o Viewer.           |
+| **Post condition**    | Il sistema non restituisce alcuna misurazione e notifica l'errore. |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di recupero delle misurazioni anomale. |
+| 2                    | L'utente specifica la rete e l'intervallo temporale per cui richiede le misurazioni anomale. |
+| 3                    | Si verifica un errore interno del server durante il calcolo delle soglie o il filtraggio delle misurazioni. |
+| 4                    | Il sistema notifica l'errore all'utente.                  |
+
+---
 
 ### Memorizza le misurazioni di un sensore, UC20
 
-| Actors Involved  |                                                                      |
-| :--------------: | :------------------------------------------------------------------: |
-|   Precondition   | \<Boolean expression, must evaluate to true before the UC can start> |
-|  Post condition  |  \<Boolean expression, must evaluate to true after UC is finished>   |
-| Nominal Scenario |         \<Textual description of actions executed by the UC>         |
-|     Variants     |                      \<other normal executions>                      |
-|    Exceptions    |                        \<exceptions, errors >                        |
+| **Actors Involved**  | Admin, Operator                                                  |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente deve essere autenticato e avere il ruolo di Admin o Operator. |
+| **Post condition**    | Le misurazioni fornite vengono memorizzate nel sistema e associate al sensore specificato. |
+| **Nominal Scenario** | L'utente specifica il sensore (ed i relativi gateway e rete a cui appartiene) ed il sistema registra una misurazione per quel sensore. |
+| **Variants**         | La misurazione viene registrata autonomamente dal gateway.                                 |
+| **Exceptions**       | - Scenario UC20.2: Dati mancanti o non validi. <br> - Scenario UC20.3: Utente non autorizzato. <br> - Scenario UC20.4: Permessi insufficienti. <br> - Scenario UC20.5: Sensore non trovato. <br> - Scenario UC20.6: Errore interno del server. |
+
+#### Scenario UC20.1 - Memorizzazione manuale delle misurazioni con successo
+
+| **Scenario UC20.1**   | Memorizzazione manuale delle misurazioni con successo.                 |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin o Operator.                   |
+| **Post condition**    | Le misurazioni vengono memorizzate nel sistema.                |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di memorizzazione delle misurazioni. |
+| 2                    | L'utente fornisce l'identificativo del sensore e i relativi gateway e rete di cui vuole memorizzare la misurazione           |
+| 3                    | Il sistema verifica che i dati siano validi.                    |
+| 4                    | Il sistema si interfaccia col sensore specificato.       |
+| 5                    | Il sistema salva le misurazioni in persistenza con il relativo timestamp.                   |
+| 6                    | Il sistema conferma la memorizzazione delle misurazioni all'utente.|
+
+#### Scenario UC20.2 - Memorizzazione autonoma delle misurazioni con successo
+
+| **Scenario UC20.2**   | Memorizzazione autonoma delle misurazioni con successo.                 |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin o Operator.                   |
+| **Post condition**    | Le misurazioni vengono memorizzate nel sistema.                |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | Il gateway viene notificato dal timer di memorizzare le misurazioni dei sensori a lui collegati. |
+| 4                    | Il sistema si interfaccia con i sensori specificati.       |
+| 5                    | Il sistema salva le misurazioni in persistenza con il relativo timestamp.                   |
+
+#### Scenario UC20.3 - Memorizzazione fallita per dati mancanti o non validi
+
+| **Scenario UC20.3**   | Memorizzazione fallita per dati mancanti o non validi.         |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin o Operator.                   |
+| **Post condition**    | Le misurazioni non vengono memorizzate e il sistema notifica l'errore. |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di memorizzazione delle misurazioni. |
+| 2                    | L'utente fornisce dati incompleti o non validi.                 |
+| 3                    | Il sistema valida i dati forniti dall'utente.                   |
+| 4                    | Il sistema rileva che i dati sono incompleti o non validi.      |
+| 5                    | Il sistema notifica l'errore all'utente.                  |
+
+#### Scenario UC20.4 - Memorizzazione fallita per utente non autorizzato
+
+| **Scenario UC20.4**   | Memorizzazione fallita per utente non autorizzato.             |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente non è autenticato.                                     |
+| **Post condition**    | Le misurazioni non vengono memorizzate e il sistema notifica l'errore. |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente tenta di accedere alla funzionalità di memorizzazione delle misurazioni. |
+| 2                    | Il sistema verifica che l'utente non è autenticato.             |
+| 3                    | Il sistema notifica l'errore all'utente.                  |
+
+#### Scenario UC20.5 - Memorizzazione fallita per permessi insufficienti
+
+| **Scenario UC20.5**   | Memorizzazione fallita per permessi insufficienti.             |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato ma non ha il ruolo richiesto.            |
+| **Post condition**    | Le misurazioni non vengono memorizzate e il sistema notifica l'errore. |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente tenta di accedere alla funzionalità di memorizzazione delle misurazioni. |
+| 2                    | Il sistema verifica che l'utente non ha i permessi necessari.   |
+| 3                    | Il sistema notifica l'errore all'utente.                  |
+
+#### Scenario UC20.6 - Memorizzazione fallita per rete/gateway/sensore non trovato
+
+| **Scenario UC20.6**   | Memorizzazione fallita per rete/gateway/sensore non trovato.                |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin o Operator.                   |
+| **Post condition**    | Le misurazioni non vengono memorizzate e il sistema notifica l'errore. |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di memorizzazione delle misurazioni. |
+| 2                    | L'utente specifica il sensore e i relativi gateway e rete a lui associati di cui memorizzare la misurazione.   |
+| 3                    | Il sistema verifica che il sensore/gateway/rete non coincide con alcun elemento in persistenza.     |
+| 4                    | Il sistema notifica l'errore all'utente.                  |
+
+#### Scenario UC20.7 - Memorizzazione fallita per errore interno del server
+
+| **Scenario UC20.7**   | Memorizzazione fallita per errore interno del server.          |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin o Operator.                   |
+| **Post condition**    | Le misurazioni non vengono memorizzate e il sistema notifica l'errore. |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di memorizzazione delle misurazioni. |
+| 2                    | L'utente specifica il sensore e i relativi gateway e rete a lui associati di cui memorizzare la misurazione.           |
+| 3                    | Si verifica un errore interno del server.                       |
+| 4                    | Il sistema notifica l'errore all'utente.                  |
+
+---
 
 ### Recupera le misurazioni per un sensore specifico, UC21
 
-| Actors Involved  |                                                                      |
-| :--------------: | :------------------------------------------------------------------: |
-|   Precondition   | \<Boolean expression, must evaluate to true before the UC can start> |
-|  Post condition  |  \<Boolean expression, must evaluate to true after UC is finished>   |
-| Nominal Scenario |         \<Textual description of actions executed by the UC>         |
-|     Variants     |                      \<other normal executions>                      |
-|    Exceptions    |                        \<exceptions, errors >                        |
+| **Actors Involved**  | Admin, Operator, Viewer                                          |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente deve essere autenticato.                               |
+| **Post condition**    | L'utente riceve le misurazioni richieste per il sensore specificato. |
+| **Nominal Scenario** | L'utente richiede le misurazioni per un sensore specifico e il sistema restituisce i dati richiesti. |
+| **Variants**         | Nessuna variante significativa.                                 |
+| **Exceptions**       | - Scenario UC21.2: Utente non autorizzato. <br> - Scenario UC21.3: Sensore non trovato. <br> - Scenario UC21.4: Errore interno del server. |
+
+#### Scenario UC21.1 - Recupero delle misurazioni con successo
+
+| **Scenario UC21.1**   | Recupero delle misurazioni con successo.                       |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin, Operator o Viewer.           |
+| **Post condition**    | Il sistema restituisce le misurazioni richieste.               |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di recupero delle misurazioni. |
+| 2                    | L'utente specifica il sensore, i relativi gateway e rete a cui appartiene e l'intervallo temporale per cui richiede le misurazioni. |
+| 3                    | Il sistema recupera le misurazioni dal database.                |
+| 4                    | Il sistema restituisce le misurazioni all'utente.         |
+
+#### Scenario UC21.2 - Recupero fallito per utente non autorizzato
+
+| **Scenario UC21.2**   | Recupero fallito per utente non autorizzato.                   |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente non è autenticato.                                     |
+| **Post condition**    | Il sistema non restituisce alcuna misurazione e notifica l'errore. |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente tenta di accedere alla funzionalità di recupero delle misurazioni. |
+| 2                    | Il sistema verifica che l'utente non è autenticato.             |
+| 3                    | Il sistema notifica l'errore all'utente.                  |
+
+#### Scenario UC21.3 - Recupero fallito per sensore/gateway/rete non trovato
+
+| **Scenario UC21.3**   | Recupero fallito per sensore/gateway/rete non trovato.                      |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin, Operator o Viewer.           |
+| **Post condition**    | Il sistema non restituisce alcuna misurazione e notifica l'errore. |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di recupero delle misurazioni. |
+| 2                    | L'utente specifica il sensore, i relativi gateway e rete a cui appartiene e l'intervallo temporale per cui richiede le misurazioni. |
+| 3                    | Il sistema verifica che il sensore/gateway/rete specificato non è presente in persistenza. |
+| 4                    | Il sistema notifica l'errore all'utente.                  |
+
+#### Scenario UC21.4 - Recupero fallito per errore interno del server
+
+| **Scenario UC21.4**   | Recupero fallito per errore interno del server.                |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin, Operator o Viewer.           |
+| **Post condition**    | Il sistema non restituisce alcuna misurazione e notifica l'errore. |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di recupero delle misurazioni. |
+| 2                    | L'utente specifica il sensore, i relativi gateway e rete a cui appartiene e l'intervallo temporale per cui richiede le misurazioni. |
+| 3                    | Si verifica un errore interno del server durante il recupero dei dati. |
+| 4                    | Il sistema notifica l'errore all'utente.                  |
+
+---
 
 ### Recupera le statistiche per un sensore specifico, UC22
 
-| Actors Involved  |                                                                      |
-| :--------------: | :------------------------------------------------------------------: |
-|   Precondition   | \<Boolean expression, must evaluate to true before the UC can start> |
-|  Post condition  |  \<Boolean expression, must evaluate to true after UC is finished>   |
-| Nominal Scenario |         \<Textual description of actions executed by the UC>         |
-|     Variants     |                      \<other normal executions>                      |
-|    Exceptions    |                        \<exceptions, errors >                        |
+| **Actors Involved**  | Admin, Operator, Viewer                                          |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente deve essere autenticato.                               |
+| **Post condition**    | L'utente riceve le statistiche richieste per il sensore specificato. |
+| **Nominal Scenario** | L'utente richiede le statistiche per un sensore specifico e il sistema restituisce i dati richiesti. |
+| **Variants**         | Nessuna variante significativa.                                 |
+| **Exceptions**       | - Scenario UC22.2: Utente non autorizzato. <br> - Scenario UC22.3: Sensore non trovato. <br> - Scenario UC22.4: Errore interno del server. |
+
+#### Scenario UC22.1 - Recupero delle statistiche con successo
+
+| **Scenario UC22.1**   | Recupero delle statistiche con successo.                       |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin, Operator o Viewer.           |
+| **Post condition**    | Il sistema restituisce le statistiche richieste.               |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di recupero delle statistiche. |
+| 2                    | L'utente specifica il sensore, i relativi gateway e rete a cui appartiene e l'intervallo temporale per cui richiede le statistiche. |
+| 3                    | Il sistema calcola le statistiche (media, varianza, soglie) per il sensore specificato. |
+| 4                    | Il sistema restituisce le statistiche all'utente.         |
+
+#### Scenario UC22.2 - Recupero fallito per utente non autorizzato
+
+| **Scenario UC22.2**   | Recupero fallito per utente non autorizzato.                   |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente non è autenticato.                                     |
+| **Post condition**    | Il sistema non restituisce alcuna statistica e notifica l'errore. |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente tenta di accedere alla funzionalità di recupero delle statistiche. |
+| 2                    | Il sistema verifica che l'utente non è autenticato.             |
+| 3                    | Il sistema notifica l'errore all'utente.                  |
+
+#### Scenario UC22.3 - Recupero fallito per sensore/gateway/rete non trovato
+
+| **Scenario UC22.3**   | Recupero fallito per sensore/gateway/rete non trovato.                      |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin, Operator o Viewer.           |
+| **Post condition**    | Il sistema non restituisce alcuna statistica e notifica l'errore. |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di recupero delle statistiche. |
+| 2                    | L'utente specifica il sensore, i relativi gateway e rete a cui appartiene e l'intervallo temporale per cui richiede le statistiche. |
+| 3                    | Il sistema verifica che il sensore/gateway/rete specificato non è presente in persistenza. |
+| 4                    | Il sistema notifica l'errore all'utente.                  |
+
+#### Scenario UC22.4 - Recupero fallito per errore interno del server
+
+| **Scenario UC22.4**   | Recupero fallito per errore interno del server.                |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin, Operator o Viewer.           |
+| **Post condition**    | Il sistema non restituisce alcuna statistica e notifica l'errore. |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di recupero delle statistiche. |
+| 2                    | L'utente specifica il sensore, i relativi gateway e rete a cui appartiene e l'intervallo temporale per cui richiede le statistiche. |
+| 3                    | Si verifica un errore interno del server durante il calcolo delle statistiche. |
+| 4                    | Il sistema notifica l'errore all'utente.                  |
+
+---
 
 ### Recupera solo le misurazioni anomale per un sensore specifico, UC23
 
-| Actors Involved  |                                                                      |
-| :--------------: | :------------------------------------------------------------------: |
-|   Precondition   | \<Boolean expression, must evaluate to true before the UC can start> |
-|  Post condition  |  \<Boolean expression, must evaluate to true after UC is finished>   |
-| Nominal Scenario |         \<Textual description of actions executed by the UC>         |
-|     Variants     |                      \<other normal executions>                      |
-|    Exceptions    |                        \<exceptions, errors >                        |
+| **Actors Involved**  | Admin, Operator, Viewer                                          |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente deve essere autenticato.                               |
+| **Post condition**    | L'utente riceve solo le misurazioni anomale per il sensore specificato. |
+| **Nominal Scenario** | L'utente richiede le misurazioni anomale per un sensore specifico e il sistema restituisce i dati richiesti. |
+| **Variants**         | Nessuna variante significativa.                                 |
+| **Exceptions**       | - Scenario UC23.2: Utente non autorizzato. <br> - Scenario UC23.3: Sensore non trovato. <br> - Scenario UC23.4: Errore interno del server. |
+
+#### Scenario UC23.1 - Recupero delle misurazioni anomale con successo
+
+| **Scenario UC23.1**   | Recupero delle misurazioni anomale con successo.               |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin, Operator o Viewer.           |
+| **Post condition**    | Il sistema restituisce solo le misurazioni anomale richieste.  |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di recupero delle misurazioni anomale. |
+| 2                    | L'utente specifica il sensore, i relativi gateway e rete a cui appartiene e l'intervallo temporale per cui richiede le misurazioni anomale. |
+| 3                    | Il sistema calcola le soglie per il sensore specificato. |
+| 4                    | Il sistema filtra le misurazioni che superano le soglie calcolate. |
+| 5                    | Il sistema restituisce le misurazioni anomale all'utente. |
+
+#### Scenario UC23.2 - Recupero fallito per utente non autorizzato
+
+| **Scenario UC23.2**   | Recupero fallito per utente non autorizzato.                   |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente non è autenticato.                                     |
+| **Post condition**    | Il sistema non restituisce alcuna misurazione e notifica l'errore. |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente tenta di accedere alla funzionalità di recupero delle misurazioni anomale. |
+| 2                    | Il sistema verifica che l'utente non è autenticato.             |
+| 3                    | Il sistema notifica l'errore all'utente.                  |
+
+#### Scenario UC23.3 - Recupero fallito per sensore/gateway/rete non trovato
+
+| **Scenario UC23.3**   | Recupero fallito per sensore/gateway/rete non trovato.                      |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin, Operator o Viewer.           |
+| **Post condition**    | Il sistema non restituisce alcuna misurazione e notifica l'errore. |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di recupero delle misurazioni anomale. |
+| 2                    | L'utente specifica il sensore, i relativi gateway e rete a cui appartiene e l'intervallo temporale per cui richiede le misurazioni anomale. |
+| 3                    | Il sistema verifica che il sensore/gateway/rete specificato non è presente in persistenza. |
+| 4                    | Il sistema notifica l'errore all'utente.                  |
+
+#### Scenario UC23.4 - Recupero fallito per errore interno del server
+
+| **Scenario UC23.4**   | Recupero fallito per errore interno del server.                |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin, Operator o Viewer.           |
+| **Post condition**    | Il sistema non restituisce alcuna misurazione e notifica l'errore. |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di recupero delle misurazioni anomale. |
+| 2                    | L'utente specifica il sensore, i relativi gateway e rete a cui appartiene e l'intervallo temporale per cui richiede le misurazioni anomale. |
+| 3                    | Si verifica un errore interno del server durante il calcolo delle soglie o il filtraggio delle misurazioni. |
+| 4                    | Il sistema notifica l'errore all'utente.                  |
+
+
+### Converti fuso orario, UC24
+
+| **Actors Involved**  | Admin, Operator, Viewer                                          |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente deve essere autenticato.                               |
+| **Post condition**    | L'utente riceve i dati convertiti nel fuso orario richiesto.   |
+| **Nominal Scenario** | L'utente richiede di visualizzare delle misurazioni o statistiche ed il sistema restituisce i dati con il fuso orario corretto. |
+| **Variants**         | Nessuna variante significativa.                                 |
+| **Exceptions**       | Nessuna eccezione significativa. |
+
+#### Scenario UC24.1 - Conversione del fuso orario con successo
+
+| **Scenario UC24.1**   | Conversione del fuso orario con successo.                      |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin, Operator o Viewer.           |
+| **Post condition**    | Il sistema restituisce i dati con il timestamp convertito.                |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di recupero delle misurazioni/statistiche. |
+| 2                    | L'utente specifica i dati oltre all'intervallo temporale per cui richiede le misurazioni/statistiche. |
+| 3                    | Il sistema converte il timestamp nel fuso orario dell'utente.     |
+| 4                    | Il sistema restituisce le misurazioni con il timestamp corretto.      |
+
+### Calcola Media e Varianza, UC25
+
+| **Actors Involved**  | Admin, Operator, Viewer                                          |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente deve essere autenticato.                               |
+| **Post condition**    | Il sistema restituisce i valori di media e varianza calcolati.        |
+| **Nominal Scenario** | L'utente richiede la visualizzazione delle statistiche per uno o più sensori. |
+| **Variants**         | L'utente richiede la visualizzazione delle misurazioni anomale per uno o più sensori                               |
+| **Exceptions**       | Nessuna eccezione significativa.|
+
+#### Scenario UC25.1 - Calcolo di media e varianza per visualizzare le statistiche
+
+| **Scenario UC25.1**   | Calcolo di media e varianza per visualizzare le statistiche.                      |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin, Operator o Viewer.           |
+| **Post condition**    | Il sistema restituisce i valori di media e varianza calcolati assieme alle altre statistiche. |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di recupero delle statistiche. |
+| 2                    | L'utente specifica il sensore, i relativi gateway e rete a cui appartiene e l'intervallo temporale per cui richiede le statistiche. |
+| 3                    | Il sistema chiama le funzioni per il calcolo della media e della varianza |
+| 4                    | Il sistema restituisce i risultati all'utente.                  |
+
+#### Scenario UC25.2 - Calcolo di media e varianza per visualizzare le misurazioni anomale
+
+| **Scenario UC25.2**   | Calcolo di media e varianza per visualizzare le misurazioni anomale.                      |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin, Operator o Viewer.           |
+| **Post condition**    | Il sistema calcola la soglia superiore e inferiore. |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di recupero delle misurazioni anomale. |
+| 2                    | L'utente specifica il sensore o la rete e l'intervallo temporale per cui richiede le misurazioni. |
+| 3                    | Il sistema chiama le funzioni per il calcolo della media e deviazione standard |
+| 4                    | Il sistema calcola le soglie per il sensore specificato                  |
+---
+
+### Calcolo Threshold, UC26
+
+| **Actors Involved**  | Admin, Operator, Viewer                                          |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente deve essere autenticato.                               |
+| **Post condition**    | L'utente riceve i valori di soglia calcolati.                  |
+| **Nominal Scenario** | L'utente richiede il calcolo delle soglie per un insieme di dati e il sistema restituisce i risultati. |
+| **Variants**         | Nessuna variante significativa.                                 |
+| **Exceptions**       | Nessuna eccezione significativa |
+
+#### Scenario UC26.1 - Calcolo delle soglie con successo
+
+| **Scenario UC26.1**   | Calcolo delle soglie con successo.                             |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin, Operator o Viewer.           |
+| **Post condition**    | Il sistema restituisce i valori di soglia calcolati.           |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di recupero delle misurazioni anomale. |
+| 2                    | L'utente specifica il sensore o la rete e l'intervallo temporale per cui richiede le misurazioni. |
+| 3                    | Il sistema calcola le soglie.                      |
+| 4                    | Il sistema restituisce i valori di soglia calcolati.           |
+
+---
+
+### Identifica Outlier, UC27
+
+| **Actors Involved**  | Admin, Operator, Viewer                                          |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente deve essere autenticato.                               |
+| **Post condition**    | L'utente riceve i dati identificati come outlier.              |
+| **Nominal Scenario** | L'utente richiede l'identificazione degli outlier in un insieme di dati e il sistema restituisce i risultati. |
+| **Variants**         | Nessuna variante significativa.                                 |
+| **Exceptions**       | Nessuna eccezione significativa. |
+
+#### Scenario UC27.1 - Identificazione degli outlier con successo
+
+| **Scenario UC27.1**   | Identificazione degli outlier con successo.                    |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin, Operator o Viewer.           |
+| **Post condition**    | Il sistema restituisce i dati identificati come outlier.       |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di recupero delle misurazioni anomale. |
+| 2                    | L'utente specifica il sensore o la rete e l'intervallo temporale per cui richiede le misurazioni. |
+| 3                    | Il sistema calcola le soglie.                      |
+| 4                    | Il sistema identifica le misurazioni al di fuori delle soglie come outlier.           |
+
+---
 
 # Glossary
 
-\<use UML class diagram to define important terms, or concepts in the domain of the application, and their relationships>
-
-\<concepts must be used consistently all over the document, ex in use cases, requirements etc>
+![glossary](diagrams/glossary.svg)
 
 # System Design
 
