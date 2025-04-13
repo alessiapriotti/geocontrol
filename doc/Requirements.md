@@ -241,9 +241,9 @@ GeoControl is a software system designed for monitoring physical and environment
 | :------------------: | :-------------------------------------------------------------: |
 | **Precondition**     | L'utente deve essere autenticato come Admin.                    |
 | **Post condition**    | Il sistema restituisce i dati degli utenti richiesti.          |
-| **Nominal Scenario** | L'utente richiede di visualizzare uno o tutti gli utenti e il sistema restituisce i dati richiesti. |
+| **Nominal Scenario** | L'utente richiede di visualizzare tutti gli utenti e il sistema restituisce i dati richiesti. |
 | **Variants**         | - Scenario UC2.2: Utente specifico richiesto. |
-| **Exceptions**       | - Scenario UC2.3: Utente non autorizzato. <br> - Scenario UC2.4: Errore interno del server. |
+| **Exceptions**       | - Scenario UC2.2.1: Utente specifico non trovato. <br> - Scenario UC2.3: Utente non autorizzato. <br> - Scenario UC2.4: Errore interno del server. |
 
 #### Scenario UC2.1 - Visualizzazione di tutti gli utenti con successo
 
@@ -265,9 +265,21 @@ GeoControl is a software system designed for monitoring physical and environment
 | **Post condition**    | Il sistema restituisce i dati dell'utente richiesti.          |
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente accede alla funzionalità di visualizzazione degli utenti. |
-| 2                    | L'utente richiede di visualizzare un utente.       |
+| 2                    | L'utente richiede di visualizzare un utente tramite username.       |
 | 3                    | Il sistema recupera i dati dell'utente richiesto dal database.           |
 | 4                    | Il sistema restituisce i dati dell'utente richiesto all'utente.    |
+
+#### Scenario UC2.2.1 - Visualizzazione fallita per utente non trovato
+
+| **Scenario UC2.2.1**   | Visualizzazione fallita per utente non trovato.         |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin.                              |
+| **Post condition**    | Il sistema non restituisce alcun dato e notifica l'errore.          |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di visualizzazione degli utenti. |
+| 2                    | L'utente richiede di visualizzare un utente tramite username.       |
+| 3                    | Il sistema verifica che l'utente non esiste nel database.           |
+| 4                    | Il sistema notifica l'errore all'utente.    |
 
 #### Scenario UC2.3 - Visualizzazione fallita per utente non autorizzato
 
@@ -357,7 +369,7 @@ GeoControl is a software system designed for monitoring physical and environment
 
 | **Scenario UC3.5**   | Creazione fallita per permessi insufficienti.                   |
 | :------------------: | :-------------------------------------------------------------: |
-| **Precondition**     | L'utente è autenticato ma non ha il ruolo richiesto.            |
+| **Precondition**     | L'utente è autenticato ma non ha il ruolo di Admin.            |
 | **Post condition**    | Il sistema non crea l'utente e notifica l'errore.              |
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente tenta di accedere alla funzionalità di creazione di un nuovo utente. |
@@ -428,7 +440,7 @@ GeoControl is a software system designed for monitoring physical and environment
 
 | **Scenario UC4.4**   | Eliminazione fallita per permessi insufficienti.                |
 | :------------------: | :-------------------------------------------------------------: |
-| **Precondition**     | L'utente è autenticato ma non ha il ruolo richiesto.            |
+| **Precondition**     | L'utente è autenticato ma non ha il ruolo di Admin.            |
 | **Post condition**    | Il sistema non elimina alcun utente e notifica l'errore.       |
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente tenta di accedere alla funzionalità di eliminazione di un utente. |
@@ -455,25 +467,50 @@ GeoControl is a software system designed for monitoring physical and environment
 | :------------------: | :-------------------------------------------------------------: |
 | **Precondition**     | L'utente deve essere autenticato.                               |
 | **Post condition**    | L'utente visualizza le reti richieste.                         |
-| **Nominal Scenario** | L'utente richiede di visualizzare una o tutte le reti e il sistema restituisce i dati richiesti. |
-| **Variants**         | Nessuna variante significativa.                                 |
-| **Exceptions**       | - Scenario UC5.2: Utente non autenticato. <br> - Scenario UC5.3: Errore interno del server. |
+| **Nominal Scenario** | L'utente richiede di visualizzare tutte le reti e il sistema restituisce i dati richiesti. |
+| **Variants**         | - Scenario UC5.2: Rete specifica richiesta.                                 |
+| **Exceptions**       | - Scenario UC5.2.1: Rete specifica non trovata. <br> - Scenario UC5.3: Utente non autenticato. <br> - Scenario UC5.4: Errore interno del server. |
 
-#### Scenario UC5.1 - Visualizzazione di una o tutte le reti con successo
+#### Scenario UC5.1 - Visualizzazione di tutte le reti con successo
 
-| **Scenario UC5.1**   | Visualizzazione di una o tutte le reti con successo.            |
+| **Scenario UC5.1**   | Visualizzazione di tutte le reti con successo.            |
 | :------------------: | :-------------------------------------------------------------: |
 | **Precondition**     | L'utente è autenticato come Admin, Operator o Viewer.           |
 | **Post condition**    | Il sistema restituisce le reti richieste.                      |
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente accede alla funzionalità di visualizzazione delle reti. |
-| 2                    | L'utente richiede di visualizzare una rete specifica o tutte le reti. |
+| 2                    | L'utente richiede di visualizzare tutte le reti. |
 | 3                    | Il sistema recupera i dati delle reti richieste dal database.   |
 | 4                    | Il sistema restituisce i dati delle reti all'utente.      |
 
-#### Scenario UC5.2 - Visualizzazione fallita per utente non autenticato
+#### Scenario UC5.2 - Visualizzazione di una rete con successo
 
-| **Scenario UC5.2**   | Visualizzazione fallita per utente non autenticato.             |
+| **Scenario UC5.2**   | Visualizzazione di una rete con successo.            |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin, Operator o Viewer.           |
+| **Post condition**    | Il sistema restituisce la rete richiesta.                      |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di visualizzazione delle reti. |
+| 2                    | L'utente richiede di visualizzare una rete specifica tramite codice identificativo. |
+| 3                    | Il sistema recupera i dati della rete richiesta dal database.   |
+| 4                    | Il sistema restituisce i dati della rete all'utente.      |
+
+#### Scenario UC5.2.1 - Visualizzazione fallita per rete non trovata
+
+| **Scenario UC5.2.1**   | Visualizzazione fallita per rete non trovata.            |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin, Operator o Viewer.           |
+| **Post condition**    | Il sistema non restituisce alcuna rete e notifica l'errore.                      |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di visualizzazione delle reti. |
+| 2                    | L'utente richiede di visualizzare una rete specifica tramite codice identificativo. |
+| 3                    | Il sistema verifica che la rete non esiste nel database.   |
+| 4                    | Il sistema notifica l'errore all'utente.      |
+
+
+#### Scenario UC5.3 - Visualizzazione fallita per utente non autenticato
+
+| **Scenario UC5.3**   | Visualizzazione fallita per utente non autenticato.             |
 | :------------------: | :-------------------------------------------------------------: |
 | **Precondition**     | L'utente non è autenticato.                                     |
 | **Post condition**    | Il sistema non restituisce alcuna rete e notifica l'errore.    |
@@ -482,9 +519,9 @@ GeoControl is a software system designed for monitoring physical and environment
 | 2                    | Il sistema verifica che l'utente non è autenticato.             |
 | 3                    | Il sistema notifica l'errore all'utente.                  |
 
-#### Scenario UC5.3 - Visualizzazione fallita per errore interno del server
+#### Scenario UC5.4 - Visualizzazione fallita per errore interno del server
 
-| **Scenario UC5.3**   | Visualizzazione fallita per errore interno del server.          |
+| **Scenario UC5.4**   | Visualizzazione fallita per errore interno del server.          |
 | :------------------: | :-------------------------------------------------------------: |
 | **Precondition**     | L'utente è autenticato come Admin, Operator o Viewer.           |
 | **Post condition**    | Il sistema non restituisce alcuna rete e notifica l'errore.    |
@@ -503,8 +540,8 @@ GeoControl is a software system designed for monitoring physical and environment
 | **Precondition**     | L'utente deve essere autenticato e avere il ruolo di Admin o Operator. |
 | **Post condition**    | Una nuova rete viene creata con un codice univoco e memorizzata nel sistema. |
 | **Nominal Scenario** | L'utente fornisce i dati richiesti (codice, nome, descrizione) e il sistema crea la rete. |
-| **Variants**         | Nessuna variante significativa.                                 |
-| **Exceptions**       | - Scenario UC6.2: Codice rete già esistente. <br> - Scenario UC6.3: Dati mancanti o non validi. <br> - Scenario UC6.4.1: Utente non autenticato. <br> - Scenario UC6.4.2: Permessi insufficienti. <br> - Scenario UC6.5: Errore interno del server. |
+| **Variants**         | - Scenario UC6.2: Dati superflui allegati.                                 |
+| **Exceptions**       | - Scenario UC6.3: Codice rete già esistente. <br> - Scenario UC6.4: Dati mancanti o non validi. <br> - Scenario UC6.5: Utente non autenticato. <br> - Scenario UC6.6: Permessi insufficienti. <br> - Scenario UC6.7: Errore interno del server. |
 
 #### Scenario UC6.1 - Creazione di una rete con dati validi
 
@@ -519,9 +556,22 @@ GeoControl is a software system designed for monitoring physical and environment
 | 4                    | Il sistema salva la rete nel database.                          |
 | 5                    | Il sistema conferma la creazione della rete all'utente.   |
 
-#### Scenario UC6.2 - Creazione fallita per codice rete duplicato
+#### Scenario UC6.2 - Creazione di una rete con dati superflui allegati
 
-| **Scenario UC6.2**   | Creazione fallita per codice rete duplicato.                     |
+| **Scenario UC6.2**   | Creazione di una rete con dati superflui allegati.                           |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin o Operator.                   |
+| **Post condition**    | La rete viene creata con successo e memorizzata nel sistema; i dati superflui sono stati ignorati.    |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di creazione di una nuova rete. |
+| 2                    | L'utente inserisce i dati richiesti: codice, nome, descrizione, oltre che dati su Gateway o Sensori contenuti nella rete. |
+| 3                    | Il sistema verifica che il codice della rete sia univoco.       |
+| 4                    | Il sistema salva la rete nel database, ignorando i dati su Gateway e Sensori.                          |
+| 5                    | Il sistema conferma la creazione della rete all'utente.   |
+
+#### Scenario UC6.3 - Creazione fallita per codice rete duplicato
+
+| **Scenario UC6.3**   | Creazione fallita per codice rete duplicato.                     |
 | :------------------: | :-------------------------------------------------------------: |
 | **Precondition**     | L'utente è autenticato come Admin o Operator.                   |
 | **Post condition**    | La rete non viene creata e il sistema notifica l'errore.       |
@@ -532,9 +582,9 @@ GeoControl is a software system designed for monitoring physical and environment
 | 4                    | Il sistema rileva che il codice è già in uso.                   |
 | 5                    | Il sistema notifica l'errore all'utente.                  |
 
-#### Scenario UC6.3 - Creazione fallita per dati mancanti o non validi
+#### Scenario UC6.4 - Creazione fallita per dati mancanti o non validi
 
-| **Scenario UC6.3**   | Creazione fallita per dati mancanti o non validi.                |
+| **Scenario UC6.4**   | Creazione fallita per dati mancanti o non validi.                |
 | :------------------: | :-------------------------------------------------------------: |
 | **Precondition**     | L'utente è autenticato come Admin o Operator.                   |
 | **Post condition**    | La rete non viene creata e il sistema notifica l'errore.       |
@@ -545,9 +595,9 @@ GeoControl is a software system designed for monitoring physical and environment
 | 4                    | Il sistema rileva che i dati sono incompleti o non validi.      |
 | 5                    | Il sistema notifica l'errore all'utente.                  |
 
-#### Scenario UC6.4.1 - Creazione fallita per utente non autenticato
+#### Scenario UC6.5 - Creazione fallita per utente non autenticato
 
-| **Scenario UC6.4.1** | Creazione fallita per utente non autenticato.                   |
+| **Scenario UC6.5** | Creazione fallita per utente non autenticato.                   |
 | :------------------: | :-------------------------------------------------------------: |
 | **Precondition**     | L'utente non è autenticato.                                     |
 | **Post condition**    | La rete non viene creata e il sistema notifica l'errore.       |
@@ -556,9 +606,9 @@ GeoControl is a software system designed for monitoring physical and environment
 | 2                    | Il sistema verifica che l'utente non è autenticato.             |
 | 3                    | Il sistema notifica l'errore all'utente.                  |
 
-#### Scenario UC6.4.2 - Creazione fallita per permessi insufficienti
+#### Scenario UC6.6 - Creazione fallita per permessi insufficienti
 
-| **Scenario UC6.4.2** | Creazione fallita per permessi insufficienti.                   |
+| **Scenario UC6.6** | Creazione fallita per permessi insufficienti.                   |
 | :------------------: | :-------------------------------------------------------------: |
 | **Precondition**     | L'utente è autenticato ma non ha il ruolo richiesto.            |
 | **Post condition**    | La rete non viene creata e il sistema notifica l'errore.       |
@@ -567,9 +617,9 @@ GeoControl is a software system designed for monitoring physical and environment
 | 2                    | Il sistema verifica che l'utente non ha i permessi necessari.   |
 | 3                    | Il sistema notifica l'errore all'utente.                  |
 
-#### Scenario UC6.5 - Creazione fallita per errore interno del server
+#### Scenario UC6.7 - Creazione fallita per errore interno del server
 
-| **Scenario UC6.5**   | Creazione fallita per errore interno del server.                |
+| **Scenario UC6.7**   | Creazione fallita per errore interno del server.                |
 | :------------------: | :-------------------------------------------------------------: |
 | **Precondition**     | L'utente è autenticato come Admin o Operator.                   |
 | **Post condition**    | La rete non viene creata e il sistema notifica l'errore.       |
@@ -589,8 +639,8 @@ GeoControl is a software system designed for monitoring physical and environment
 | **Precondition**     | L'utente deve essere autenticato e avere il ruolo di Admin o Operator. |
 | **Post condition**    | La rete specificata viene aggiornata con i nuovi dati forniti. |
 | **Nominal Scenario** | L'utente fornisce i dati aggiornati per una rete esistente e il sistema li salva. |
-| **Variants**         | Nessuna variante significativa.                                 |
-| **Exceptions**       | - Scenario UC7.2: Dati mancanti o non validi. <br> - Scenario UC7.3: Utente non autorizzato. <br> - Scenario UC7.4: Permessi insufficienti. <br> - Scenario UC7.5: Rete non trovata. <br> - Scenario UC7.6: Codice rete già in uso. <br> - Scenario UC7.7: Errore interno del server. |
+| **Variants**         | - Scenario UC7.2: Dati superflui allegati.                                 |
+| **Exceptions**       | - Scenario UC7.3: Dati mancanti o non validi. <br> - Scenario UC7.4: Utente non autorizzato. <br> - Scenario UC7.5: Permessi insufficienti. <br> - Scenario UC7.6: Rete non trovata. <br> - Scenario UC7.7: Codice rete già in uso. <br> - Scenario UC7.8: Errore interno del server. |
 
 #### Scenario UC7.1 - Aggiornamento di una rete con successo
 
@@ -605,9 +655,22 @@ GeoControl is a software system designed for monitoring physical and environment
 | 4                    | Il sistema salva i nuovi dati della rete nel database.          |
 | 5                    | Il sistema conferma l'aggiornamento della rete all'utente.|
 
-#### Scenario UC7.2 - Aggiornamento fallito per dati mancanti o non validi
+#### Scenario UC7.2 - Aggiornamento di una rete con dati superflui allegati
 
-| **Scenario UC7.2**   | Aggiornamento fallito per dati mancanti o non validi.           |
+| **Scenario UC7.2**   | Aggiornamento di una rete con dati superflui allegati.                          |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin o Operator.                   |
+| **Post condition**    | La rete viene aggiornata con i nuovi dati forniti.             |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di aggiornamento di una rete. |
+| 2                    | L'utente fornisce i dati aggiornati: codice, nome, descrizione, oltre che dati su Gateway o Sensori contenuti nella rete. |
+| 3                    | Il sistema verifica che i dati siano validi.                    |
+| 4                    | Il sistema salva i nuovi dati della rete nel database, ignorando quelli su Gateway e Sensori.          |
+| 5                    | Il sistema conferma l'aggiornamento della rete all'utente.|
+
+#### Scenario UC7.3 - Aggiornamento fallito per dati mancanti o non validi
+
+| **Scenario UC7.3**   | Aggiornamento fallito per dati mancanti o non validi.           |
 | :------------------: | :-------------------------------------------------------------: |
 | **Precondition**     | L'utente è autenticato come Admin o Operator.                   |
 | **Post condition**    | La rete non viene aggiornata e il sistema notifica l'errore.   |
@@ -618,9 +681,9 @@ GeoControl is a software system designed for monitoring physical and environment
 | 4                    | Il sistema rileva che i dati sono incompleti o non validi.      |
 | 5                    | Il sistema notifica l'errore all'utente.                  |
 
-#### Scenario UC7.3 - Aggiornamento fallito per utente non autorizzato
+#### Scenario UC7.4 - Aggiornamento fallito per utente non autorizzato
 
-| **Scenario UC7.3**   | Aggiornamento fallito per utente non autorizzato.               |
+| **Scenario UC7.4**   | Aggiornamento fallito per utente non autorizzato.               |
 | :------------------: | :-------------------------------------------------------------: |
 | **Precondition**     | L'utente non è autenticato.                                     |
 | **Post condition**    | La rete non viene aggiornata e il sistema notifica l'errore.   |
@@ -629,9 +692,9 @@ GeoControl is a software system designed for monitoring physical and environment
 | 2                    | Il sistema verifica che l'utente non è autenticato.             |
 | 3                    | Il sistema notifica l'errore all'utente.                  |
 
-#### Scenario UC7.4 - Aggiornamento fallito per permessi insufficienti
+#### Scenario UC7.5 - Aggiornamento fallito per permessi insufficienti
 
-| **Scenario UC7.4**   | Aggiornamento fallito per permessi insufficienti.               |
+| **Scenario UC7.5**   | Aggiornamento fallito per permessi insufficienti.               |
 | :------------------: | :-------------------------------------------------------------: |
 | **Precondition**     | L'utente è autenticato ma non ha il ruolo richiesto.            |
 | **Post condition**    | La rete non viene aggiornata e il sistema notifica l'errore.   |
@@ -640,9 +703,9 @@ GeoControl is a software system designed for monitoring physical and environment
 | 2                    | Il sistema verifica che l'utente non ha i permessi necessari.   |
 | 3                    | Il sistema notifica l'errore all'utente.                  |
 
-#### Scenario UC7.5 - Aggiornamento fallito per rete non trovata
+#### Scenario UC7.6 - Aggiornamento fallito per rete non trovata
 
-| **Scenario UC7.5**   | Aggiornamento fallito per rete non trovata.                     |
+| **Scenario UC7.6**   | Aggiornamento fallito per rete non trovata.                     |
 | :------------------: | :-------------------------------------------------------------: |
 | **Precondition**     | L'utente è autenticato come Admin o Operator.                   |
 | **Post condition**    | La rete non viene aggiornata e il sistema notifica l'errore.   |
@@ -652,9 +715,9 @@ GeoControl is a software system designed for monitoring physical and environment
 | 3                    | Il sistema verifica che la rete non esiste nel database.        |
 | 4                    | Il sistema notifica l'errore all'utente.                  |
 
-#### Scenario UC7.6 - Aggiornamento fallito per codice rete già in uso
+#### Scenario UC7.7 - Aggiornamento fallito per codice rete già in uso
 
-| **Scenario UC7.6**   | Aggiornamento fallito per codice rete già in uso.               |
+| **Scenario UC7.7**   | Aggiornamento fallito per codice rete già in uso.               |
 | :------------------: | :-------------------------------------------------------------: |
 | **Precondition**     | L'utente è autenticato come Admin o Operator.                   |
 | **Post condition**    | La rete non viene aggiornata e il sistema notifica l'errore.   |
@@ -664,9 +727,9 @@ GeoControl is a software system designed for monitoring physical and environment
 | 3                    | Il sistema verifica che il nuovo codice è già in uso.           |
 | 4                    | Il sistema notifica l'errore all'utente.                  |
 
-#### Scenario UC7.7 - Aggiornamento fallito per errore interno del server
+#### Scenario UC7.8 - Aggiornamento fallito per errore interno del server
 
-| **Scenario UC7.7**   | Aggiornamento fallito per errore interno del server.            |
+| **Scenario UC7.8**   | Aggiornamento fallito per errore interno del server.            |
 | :------------------: | :-------------------------------------------------------------: |
 | **Precondition**     | L'utente è autenticato come Admin o Operator.                   |
 | **Post condition**    | La rete non viene aggiornata e il sistema notifica l'errore.   |
@@ -678,7 +741,146 @@ GeoControl is a software system designed for monitoring physical and environment
 
 ---
 
+### Elimina una rete, UC8
 
+| **Actors Involved**  | Admin, Operator                                                      |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente deve essere autenticato e avere il ruolo di Admin o Operator. |
+| **Post condition**    | La rete specificata viene eliminata dal sistema.              |
+| **Nominal Scenario** | L'utente fornisce il codice della rete da eliminare e il sistema la elimina. |
+| **Variants**         | Nessuna variante significativa.                                 |
+| **Exceptions**       | - Scenario UC8.2: Rete non trovata. <br> - Scenario UC8.3: Utente non autorizzato. <br> - Scenario UC8.4: Permessi insufficienti. <br> - Scenario UC8.5: Errore interno del server. |
+
+#### Scenario UC8.1 - Eliminazione di una rete con successo
+
+| **Scenario UC8.1**   | Eliminazione di una rete con successo.                         |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin o Operator.                              |
+| **Post condition**    | La rete specificata viene eliminata dal sistema.              |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di eliminazione di una rete. |
+| 2                    | L'utente specifica il codice della rete da eliminare.            |
+| 3                    | Il sistema verifica che la rete esiste nel database.           |
+| 4                    | Il sistema elimina la rete dal database.                       |
+| 5                    | Il sistema conferma l'eliminazione all'utente.            |
+
+#### Scenario UC8.2 - Eliminazione fallita per rete non trovata
+
+| **Scenario UC8.2**   | Eliminazione fallita per rete non trovata.                    |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin o Operator.                              |
+| **Post condition**    | Il sistema non elimina alcuna rete e notifica l'errore.       |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di eliminazione di una rete. |
+| 2                    | L'utente specifica il codice della rete da eliminare.            |
+| 3                    | Il sistema verifica che la rete non esiste nel database.       |
+| 4                    | Il sistema notifica l'errore all'utente.                  |
+
+#### Scenario UC8.3 - Eliminazione fallita per utente non autorizzato
+
+| **Scenario UC8.3**   | Eliminazione fallita per utente non autorizzato.                |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente non è autenticato.                                     |
+| **Post condition**    | Il sistema non elimina alcuna rete e notifica l'errore.       |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente tenta di accedere alla funzionalità di eliminazione di una rete. |
+| 2                    | Il sistema verifica che l'utente non è autenticato.             |
+| 3                    | Il sistema notifica l'errore all'utente.                  |
+
+#### Scenario UC8.4 - Eliminazione fallita per permessi insufficienti
+
+| **Scenario UC8.4**   | Eliminazione fallita per permessi insufficienti.                |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato ma non ha il ruolo di Admin o Operator.            |
+| **Post condition**    | Il sistema non elimina alcuna rete e notifica l'errore.       |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente tenta di accedere alla funzionalità di eliminazione di una rete. |
+| 2                    | Il sistema verifica che l'utente non ha i permessi necessari.   |
+| 3                    | Il sistema notifica l'errore all'utente.                  |
+
+#### Scenario UC8.5 - Eliminazione fallita per errore interno del server
+
+| **Scenario UC8.5**   | Eliminazione fallita per errore interno del server.             |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato come Admin o Operator.                              |
+| **Post condition**    | Il sistema non elimina alcuna rete e notifica l'errore.       |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di eliminazione di una rete. |
+| 2                    | L'utente specifica il codice della rete da eliminare.            |
+| 3                    | Si verifica un errore interno del server.                       |
+| 4                    | Il sistema notifica l'errore all'utente.                  |
+
+---
+
+### Visualizza gateway di una rete (uno o tutti), UC9
+
+| **Actors Involved**  | Admin, Operator, Viewer                                                            |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente deve essere autenticato.                    |
+| **Post condition**    | Il sistema restituisce i dati dei gateway richiesti.          |
+| **Nominal Scenario** | L'utente richiede di visualizzare tutti i gateway di una data rete e il sistema restituisce i dati richiesti. |
+| **Variants**         | - Scenario UC9.2: Gateway specifico richiesto. |
+| **Exceptions**       | - Scenario UC9.3: Rete/Gateway non trovato. <br> - Scenario UC9.4: Utente non autorizzato. <br> - Scenario UC9.5: Rete non trovata. <br> - Scenario UC9.6: Errore interno del server. |
+
+#### Scenario UC9.1 - Visualizzazione di tutti i gateway di una rete con successo
+
+| **Scenario UC9.1**   | Visualizzazione di tutti i gateway di una rete con successo.         |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato.                              |
+| **Post condition**    | Il sistema restituisce i dati dei gateway richiesti.          |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di visualizzazione dei gateway. |
+| 2                    | L'utente richiede di visualizzare tutti i gateway di una specifica rete.       |
+| 3                    | Il sistema recupera i dati dei gateway dal database.           |
+| 4                    | Il sistema restituisce i dati dei gateway all'utente.    |
+
+#### Scenario UC9.2 - Visualizzazione di un gateway con successo
+
+| **Scenario UC9.2**   | Visualizzazione di un gateway con successo.         |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato.                              |
+| **Post condition**    | Il sistema restituisce i dati del gateway richiesto.          |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di visualizzazione dei gateway. |
+| 2                    | L'utente richiede di visualizzare un gateway tramite codice rete e MAC del gateway.       |
+| 3                    | Il sistema recupera i dati del gateway richiesto dal database.           |
+| 4                    | Il sistema restituisce i dati del gateway richiesto all'utente.    |
+
+#### Scenario UC9.3 - Visualizzazione fallita per rete/gateway non trovato 
+
+| **Scenario UC9.3**   | Visualizzazione fallita per rete/gateway non trovato.         |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato.                              |
+| **Post condition**    | Il sistema non restituisce alcun dato e notifica l'errore.          |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di visualizzazione dei gateway. |
+| 2                    | L'utente richiede di visualizzare un gateway tramite codice rete e MAC del gateway.       |
+| 3                    | Il sistema verifica che la rete o il gateway non esiste nel database.           |
+| 4                    | Il sistema notifica l'errore all'utente.    |
+
+
+#### Scenario UC9.4 - Visualizzazione fallita per utente non autorizzato
+
+| **Scenario UC9.4**   | Visualizzazione fallita per utente non autorizzato.             |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente non è autenticato.          |
+| **Post condition**    | Il sistema non restituisce alcun dato e notifica l'errore.     |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente tenta di accedere alla funzionalità di visualizzazione dei gateway. |
+| 2                    | Il sistema verifica che l'utente non è autenticato.             |
+| 3                    | Il sistema notifica l'errore all'utente.                  |
+
+#### Scenario UC9.5 - Visualizzazione fallita per errore interno del server
+
+| **Scenario UC9.5**   | Visualizzazione fallita per errore interno del server.          |
+| :------------------: | :-------------------------------------------------------------: |
+| **Precondition**     | L'utente è autenticato.                              |
+| **Post condition**    | Il sistema non restituisce alcun dato e notifica l'errore.     |
+| **Step#**            | **Descrizione**                                                 |
+| 1                    | L'utente accede alla funzionalità di visualizzazione dei gateway. |
+| 2                    | L'utente richiede di visualizzare uno o tutti i gateway tramite codice rete.       |
+| 3                    | Si verifica un errore interno del server.                       |
+| 4                    | Il sistema notifica l'errore all'utente.                  |
 
 ---
 
