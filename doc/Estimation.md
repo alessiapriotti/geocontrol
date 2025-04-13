@@ -1,8 +1,8 @@
 # Project Estimation
 
-Date:
+Date: 13/04/2025
 
-Version:
+Version: V1
 
 # Estimation approach
 
@@ -26,13 +26,13 @@ Consider the GeoControl project as described in the swagger, assume that you are
 ###
 
 | component name       | Estimated effort (person hours) |
-| -------------------- | :-------------------------------: |
+| -------------------- | :-------------------------------:|
 | requirement document |   60                            |
-| design document      |            50                     |
-| code                 |   90                              |
-| unit tests           |             30                    |
-| api tests            |      20                           |
-| management documents |     10                           |
+| design document      |   50                            |
+| code                 |   90                            |
+| unit tests           |   30                            |
+| api tests            |   20                            |
+| management documents |   10                            |
 
 # Estimate by activity decomposition
 
@@ -68,10 +68,13 @@ Insert here Gantt chart with above activities
 
 # Summary
 
-Report here the results of the three estimation approaches. The estimates may differ. Discuss here the possible reasons for the difference
-
 |                                    | Estimated effort | Estimated duration |
 | ---------------------------------- | ---------------- | ------------------ |
-| estimate by size                   |                  |
-| estimate by product decomposition  |                  |
-| estimate by activity decomposition |                  |
+| estimate by size                   |   180 ph         | 6 giorni
+| estimate by product decomposition  |   260 ph         | 9 giorni
+| estimate by activity decomposition |   244 ph         | 8 giorni
+
+La prima previsione, siccome è basata solamente sulle linee di codice, sottostima abbastanza l'effort poiché appunto non considera al meglio la stesura dei documenti, che sono parte fondamentale - nonché la maggior parte - del lavoro.
+La seconda, invece, sovrastima poiché resta troppo ampio sui vari artefatti da produrre, lasciando abbastanza al caso le stime.
+L'ultima, infine, è a parer nostro la più verosimile, dato che, decomponendo le attività e concentrandoci anche sugli artefatti da produrre per ognuna, siamo riusciti a dare una stima più puntuale per ognuna di loro.
+In ogni caso, ognuna delle stime temporali ha i suoi difetti, siccome non tutte le attività sono davvero parallelizzabili e quindi dividere l'effort per il numero di persone non dà sempre risultati corretti. 
