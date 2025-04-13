@@ -2048,9 +2048,7 @@ Il sistema è venduto come prodotto software isolato da eseguire su un server co
 
 # Glossary
 
-\<use UML class diagram to define important terms, or concepts in the domain of the application, and their relationships>
-
-\<concepts must be used consistently all over the document, ex in use cases, requirements etc>
+![glossary](diagrams/glossary.svg)
 
 # System Design
 
