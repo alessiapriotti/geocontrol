@@ -1,6 +1,6 @@
 # Requirements Document - GeoControl
 
-Date: 11/04/2025
+Date: 13/04/2025
 
 | Version number | Change |
 | :------------: | :----: |
@@ -10,6 +10,8 @@ Date: 11/04/2025
 |        V1.3        |    Aggiunto: Business Model, Stakeholders, Context Diagram e System Design   |
 |        V1.4        |    Aggiunto Use Case Diagram   |
 |        V1.5        |    Aggiunte Stories & Personas   |
+|        V1.6        |    Aggiunti Use Cases e Scenarios   |
+|        V1.7        |    Aggiunto Glossario   |
 
 # Contents
 
