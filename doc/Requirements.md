@@ -188,29 +188,29 @@ Il sistema è venduto come prodotto software isolato da eseguire su un server co
 | **Scenario UC1.1**   | Autenticazione con successo.                                     |
 | :------------------: | :-------------------------------------------------------------: |
 | **Precondition**     | L'utente fornisce credenziali valide.                           |
-| **Post condition**    | Il sistema restituisce un token bearer valido.                 |
+| **Post condition**   | Il sistema restituisce un token bearer valido.                  |
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente invia username e password al sistema.                  |
 | 2                    | Il sistema verifica le credenziali.                             |
-| 3                    | Il sistema genera un token bearer e lo restituisce all'utente.|
+| 3                    | Il sistema genera un token bearer e lo restituisce all'utente.  |
 
-#### Scenario UC1.2 - Autenticazione fallita per credenziali non valide
+#### Scenario UC1.2 - Autenticazione fallita per password errata
 
-| **Scenario UC1.2**   | Autenticazione fallita per credenziali non valide.              |
+| **Scenario UC1.2**   | Autenticazione fallita per password errata.                     |
 | :------------------: | :-------------------------------------------------------------: |
-| **Precondition**     | L'utente fornisce credenziali non valide.                       |
-| **Post condition**    | Il sistema non autentica l'utente e notifica l'errore.         |
+| **Precondition**     | L'utente esiste ma fornisce una password errata.                |
+| **Post condition**   | Il sistema non autentica l'utente e notifica l'errore.          |
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente invia username e password al sistema.                  |
-| 2                    | Il sistema verifica che le credenziali non sono valide.         |
-| 3                    | Il sistema notifica l'errore all'utente.                  |
+| 2                    | Il sistema verifica che la password non è corretta.             |
+| 3                    | Il sistema notifica l'errore all'utente.                        |
 
 #### Scenario UC1.3 - Autenticazione fallita per errore interno del server
 
 | **Scenario UC1.3**   | Autenticazione fallita per errore interno del server.           |
 | :------------------: | :-------------------------------------------------------------: |
 | **Precondition**     | L'utente invia credenziali valide.                              |
-| **Post condition**    | Il sistema non autentica l'utente e notifica l'errore.         |
+| **Post condition**   | Il sistema non autentica l'utente e notifica l'errore.          |
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente invia username e password al sistema.                  |
 | 2                    | Si verifica un errore interno del server.                       |
@@ -220,19 +220,19 @@ Il sistema è venduto come prodotto software isolato da eseguire su un server co
 
 | **Scenario UC1.4**   | Autenticazione fallita per utente non trovato.                  |
 | :------------------: | :-------------------------------------------------------------: |
-| **Precondition**     | L'utente invia credenziali valide.                              |
-| **Post condition**    | Il sistema non autentica l'utente e notifica l'errore.         |
+| **Precondition**     | L'utente non esiste nel sistema.                                |
+| **Post condition**   | Il sistema non autentica l'utente e notifica l'errore.          |
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente invia username e password al sistema.                  |
 | 2                    | Il sistema verifica che l'utente non esiste.                    |
-| 3                    | Il sistema notifica l'errore all'utente.                  |
+| 3                    | Il sistema notifica l'errore all'utente.                        |
 
 #### Scenario UC1.5 - Autenticazione fallita per dati di input non validi
 
 | **Scenario UC1.5**   | Autenticazione fallita per dati di input non validi.            |
 | :------------------: | :-------------------------------------------------------------: |
 | **Precondition**     | L'utente invia dati di input non validi.                        |
-| **Post condition**    | Il sistema non autentica l'utente e notifica l'errore.         |
+| **Post condition**   | Il sistema non autentica l'utente e notifica l'errore.          |
 | **Step#**            | **Descrizione**                                                 |
 | 1                    | L'utente invia dati di input non validi al sistema.             |
 | 2                    | Il sistema rileva che i dati di input non sono validi.          |
