@@ -1,0 +1,31 @@
+<svg width="861" height="451" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#ffffff"><defs><style>
+  text {
+    fill: #212529;
+    font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+    font-size: 16px;
+  }
+
+  marker, text {
+    fill-opacity: 1;
+  }
+
+  * {
+    overflow: visible;
+  }
+</style></defs><svg x="225" y="55" width="410" height="300" class="System" fill="#ffffff"><g><rect width="100%" height="100%" stroke="black" fill="white" class="sc-fqkvVR uHYUy"></rect><text x="50%" y="16" dominant-baseline="middle" text-anchor="middle" font-weight="bold" pointer-events="none">System</text></g></svg><svg x="345" y="155" width="160" height="100" class="GeoControl" fill="#ffffff"><g><ellipse cx="50%" cy="50%" rx="50%" ry="50%" stroke="black" fill="white" class="sc-kAyceB ldFMTf"></ellipse><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-weight="bold" pointer-events="none">GeoControl</text></g></svg><svg x="15" y="15" width="80" height="140" class="Admin" fill="#ffffff"><g><rect width="100%" height="100%" fill="none"></rect><g stroke="black" stroke-width="2"><circle cx="40" cy="25" r="15" stroke="black" fill="white" class="sc-iGgWBj fYmGgq"></circle><line x1="40" y1="40" x2="40" y2="80" stroke="black" class="sc-imWYAI kESMEa"></line><line x1="10" y1="50" x2="70" y2="50" stroke="black" class="sc-imWYAI kESMEa"></line><line x1="40" y1="80" x2="10" y2="110" stroke="black" class="sc-imWYAI kESMEa"></line><line x1="40" y1="80" x2="70" y2="110" stroke="black" class="sc-imWYAI kESMEa"></line></g><text x="40" y="130" dominant-baseline="middle" text-anchor="middle" font-weight="bold" pointer-events="none">Admin</text></g></svg><svg x="15" y="155" width="80" height="140" class="Operator" fill="#ffffff"><g><rect width="100%" height="100%" fill="none"></rect><g stroke="black" stroke-width="2"><circle cx="40" cy="25" r="15" stroke="black" fill="white" class="sc-iGgWBj fYmGgq"></circle><line x1="40" y1="40" x2="40" y2="80" stroke="black" class="sc-imWYAI kESMEa"></line><line x1="10" y1="50" x2="70" y2="50" stroke="black" class="sc-imWYAI kESMEa"></line><line x1="40" y1="80" x2="10" y2="110" stroke="black" class="sc-imWYAI kESMEa"></line><line x1="40" y1="80" x2="70" y2="110" stroke="black" class="sc-imWYAI kESMEa"></line></g><text x="40" y="130" dominant-baseline="middle" text-anchor="middle" font-weight="bold" pointer-events="none">Operator</text></g></svg><svg x="15" y="295" width="80" height="140" class="Viewer" fill="#ffffff"><g><rect width="100%" height="100%" fill="none"></rect><g stroke="black" stroke-width="2"><circle cx="40" cy="25" r="15" stroke="black" fill="white" class="sc-iGgWBj fYmGgq"></circle><line x1="40" y1="40" x2="40" y2="80" stroke="black" class="sc-imWYAI kESMEa"></line><line x1="10" y1="50" x2="70" y2="50" stroke="black" class="sc-imWYAI kESMEa"></line><line x1="40" y1="80" x2="10" y2="110" stroke="black" class="sc-imWYAI kESMEa"></line><line x1="40" y1="80" x2="70" y2="110" stroke="black" class="sc-imWYAI kESMEa"></line></g><text x="40" y="130" dominant-baseline="middle" text-anchor="middle" font-weight="bold" pointer-events="none">Viewer</text></g></svg><svg x="765" y="135" width="80" height="140" class="Gateway" fill="#ffffff"><g><rect width="100%" height="100%" fill="none"></rect><g stroke="black" stroke-width="2"><circle cx="40" cy="25" r="15" stroke="black" fill="white" class="sc-iGgWBj fYmGgq"></circle><line x1="40" y1="40" x2="40" y2="80" stroke="black" class="sc-imWYAI kESMEa"></line><line x1="10" y1="50" x2="70" y2="50" stroke="black" class="sc-imWYAI kESMEa"></line><line x1="40" y1="80" x2="10" y2="110" stroke="black" class="sc-imWYAI kESMEa"></line><line x1="40" y1="80" x2="70" y2="110" stroke="black" class="sc-imWYAI kESMEa"></line></g><text x="40" y="130" dominant-baseline="middle" text-anchor="middle" font-weight="bold" pointer-events="none">Gateway</text></g></svg><svg x="95" y="85" width="250" height="120" class="" fill="#ffffff"><g><path id="textpath-2df8f1bb-4c50-4d49-8c8b-9960b42bdb9e" d="
+        M 0 -10
+        L 250 110
+    "></path><text dominant-baseline="middle" text-anchor="middle" font-weight="bold" pointer-events="none" dy="20px"><textPath xlink:href="#textpath-2df8f1bb-4c50-4d49-8c8b-9960b42bdb9e" startOffset="50%"></textPath></text><polyline points="0 0,250 120" stroke-width="1" stroke="black" fill="none" class="sc-aXZVg eMElBf"></polyline></g></svg><svg x="95" y="205" width="250" height="20" class="" fill="#ffffff"><g><path id="textpath-96bb3514-c6d4-4de3-96a1-0a57a662efea" d="
+        M 0 10
+        L 250 -10
+    "></path><text dominant-baseline="middle" text-anchor="middle" font-weight="bold" pointer-events="none" dy="20px"><textPath xlink:href="#textpath-96bb3514-c6d4-4de3-96a1-0a57a662efea" startOffset="50%"></textPath></text><polyline points="0 20,250 0" stroke-width="1" stroke="black" fill="none" class="sc-aXZVg eMElBf"></polyline></g></svg><svg x="95" y="205" width="250" height="160" class="" fill="#ffffff"><g><path id="textpath-df12b5f4-380c-4dc8-96aa-94ee8a7e2b46" d="
+        M 0 150
+        L 250 -10
+    "></path><text dominant-baseline="middle" text-anchor="middle" font-weight="bold" pointer-events="none" dy="20px"><textPath xlink:href="#textpath-df12b5f4-380c-4dc8-96aa-94ee8a7e2b46" startOffset="50%"></textPath></text><polyline points="0 160,250 0" stroke-width="1" stroke="black" fill="none" class="sc-aXZVg eMElBf"></polyline></g></svg><svg x="505" y="205" width="260" height="1" class="" fill="#ffffff"><g><path id="textpath-bdc859bc-e782-4d55-8688-210fecf1a66e" d="
+        M 260 -10
+        L 0 -10
+    "></path><text dominant-baseline="middle" text-anchor="middle" font-weight="bold" pointer-events="none" dy="20px" transform="
+            translate(130, 0)
+            rotate(180)
+            translate(-130, 0)
+          "><textPath xlink:href="#textpath-bdc859bc-e782-4d55-8688-210fecf1a66e" startOffset="50%"></textPath></text><polyline points="260 0,0 0" stroke-width="1" stroke="black" fill="none" class="sc-aXZVg eMElBf"></polyline></g></svg></svg>
