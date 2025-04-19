@@ -2075,6 +2075,36 @@ Il sistema è venduto come prodotto software isolato da eseguire su un server co
 
 ![glossary](diagrams/glossary.svg)
 
+## Definizioni
+
+### Rete  
+Raggruppamento logico di gateway, identificata da un codice alfanumerico univoco e non corrisponde a un dispositivo fisico, ma a un'entità organizzativa definita a livello software.
+
+### Gateway  
+Dispositivo fisico, identificato da un indirizzo MAC, che riceve i dati dai sensori tramite interfacce seriali, effettua la conversione digitale delle misurazioni e le trasmette al sistema GeoControl tramite rete.
+
+### Sensore  
+Dispositivo fisico privo di connettività di rete, che effettua una misurazione ogni 10 minuti. Invia i dati (valore e timestamp) al gateway di riferimento tramite connessione seriale.
+
+### Misurazione  
+Rilevazione effettuata da un sensore, composta da un valore numerico e da un timestamp espresso in formato ISO 8601. I timestamp vengono convertiti e memorizzati nel sistema in UTC.
+
+### Statistica  
+Indicatore calcolato su un insieme di misurazioni relative a un sensore in un dato intervallo temporale. Comprende media, varianza e soglie di allerta (superiore/inferiore), usate per individuare valori anomali (*outlier*).
+
+### User (Utente)  
+Entità identificata da nome utente e password, associata a un ruolo che ne determina i permessi d'accesso alle funzionalità del sistema.
+
+### Admin  
+Utente con privilegi completi su tutte le risorse: gestione degli utenti, reti, gateway, sensori e misurazioni. Ha accesso totale al sistema.
+
+### Operator  
+Utente con accesso operativo: può gestire reti, gateway, sensori e inserire misurazioni, ma non può gestire gli utenti.
+
+### Viewer  
+Utente con accesso in sola lettura: può consultare i dati delle reti, gateway, sensori e misurazioni, ma non modificarli o accedere alle informazioni utente.
+
+
 # System Design
 
 ![System Design Diagram](diagrams/system-design_diagram.svg)
