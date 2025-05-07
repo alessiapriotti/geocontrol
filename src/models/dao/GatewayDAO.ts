@@ -1,20 +1,24 @@
-import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
-import type { Sensor } from "../dto/Sensor";
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany, ManyToOne } from "typeorm";
+import { SensorDAO } from "./SensorDAO";
+import { NetworkDAO } from "./NetworkDAO";
 
 @Entity("gateway")
 export class GatewayDAO {
-  @PrimaryGeneratedColumn("increment") // DA VERIFICARE
+  @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ nullable: false })
+  @Column({ nullable: false, unique: true })
   macAddress: string;
 
-  @Column({ nullable: false })
+  @Column({ nullable: true })
   name: string;
 
-  @Column({ nullable: false })
+  @Column({ nullable: true })
   description: string;
 
-  @Column({ nullable: false })
-  sensors: Array<Sensor>;
+  @OneToMany(() => SensorDAO, (sensor) => sensor.gateway, { cascade: true })
+  sensors: SensorDAO[];
+
+  @ManyToOne(() => NetworkDAO, (network) => network.gateways, { nullable: false, onDelete: "CASCADE" })
+  network: NetworkDAO;
 }

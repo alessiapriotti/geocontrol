@@ -1,20 +1,20 @@
-import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
-import type { Gateway } from "../dto/Gateway";
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from "typeorm";
+import { GatewayDAO } from "./GatewayDAO";
 
 @Entity("network")
 export class NetworkDAO {
-  @PrimaryGeneratedColumn("increment") // DA VERIFICARE
+  @PrimaryGeneratedColumn()
   id: number;
   
-  @Column({ nullable: false })
+  @Column({ nullable: false, unique: true })
   code: string;
 
-  @Column({ nullable: false })
+  @Column({ nullable: true })
   name: string;
 
-  @Column({ nullable: false })
+  @Column({ nullable: true })
   description: string;
 
-  @Column({ nullable: false })
-  gateways: Array<Gateway>;
+  @OneToMany(() => GatewayDAO, (gateway) => gateway.network, { cascade: true })
+  gateways: GatewayDAO[];
 }

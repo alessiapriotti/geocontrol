@@ -1,22 +1,30 @@
-import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany } from "typeorm";
+import { GatewayDAO } from "./GatewayDAO";
+import { MeasurementDAO } from "./MeasurementDAO";
 
 @Entity("sensor")
 export class SensorDAO {
-  @PrimaryGeneratedColumn("increment") // DA VERIFICARE
+  @PrimaryGeneratedColumn()
   id: number;
 
   @Column({ nullable: false })
   macAddress: string;
 
-  @Column({ nullable: false })
+  @Column({ nullable: true })
   name: string;
 
-  @Column({ nullable: false })
+  @Column({ nullable: true })
   description: string;
 
-  @Column({ nullable: false })
+  @Column({ nullable: true })
   variable: string;
 
-  @Column({ nullable: false })
+  @Column({ nullable: true })
   unit: string;
+
+  @ManyToOne(() => GatewayDAO, (gateway) => gateway.sensors, { nullable: false, onDelete: "CASCADE" })
+  gateway: GatewayDAO;
+
+  @OneToMany(() => MeasurementDAO, (measurement) => measurement.sensor, { cascade: true })
+  measurement: MeasurementDAO[];
 }

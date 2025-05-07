@@ -1,8 +1,9 @@
-import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from "typeorm";
+import { SensorDAO } from "./SensorDAO";
 
 @Entity("measurement")
 export class MeasurementDAO {
-  @PrimaryGeneratedColumn("increment") // DA VERIFICARE
+  @PrimaryGeneratedColumn()
   id: number;
 
   @Column({ nullable: false })
@@ -11,6 +12,9 @@ export class MeasurementDAO {
   @Column({ nullable: false })
   value: number;
 
-  @Column({ nullable: false })
+  @Column({ nullable: true })
   isOutlier: boolean;
+
+  @ManyToOne(() => SensorDAO, (sensor) => sensor.measurement, { nullable: false, onDelete: "CASCADE" })
+  sensor: SensorDAO;
 }
