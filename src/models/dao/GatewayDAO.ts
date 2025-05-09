@@ -16,7 +16,7 @@ export class GatewayDAO {
   @Column({ nullable: true })
   description: string;
 
-  @OneToMany(() => SensorDAO, (sensor) => sensor.gateway, { cascade: true })
+  @OneToMany(() => SensorDAO, (sensor) => sensor.gateway, { eager: true, cascade: true })
   sensors: SensorDAO[];
 
   @ManyToOne(() => NetworkDAO, (network) => network.gateways, { nullable: false, onDelete: "CASCADE" })

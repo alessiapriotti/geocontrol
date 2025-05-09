@@ -6,7 +6,7 @@ export class NetworkDAO {
   @PrimaryGeneratedColumn()
   id: number;
   
-  @Column({ nullable: false, unique: true })
+  @Column({ nullable: false })
   code: string;
 
   @Column({ nullable: true })
@@ -15,6 +15,6 @@ export class NetworkDAO {
   @Column({ nullable: true })
   description: string;
 
-  @OneToMany(() => GatewayDAO, (gateway) => gateway.network, { cascade: true })
+  @OneToMany(() => GatewayDAO, (gateway) => gateway.network, { eager: true, cascade: true })
   gateways: GatewayDAO[];
 }

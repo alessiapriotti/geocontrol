@@ -7,7 +7,7 @@ export class SensorDAO {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ nullable: false })
+  @Column({ nullable: false, unique: true })
   macAddress: string;
 
   @Column({ nullable: true })
@@ -25,6 +25,6 @@ export class SensorDAO {
   @ManyToOne(() => GatewayDAO, (gateway) => gateway.sensors, { nullable: false, onDelete: "CASCADE" })
   gateway: GatewayDAO;
 
-  @OneToMany(() => MeasurementDAO, (measurement) => measurement.sensor, { cascade: true })
+  @OneToMany(() => MeasurementDAO, (measurement) => measurement.sensor, { eager: true, cascade: true })
   measurement: MeasurementDAO[];
 }
