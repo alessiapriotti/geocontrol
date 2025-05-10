@@ -1,4 +1,4 @@
-import { createNetwork, deleteNetwork, getAllNetworks, getNetwork, updateNetwork } from "@controllers/NetworkController";
+import { createNetwork, deleteNetwork, getAllNetworks, getNetwork, updateNetwork } from "@controllers/networkController";
 import { authenticateUser } from "@middlewares/authMiddleware";
 import { NetworkFromJSON } from "@dto/Network";
 import AppError from "@models/errors/AppError";
