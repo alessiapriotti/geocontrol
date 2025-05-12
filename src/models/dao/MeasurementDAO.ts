@@ -12,9 +12,6 @@ export class MeasurementDAO {
   @Column({ nullable: false })
   value: number;
 
-  @Column({ nullable: true })
-  isOutlier: boolean;
-
   @ManyToOne(() => SensorDAO, (sensor) => sensor.measurement, { nullable: false, onDelete: "CASCADE" })
   sensor: SensorDAO;
 }
