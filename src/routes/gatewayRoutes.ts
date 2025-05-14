@@ -10,7 +10,7 @@ const router = Router({ mergeParams: true });
 // Get all gateways (Any authenticated user)
 router.get("", (req, res, next) => {
   try {
-    res.status(200).json(getAllGateway());
+    res.status(200).json(getAllGateway(req.body));
   } catch (error) {
     next(error);
   }
@@ -39,7 +39,7 @@ router.patch("/:gatewayMac", (req, res, next) => {
 // Delete a gateway (Admin & Operator)
 router.delete("/:gatewayMac", authenticateUser([UserType.Admin, UserType.Operator]), async (req, res, next) => {
   try {
-    await deleteGateway(req.params.gatewayMac);
+    await deleteGateway(req.params.gatewayMac, req.params.networkCode);
     res.status(204).send();
   } catch (error) {
     next(error);
