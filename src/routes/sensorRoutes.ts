@@ -28,7 +28,7 @@ router.post("", authenticateUser([UserType.Admin, UserType.Operator]),async(req,
 });
 
 // Get a specific sensor (Any authenticated user)
-router.get("/:sensorMac", authenticateUser([UserType.Admin, UserType.Operator]),async (req, res, next) => {
+router.get("/:sensorMac", authenticateUser([UserType.Admin, UserType.Operator,UserType.Viewer]),async (req, res, next) => {
   try {
       res.status(200).json(await getSensorByMacAddress(req.params.networkCode,req.params.gatewayMac,req.params.sensorMac));
     } catch (error) {
