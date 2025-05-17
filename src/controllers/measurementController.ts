@@ -7,7 +7,7 @@ import { NetworkDAO } from "@models/dao/NetworkDAO";
 import { SensorDAO } from "@models/dao/SensorDAO";
 import { MeasurementRepository } from "@repositories/MeasurementRepository";
 import { mapMeasurementDAOToDTO } from "@services/mapperService";
-import { createMeasurementsDTO, createMeasurementsDTOArray } from "@services/statsService";
+import { createMeasurementsDTO, createMeasurementsDTOArray, getSensorsByNetwork } from "@services/statsService";
 import { findOrThrowNotFound } from "@utils";
 
 export async function getAllMeasurements(): Promise<MeasurementDTO[]> {
@@ -21,20 +21,26 @@ export async function createMeasurement(network: string, gateway: string, sensor
 }
 
 export async function getMeasurementsBySensorSet(network: string, sensors: string[], startDate: Date, endDate: Date): Promise<MeasurementsDTO[]> {
-  findOrThrowNotFound([ await AppDataSource.getRepository(NetworkDAO).findOne({where: {code: network}}) ],
+  const networkFound = findOrThrowNotFound([ await AppDataSource.getRepository(NetworkDAO).findOne({where: {code: network}}) ],
     (item) => item !== null,
     "Entity not found"
   )
 
-  const sensorRepo = AppDataSource.getRepository(SensorDAO);
   let sensorsFound = [];
-  for (const sensMac of sensors) {
-    const sensFound = sensorRepo.findOne({where: {macAddress: sensMac}});
+  
+  if (sensors?.length > 0) {
+    const sensorRepo = AppDataSource.getRepository(SensorDAO);
+    for (const sensMac of sensors) {
+      const sensFound = sensorRepo.findOne({where: {macAddress: sensMac}});
 
-    if (sensFound) 
-      sensorsFound.push(sensFound);
-    else
-      console.log(`[Ctrl.getMeasurementsBySensorSet] Ignored MAC (${sensMac}) since it wasn't found in the DB.`);
+      if (sensFound) 
+        sensorsFound.push(sensFound);
+      else
+        console.log(`[Ctrl.getMeasurementsBySensorSet] Ignored MAC (${sensMac}) since it wasn't found in the DB.`);
+    }
+  }
+  else {
+    sensorsFound.push(...getSensorsByNetwork(networkFound));
   }
 
   const repo = new MeasurementRepository();

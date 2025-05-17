@@ -3,6 +3,7 @@ import { SensorDAO } from "@models/dao/SensorDAO";
 import { Measurements as MeasurementsDTO } from "@models/dto/Measurements";
 import { Measurement as MeasurementDTO } from "@models/dto/Measurement";
 import { convertMeasurementDAOToDTO } from "./mapperService";
+import { NetworkDAO } from "@models/dao/NetworkDAO";
 
 /**
  * Calcola le statistiche (media, varianza, soglie superiore e inferiore) per un array di numbers.
@@ -105,3 +106,13 @@ export function createMeasurementsDTO(meases: MeasurementDAO[], sens: SensorDAO,
 
   return mss;
 }
+
+/**
+ * Restituisce tutti i sensori associati alla rete passata.
+ *
+ * @param network - Il `NetworkDAO` da cui estrarre i sensori.
+ * @returns Un array di `SensorDAO` presenti tra tutti i gateway della rete.
+ */
+export function getSensorsByNetwork(network: NetworkDAO): SensorDAO[] {
+  return network.gateways.map((g) => g.sensors).flat();
+} 
