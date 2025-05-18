@@ -1,7 +1,7 @@
 import { AppDataSource } from "@database";
 import { Repository } from "typeorm";
 import { SensorDAO } from "@dao/SensorDAO";
-import { GatewayRepository } from "@repositories/GatewayRepository";
+import { GatewayDAO } from "@dao/GatewayDAO";
 import { findOrThrowNotFound, throwConflictIfFound } from "@utils";
 
 export class SensorRepository {
@@ -12,19 +12,15 @@ export class SensorRepository {
   }
 
 //Retrieve all sensors of a gateway
- async getAllSensors(networkCode: string, gatewayMac: string): Promise<SensorDAO[]> {
-    const gatewayRepo= new GatewayRepository();
-    
-    return (await gatewayRepo.getGatewayByMacAddress(networkCode,gatewayMac)).sensors;
+ async getAllSensors(networkCode: string, gatewayMac: string): Promise<SensorDAO[]> {    
+    return (await this.repo.find({ where: {gateway:{macAddress:gatewayMac,network:{code:networkCode}}} }));
     
   }
 
 
   //Retrieve a specific sensor
   async getSensorByMacAddress(networkCode: string, gatewayMac: string,sensorMac:string): Promise<SensorDAO> {
-    const gatewayRepo= new GatewayRepository();
-    await gatewayRepo.getGatewayByMacAddress(networkCode,gatewayMac);
-
+    
     return findOrThrowNotFound(
       await this.repo.find({ where: { macAddress:sensorMac ,gateway:{macAddress:gatewayMac,network:{code:networkCode}}} }),
       () => true,
@@ -34,16 +30,14 @@ export class SensorRepository {
 
   //create a new sensor for a gateway
   async createSensor(
-    networkCode: string,
-    gatewayMac: string,
     macAddress: string,
     name: string,
     description: string,
     variable: string,
-    unit: string
+    unit: string,
+    gateway: GatewayDAO
   ): Promise<SensorDAO> {
 
-    const gatewayRepo= new GatewayRepository();
 
     throwConflictIfFound(
       await this.repo.find({ where: { macAddress } }),
@@ -51,7 +45,7 @@ export class SensorRepository {
       `Sensor with macAddress '${macAddress}' already exists`
     );
 
-    const gateway=await gatewayRepo.getGatewayByMacAddress(networkCode,gatewayMac);
+    
 
     return this.repo.save({
         macAddress: macAddress,
