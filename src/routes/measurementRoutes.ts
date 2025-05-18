@@ -21,7 +21,8 @@ router.post(
         );
       }
       res.status(201).json({ message: "Measurement created" });
-    } catch (error) {
+    } 
+    catch (error) {
       next(error);
     }
   }

@@ -1,11 +1,12 @@
 import { AppDataSource } from "@database";
 import { Measurement as MeasurementDTO } from "@dto/Measurement";
 import { Measurements as MeasurementsDTO } from "@dto/Measurements";
-import { Stats as StatsDTO } from "@dto/Stats";
-import { GatewayDAO } from "@models/dao/GatewayDAO";
-import { NetworkDAO } from "@models/dao/NetworkDAO";
 import { SensorDAO } from "@models/dao/SensorDAO";
+import { NotFoundError } from "@models/errors/NotFoundError";
+import { GatewayRepository } from "@repositories/GatewayRepository";
 import { MeasurementRepository } from "@repositories/MeasurementRepository";
+import { NetworkRepository } from "@repositories/NetworkRepository";
+import { logInfo } from "@services/loggingService";
 import { mapMeasurementDAOToDTO } from "@services/mapperService";
 import { createMeasurementsDTO, createMeasurementsDTOArray, getSensorsByNetwork } from "@services/statsService";
 import { findOrThrowNotFound } from "@utils";
@@ -21,22 +22,28 @@ export async function createMeasurement(network: string, gateway: string, sensor
 }
 
 export async function getMeasurementsBySensorSet(network: string, sensors: string[], startDate: Date, endDate: Date): Promise<MeasurementsDTO[]> {
-  const networkFound = findOrThrowNotFound([ await AppDataSource.getRepository(NetworkDAO).findOne({where: {code: network}}) ],
-    (item) => item !== null,
-    "Entity not found"
-  )
-
+  let networkFound = null;
   let sensorsFound = [];
+
+  try {
+    networkFound = await (new NetworkRepository()).getNetworkByCode(network);
+  }
+  catch (error) {
+    if (error instanceof NotFoundError)
+      throw new NotFoundError("Entity not found");
+    else
+      throw error;
+  }
   
   if (sensors?.length > 0) {
-    const sensorRepo = AppDataSource.getRepository(SensorDAO);
+    const sensorRepo = AppDataSource.getRepository(SensorDAO); //TODO: Replace with new SensorRepositor();
     for (const sensMac of sensors) {
-      const sensFound = sensorRepo.findOne({where: {macAddress: sensMac}});
+      const sensFound = await sensorRepo.findOne({where: {macAddress: sensMac}}); //TODO: Replace with await sensorRepo.getSensorByMacAddress()
 
-      if (sensFound) 
+      if (sensFound)
         sensorsFound.push(sensFound);
       else
-        console.log(`[Ctrl.getMeasurementsBySensorSet] Ignored MAC (${sensMac}) since it wasn't found in the DB.`);
+        logInfo(`[MeasCtrl.getMeasurementsBySensorSet] Ignored MAC (${sensMac}) since it wasn't found in the DB.`);
     }
   }
   else {
@@ -73,17 +80,22 @@ export async function getOutliersBySensorSet(network: string, sensors: string[],
 }
 
 export async function getMeasurementsBySensor(network: string, gateway: string, sensor: string, startDate: Date, endDate: Date): Promise<MeasurementsDTO> {
-  findOrThrowNotFound([ await AppDataSource.getRepository(NetworkDAO).findOne({where: {code: network}}) ],
-    (item) => item !== null,
-    "Entity not found"
-  )
+  let sensorFound = null;
 
-  findOrThrowNotFound([ await AppDataSource.getRepository(GatewayDAO).findOne({where: {macAddress: gateway}}) ],
-    (item) => item !== null,
-    "Entity not found"
-  )
+  try {
+    await (new NetworkRepository()).getNetworkByCode(network);
+    await (new GatewayRepository()).getGatewayByMacAddress(gateway);
+    //TODO: sensorFound = await (new SensorRepository()).getGatewayByMacAddress(sensor);
+  }
+  catch (error) {
+    if (error instanceof NotFoundError)
+      throw new NotFoundError("Entity not found");
+    else
+      throw error;
+  }
 
-  const sensorFound = findOrThrowNotFound([ await AppDataSource.getRepository(SensorDAO).findOne({where: {macAddress: sensor}}) ],
+  //TODO: Delete this
+  sensorFound = findOrThrowNotFound([ await AppDataSource.getRepository(SensorDAO).findOne({where: {macAddress: sensor}}) ],
     (item) => item !== null,
     "Entity not found"
   )
