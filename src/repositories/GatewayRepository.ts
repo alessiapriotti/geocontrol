@@ -13,26 +13,12 @@ export class GatewayRepository {
 
   async getAllGateway(networkCode: string): Promise<GatewayDAO[]> {
 
-    findOrThrowNotFound(
-      await AppDataSource.getRepository(NetworkDAO).find({
-      where: { code: networkCode },}),
-        () => true,
-      `Network with code '${networkCode}' not found`
-    );
-
     return this.repo.find({
       where: { network: { code: networkCode } }});
   }
   
   async getGatewayByMacAddress(macAddress: string, networkCode: string): Promise<GatewayDAO> {
-
-    findOrThrowNotFound(
-      await AppDataSource.getRepository(NetworkDAO).find({
-      where: { code: networkCode }}),
-       () => true,
-      `Network with code '${networkCode}' not found`
-    );
-
+    
     return findOrThrowNotFound(
       await this.repo.find({ where: { macAddress} }),
       () => true,
@@ -48,11 +34,7 @@ export class GatewayRepository {
     name: string,
     description: string
     ): Promise<void> {
-    throwConflictIfFound(
-      await this.repo.find({ where: {macAddress: currentMacAddress, network: {code: networkCode}} }),
-      (c) => c.macAddress !== macAddress,
-      `Network with code '${networkCode}' not found`
-    );
+
     if (currentMacAddress !== macAddress) {
       throwConflictIfFound(
         await this.repo.find({ where: { macAddress } }),
@@ -67,7 +49,7 @@ export class GatewayRepository {
     macAddress: string,
     name: string,
     description: string,
-    networkId: string
+    networkDAO: NetworkDAO
   ): Promise<GatewayDAO> {
     throwConflictIfFound(
       await this.repo.find({ where: { macAddress } }),
@@ -75,19 +57,11 @@ export class GatewayRepository {
       `Gateway with code '${macAddress}' already exists`
     );
 
-    const network = await AppDataSource.getRepository(NetworkDAO).findOne({
-      where: { code: networkId },
-    });
-
-    if (!network) {
-      throw new Error(`Network with id '${networkId}' not found`);
-    }
-
     return this.repo.save({
       macAddress,
       name,
       description,
-      network: network
+      network: networkDAO
     });
   }
 
