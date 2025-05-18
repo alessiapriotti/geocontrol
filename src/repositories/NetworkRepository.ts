@@ -33,10 +33,13 @@ export class NetworkRepository {
       `Network with code '${code}' already exists`
     );
 
+    if (!name) name = "";
+    if (!description) description = "";
+
     return this.repo.save({
-        code: code,
-        name: name,
-        description: description
+      code: code,
+      name: name,
+      description: description,
     });
   }
 
@@ -46,19 +49,19 @@ export class NetworkRepository {
     name: string,
     description: string
   ): Promise<void> {
-    throwConflictIfFound(
+    findOrThrowNotFound(
       await this.repo.find({ where: { code: networkCode } }),
-      (c) => c.code !== networkCode,
+      () => true,
       `Network with code '${networkCode}' not found`
     );
     if (networkCode !== code) {
       throwConflictIfFound(
         await this.repo.find({ where: { code } }),
-        (c) => c.code === code,
+        () => true,
         `Network with code '${code}' already exists`
       );
     }
-  
+
     await this.repo.update({ code: networkCode }, { code, name, description });
   }
 
