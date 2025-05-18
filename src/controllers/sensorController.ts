@@ -32,5 +32,7 @@ export async function updateSensor(networkCode: string, gatewayMac: string, sens
 
 export async function deleteSensor(networkCode: string, gatewayMac: string, sensorMac:string): Promise<void> {
   const sensorRepo = new SensorRepository();
+  const gatewayRepo= new GatewayRepository();
+  await gatewayRepo.getGatewayByMacAddress(networkCode,gatewayMac);
   await sensorRepo.deleteSensor(networkCode,gatewayMac,sensorMac);
 }
