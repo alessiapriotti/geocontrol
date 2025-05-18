@@ -14,9 +14,9 @@ router.post(
     try {
       for (const measure of req.body) {
         await createMeasurement(
-          req.params.networkCode, 
-          req.params.gatewayMac, 
-          req.params.sensorMac, 
+          req.params.networkCode,
+          req.params.gatewayMac,
+          req.params.sensorMac,
           measure
         );
       }
@@ -36,11 +36,11 @@ router.get(
     try {
       res.status(200).json(
         await getMeasurementsBySensor(
-          req.params.networkCode, 
-          req.params.gatewayMac, 
-          req.params.sensorMac, 
-          req.body.startDate, 
-          req.body.endDate
+          req.params.networkCode,
+          req.params.gatewayMac,
+          req.params.sensorMac,
+          new Date(req.query.startDate.toString()), 
+          new Date(req.query.endDate.toString())
         )
       );
     }
@@ -57,11 +57,11 @@ router.get(CONFIG.ROUTES.V1_SENSORS + "/:sensorMac/stats",
     try {
       res.status(200).json(
         await getStatsBySensor(
-          req.params.networkCode, 
-          req.params.gatewayMac, 
-          req.params.sensorMac, 
-          req.body.startDate, 
-          req.body.endDate
+          req.params.networkCode,
+          req.params.gatewayMac,
+          req.params.sensorMac,
+          new Date(req.query.startDate.toString()), 
+          new Date(req.query.endDate.toString())
         )
       );
     }
@@ -79,11 +79,11 @@ router.get(
     try {
       res.status(200).json(
         await getOutliersBySensor(
-          req.params.networkCode, 
-          req.params.gatewayMac, 
-          req.params.sensorMac, 
-          req.body.startDate, 
-          req.body.endDate
+          req.params.networkCode,
+          req.params.gatewayMac,
+          req.params.sensorMac,
+          new Date(req.query.startDate.toString()), 
+          new Date(req.query.endDate.toString())
         )
       );
     }
@@ -101,10 +101,10 @@ router.get(
     try {
       res.status(200).json(
         await getMeasurementsBySensorSet(
-          req.params.networkCode, 
-          req.body.sensorMacs, 
-          req.body.startDate, 
-          req.body.endDate
+          req.params.networkCode,
+          req.query.sensorMacs.toString().split(","),
+          new Date(req.query.startDate.toString()), 
+          new Date(req.query.endDate.toString())
         )
       );
     }
@@ -122,10 +122,10 @@ router.get(
     try {
       res.status(200).json(
         await getStatsBySensorSet(
-          req.params.networkCode, 
-          req.body.sensorMacs, 
-          req.body.startDate, 
-          req.body.endDate
+          req.params.networkCode,
+          req.query.sensorMacs.toString().split(","),
+          new Date(req.query.startDate.toString()), 
+          new Date(req.query.endDate.toString())
         )
       );
     }
@@ -143,10 +143,10 @@ router.get(
     try {
       res.status(200).json(
         await getOutliersBySensorSet(
-          req.params.networkCode, 
-          req.body.sensorMacs, 
-          req.body.startDate, 
-          req.body.endDate
+          req.params.networkCode,
+          req.query.sensorMacs.toString().split(","),
+          new Date(req.query.startDate.toString()), 
+          new Date(req.query.endDate.toString())
         )
       );
     }
