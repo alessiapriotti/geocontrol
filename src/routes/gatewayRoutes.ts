@@ -8,9 +8,9 @@ import { Router } from "express";
 const router = Router({ mergeParams: true });
 
 // Get all gateways (Any authenticated user)
-router.get("",authenticateUser([UserType.Admin,UserType.Operator,UserType.Viewer]),(req, res, next) => {
+router.get("",authenticateUser([UserType.Admin,UserType.Operator,UserType.Viewer]), async(req, res, next) => {
   try {
-    res.status(200).json(getAllGateway(req.params.networkCode));
+    res.status(200).json(await getAllGateway(req.params.networkCode));
   } catch (error) {
     next(error);
   }
