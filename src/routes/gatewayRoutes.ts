@@ -29,8 +29,7 @@ router.post("", authenticateUser([UserType.Admin, UserType.Operator]), async (re
 // Get a specific gateway (Any authenticated user)
 router.get("/:gatewayMac",authenticateUser([UserType.Admin,UserType.Operator,UserType.Viewer]), async(req, res, next) => {
   try {
-    await getGatewayByMacAddress(req.params.gatewayMac, req.params.networkCode);
-    res.status(200).json({message: "Gateway retrieved successfully"});
+    res.status(200).json(await getGatewayByMacAddress(req.params.gatewayMac, req.params.networkCode));
   } catch (error) {
     next(error);
   }
