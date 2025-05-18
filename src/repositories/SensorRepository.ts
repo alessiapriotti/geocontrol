@@ -86,4 +86,14 @@ export class SensorRepository {
   async deleteSensor(networkCode: string,gatewayMac: string,sensorMac: string,): Promise<void> {
     await this.repo.remove(await this.getSensorByMacAddress(networkCode,gatewayMac,sensorMac));
   }
+
+
+ //Retrieve a specific sensor without errors
+  async getSensor(networkCode: string, sensorMac:string): Promise<SensorDAO> {
+    
+      return await this.repo.findOne({ where: { macAddress:sensorMac ,gateway:{network:{code:networkCode}}} });
+
+  }
+
+
 }
