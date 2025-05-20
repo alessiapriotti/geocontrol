@@ -77,7 +77,7 @@ export async function getOutliersBySensorSet(network: string, sensors: string[],
     return {
       sensorMacAddress: dto.sensorMacAddress,
       stats: dto.stats,
-      measurements: dto.measurements.filter((m) => m.isOutlier)
+      measurements: dto.measurements?.filter((m) => m.isOutlier)
     } as MeasurementsDTO;
   });
 }
@@ -121,6 +121,6 @@ export async function getOutliersBySensor(network: string, gateway: string, sens
   return {
     sensorMacAddress: measurementsDTO.sensorMacAddress,
     stats: measurementsDTO.stats,
-    measurements: measurementsDTO.measurements.filter((m) => m.isOutlier)
+    measurements: measurementsDTO.measurements?.filter((m) => m.isOutlier)
   } as MeasurementsDTO;
 }
