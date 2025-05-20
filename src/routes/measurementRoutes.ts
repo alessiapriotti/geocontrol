@@ -39,8 +39,8 @@ router.get(
           req.params.networkCode,
           req.params.gatewayMac,
           req.params.sensorMac,
-          new Date(req.query.startDate.toString()), 
-          new Date(req.query.endDate.toString())
+          req.query.startDate ? new Date(req.query.startDate.toString()) : null, 
+          req.query.endDate ? new Date(req.query.endDate.toString()) : null
         )
       );
     }
@@ -60,8 +60,8 @@ router.get(CONFIG.ROUTES.V1_SENSORS + "/:sensorMac/stats",
           req.params.networkCode,
           req.params.gatewayMac,
           req.params.sensorMac,
-          new Date(req.query.startDate.toString()), 
-          new Date(req.query.endDate.toString())
+          req.query.startDate ? new Date(req.query.startDate.toString()) : null, 
+          req.query.endDate ? new Date(req.query.endDate.toString()) : null
         )
       );
     }
@@ -82,8 +82,8 @@ router.get(
           req.params.networkCode,
           req.params.gatewayMac,
           req.params.sensorMac,
-          new Date(req.query.startDate.toString()), 
-          new Date(req.query.endDate.toString())
+          req.query.startDate ? new Date(req.query.startDate.toString()) : null, 
+          req.query.endDate ? new Date(req.query.endDate.toString()) : null
         )
       );
     }
@@ -102,9 +102,9 @@ router.get(
       res.status(200).json(
         await getMeasurementsBySensorSet(
           req.params.networkCode,
-          req.query.sensorMacs.toString().split(","),
-          new Date(req.query.startDate.toString()), 
-          new Date(req.query.endDate.toString())
+          req.query.sensorMacs?.toString().split(","),
+          req.query.startDate ? new Date(req.query.startDate.toString()) : null, 
+          req.query.endDate ? new Date(req.query.endDate.toString()) : null
         )
       );
     }
@@ -123,9 +123,9 @@ router.get(
       res.status(200).json(
         await getStatsBySensorSet(
           req.params.networkCode,
-          req.query.sensorMacs.toString().split(","),
-          new Date(req.query.startDate.toString()), 
-          new Date(req.query.endDate.toString())
+          req.query.sensorMacs?.toString().split(","),
+          req.query.startDate ? new Date(req.query.startDate.toString()) : null, 
+          req.query.endDate ? new Date(req.query.endDate.toString()) : null
         )
       );
     }
@@ -144,9 +144,9 @@ router.get(
       res.status(200).json(
         await getOutliersBySensorSet(
           req.params.networkCode,
-          req.query.sensorMacs.toString().split(","),
-          new Date(req.query.startDate.toString()), 
-          new Date(req.query.endDate.toString())
+          req.query.sensorMacs?.toString().split(","),
+          req.query.startDate ? new Date(req.query.startDate.toString()) : null, 
+          req.query.endDate ? new Date(req.query.endDate.toString()) : null
         )
       );
     }

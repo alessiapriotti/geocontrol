@@ -19,45 +19,14 @@ export class MeasurementRepository {
 
   //TODO: Refactor according to new position of calls.
   async createMeasurement(
-    code: string,
-    gateway: string,
-    sensor: string,
     timestamp: Date,
-    value: number
+    value: number,
+    sensor: SensorDAO
   ): Promise<MeasurementDAO> {
-    findOrThrowNotFound(
-      [ await AppDataSource.getRepository(NetworkDAO).findOne( { where: { code } } ) ],
-      (item) => item !== null,
-      "Entity not found"
-    )
-
-    findOrThrowNotFound(
-      [ await AppDataSource.getRepository(GatewayDAO).findOne( { where: { macAddress: gateway } } ) ],
-      (item) => item !== null,
-      "Entity not found"
-    )
-
-    const sensorFound = findOrThrowNotFound(
-      [ await AppDataSource.getRepository(SensorDAO).findOne( { where: { macAddress: sensor } } ) ],
-      (item) => item !== null,
-      "Entity not found"
-    )
-    
     return this.repo.save({
         createdAt: timestamp,
         value: value,
-        sensor: sensorFound
+        sensor: sensor
     });
-  }
-
-  async getMeasurementsBySensorSet(
-    sensors: SensorDAO[],
-    startDate: Date,
-    endDate: Date
-  ): Promise<MeasurementDAO[]> {
-    return this.repo.find({where: {
-      createdAt: Between(startDate, endDate),
-      sensor: In(sensors),
-    }})
   }
 }

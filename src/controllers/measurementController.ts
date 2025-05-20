@@ -17,14 +17,26 @@ export async function getAllMeasurements(): Promise<MeasurementDTO[]> {
 }
 
 export async function createMeasurement(network: string, gateway: string, sensor: string, measurementDto: MeasurementDTO): Promise<void> {
+  let sensorFound = null;
+  
+  try {
+    await (new NetworkRepository()).getNetworkByCode(network);
+    await (new GatewayRepository()).getGatewayByMacAddress(gateway);
+    //TODO: sensorFound = await (new SensorRepository()).getGatewayByMacAddress(sensor);
+  }
+  catch (error) {
+    if (error instanceof NotFoundError) {
+      throw new NotFoundError("Entity not found")
+    }
+  }
+  
   const measurementRepo = new MeasurementRepository();
-  await measurementRepo.createMeasurement(network, gateway, sensor, measurementDto.createdAt, measurementDto.value);
+  await measurementRepo.createMeasurement(measurementDto.createdAt, measurementDto.value, sensorFound);
 }
 
 export async function getMeasurementsBySensorSet(network: string, sensors: string[], startDate: Date, endDate: Date): Promise<MeasurementsDTO[]> {
   let networkFound = null;
-  let sensorsFound = [];
-
+  
   try {
     networkFound = await (new NetworkRepository()).getNetworkByCode(network);
   }
@@ -34,26 +46,17 @@ export async function getMeasurementsBySensorSet(network: string, sensors: strin
     else
       throw error;
   }
+
+  let sensorsFound = getSensorsByNetwork(networkFound);
   
   if (sensors?.length > 0) {
-    const sensorRepo = AppDataSource.getRepository(SensorDAO); //TODO: Replace with new SensorRepositor();
-    for (const sensMac of sensors) {
-      const sensFound = await sensorRepo.findOne({where: {macAddress: sensMac}}); //TODO: Replace with await sensorRepo.getSensorByMacAddress()
+    sensorsFound = sensorsFound.filter((s) => sensors.includes(s.macAddress))
 
-      if (sensFound)
-        sensorsFound.push(sensFound);
-      else
-        logInfo(`[MeasCtrl.getMeasurementsBySensorSet] Ignored MAC (${sensMac}) since it wasn't found in the DB.`);
-    }
-  }
-  else {
-    sensorsFound.push(...getSensorsByNetwork(networkFound));
+    if (sensorsFound.length < sensors.length)
+      logInfo(`[MeasCtrl.getMeasurementsBySensorSet] Ignored some MACs (considering ${sensorsFound.length} out of ${sensors.length} given) since they were not valid.`);
   }
 
-  const repo = new MeasurementRepository();
-  const meases = await repo.getMeasurementsBySensorSet(sensorsFound, startDate, endDate);
-
-  return createMeasurementsDTOArray(meases, sensorsFound, startDate, endDate);
+  return createMeasurementsDTOArray(sensorsFound, startDate, endDate);
 }
 
 export async function getStatsBySensorSet(network: string, sensors: string[], startDate: Date, endDate: Date): Promise<MeasurementsDTO[]> {
@@ -100,10 +103,7 @@ export async function getMeasurementsBySensor(network: string, gateway: string, 
     "Entity not found"
   )
 
-  const repo = new MeasurementRepository();
-  const meases = await repo.getMeasurementsBySensorSet([sensorFound], startDate, endDate);
-
-  return createMeasurementsDTO(meases, sensorFound, startDate, endDate);
+  return createMeasurementsDTO(sensorFound, startDate, endDate);
 }
 
 export async function getStatsBySensor(network: string, gateway: string, sensor: string, startDate: Date, endDate: Date): Promise<MeasurementsDTO> {
