@@ -15,7 +15,7 @@
 
 # Dependency graph
 
-     <report the here the dependency graph of EzElectronics>
+  ![dependency-graph](diagrams/dependency_graph.svg)
 
 # Integration approach
 
