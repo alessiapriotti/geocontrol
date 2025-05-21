@@ -19,7 +19,7 @@ export async function getAllSensors(networkCode: string, gatewayMac: string): Pr
   
   await (new NetworkRepository()).getNetworkByCode(networkCode);
 
-  await (new GatewayRepository()).getGatewayByMacAddress(networkCode, gatewayMace);
+  await (new GatewayRepository()).getGatewayByMacAddress(networkCode, gatewayMac);
 
   return (await sensorRepo.getAllSensors(networkCode,gatewayMac)).map(mapSensorDAOToDTO);
 }
