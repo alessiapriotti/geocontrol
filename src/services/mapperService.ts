@@ -81,6 +81,7 @@ export function createMeasurementDTO(
     value,
     isOutlier
   }) as MeasurementDTO;
+}
 
 export function createSensorDTO(
   macAddress: string,
