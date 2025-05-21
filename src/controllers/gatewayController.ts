@@ -18,11 +18,11 @@ export async function getAllGateway(networkCode: string): Promise<GatewayDTO[]> 
 }
 
 
-export async function getGatewayByMacAddress(macAddress: string, networkCode: string): Promise<GatewayDTO> {
+export async function getGatewayByMacAddress(networkCode: string, macAddress: string): Promise<GatewayDTO> {
 
     const gatewayRep = new GatewayRepository();
     await (new NetworkRepository().getNetworkByCode(networkCode));
-    return mapGatewayDAOToDTO(await gatewayRep.getGatewayByMacAddress(macAddress, networkCode));
+    return mapGatewayDAOToDTO(await gatewayRep.getGatewayByMacAddress(networkCode, macAddress));
 }
 
 export async function updateGateway(

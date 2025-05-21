@@ -17,7 +17,7 @@ export class GatewayRepository {
       where: { network: { code: networkCode } }});
   }
   
-  async getGatewayByMacAddress(macAddress: string, networkCode: string): Promise<GatewayDAO> {
+  async getGatewayByMacAddress(networkCode: string, macAddress: string): Promise<GatewayDAO> {
     
     return findOrThrowNotFound(
       await this.repo.find({ where: { macAddress, network: {code: networkCode}} }),
@@ -66,6 +66,6 @@ export class GatewayRepository {
   }
 
   async deleteGateway(macAddress: string, networkCode: string): Promise<void> {
-    await this.repo.remove(await this.getGatewayByMacAddress(macAddress, networkCode));
+    await this.repo.remove(await this.getGatewayByMacAddress(networkCode, macAddress));
   }
 }
