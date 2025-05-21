@@ -69,8 +69,6 @@ export class SensorRepository {
     unit?:string
   ): Promise<void> {
 
-    await this.getSensorByMacAddress(networkCode,gatewayMac,sensorMac);
-
     if ((newMacAddress!==undefined)&&(sensorMac !== newMacAddress)) {
       throwConflictIfFound(
         await this.repo.find({ where: { macAddress:newMacAddress } }),
@@ -79,7 +77,7 @@ export class SensorRepository {
       );
     }
   
-    await this.repo.update({ macAddress: sensorMac }, { macAddress:newMacAddress, name, description,variable,unit });
+    await this.repo.update({ macAddress:sensorMac ,gateway:{macAddress:gatewayMac,network:{code:networkCode}} }, { macAddress:newMacAddress, name, description,variable,unit });
   }
 
 //delete a sensor

@@ -1,7 +1,6 @@
 import { createNetwork, deleteNetwork, getAllNetworks, getNetwork, updateNetwork } from "@controllers/networkController";
 import { authenticateUser } from "@middlewares/authMiddleware";
 import { NetworkFromJSON } from "@dto/Network";
-import AppError from "@models/errors/AppError";
 import { UserType } from "@models/UserType";
 import { Router } from "express";
 
@@ -39,7 +38,7 @@ router.get("/:networkCode", authenticateUser([UserType.Admin, UserType.Operator,
 router.patch("/:networkCode", authenticateUser([UserType.Admin, UserType.Operator]), async (req, res, next) => {
   try {
     await updateNetwork(req.params.networkCode, NetworkFromJSON(req.body));
-    res.status(204).json({ message: "Network updated successfully" });
+    res.status(204).send();
   } catch (error) {
     next(error);
   }

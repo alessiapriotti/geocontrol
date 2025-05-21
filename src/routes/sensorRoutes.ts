@@ -1,5 +1,4 @@
 import { getAllSensors,createSensor, getSensorByMacAddress, updateSensor, deleteSensor } from "@controllers/sensorController";
-import AppError from "@models/errors/AppError";
 import { Router } from "express";
 import { authenticateUser } from "@middlewares/authMiddleware";
 import { UserType } from "@models/UserType";
