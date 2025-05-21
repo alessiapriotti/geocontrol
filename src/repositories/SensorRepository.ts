@@ -59,8 +59,6 @@ export class SensorRepository {
 
 //update a sensor
   async updateSensor(
-    networkCode: string,
-    gatewayMac: string,
     sensorMac:string,
     newMacAddress?: string,
     name?: string,
@@ -77,7 +75,7 @@ export class SensorRepository {
       );
     }
   
-    await this.repo.update({ macAddress:sensorMac ,gateway:{macAddress:gatewayMac,network:{code:networkCode}} }, { macAddress:newMacAddress, name, description,variable,unit });
+    await this.repo.update({ macAddress:sensorMac }, { macAddress:newMacAddress, name, description,variable,unit });
   }
 
 //delete a sensor

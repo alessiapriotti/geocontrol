@@ -33,7 +33,10 @@ export async function updateGateway(
 
     const gatewayRep = new GatewayRepository();
     await (new NetworkRepository().getNetworkByCode(networkCode));
-    await gatewayRep.updateGateway(networkCode, currentMacAddress, gatewayDTO.macAddress, gatewayDTO.name, gatewayDTO.description);
+
+    await (gatewayRep.getGatewayByMacAddress(networkCode,currentMacAddress));
+
+    await gatewayRep.updateGateway(currentMacAddress, gatewayDTO.macAddress, gatewayDTO.name, gatewayDTO.description);
 }
 
 export async function deleteGateway(macAddress: string, networkCode: string): Promise<void> {

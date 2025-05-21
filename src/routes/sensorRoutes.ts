@@ -20,7 +20,7 @@ router.get("", authenticateUser([UserType.Admin,UserType.Operator,UserType.Viewe
 router.post("", authenticateUser([UserType.Admin, UserType.Operator]),async(req, res, next) => {
   try {
       await createSensor(req.params.networkCode,req.params.gatewayMac,SensorFromJSON(req.body));
-      res.status(201).json({ message: "Sensor created successfully" });
+      res.status(201).send();
     } catch (error) {
       next(error);
     }

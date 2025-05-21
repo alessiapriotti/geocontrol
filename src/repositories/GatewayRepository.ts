@@ -28,21 +28,20 @@ export class GatewayRepository {
   }
 
   async updateGateway(
-    networkCode: string,
     currentMacAddress: string,
     macAddress?: string,
     name?: string,
     description?: string
     ): Promise<void> {
 
-    if (currentMacAddress !== macAddress) {
+    if ((macAddress!==undefined)&&currentMacAddress !== macAddress) {
       throwConflictIfFound(
         await this.repo.find({ where: { macAddress } }),
         (c) => c.macAddress === macAddress,
         `Network with macAddress '${macAddress}' already exists`
       );
     }
-    await this.repo.update({ macAddress: currentMacAddress, network: {code: networkCode} }, { macAddress, name, description });
+    await this.repo.update({ macAddress: currentMacAddress}, { macAddress, name, description });
   }
 
   async createGateway(

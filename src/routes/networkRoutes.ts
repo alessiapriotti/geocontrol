@@ -19,7 +19,7 @@ router.get("", authenticateUser([UserType.Admin, UserType.Operator, UserType.Vie
 router.post("", authenticateUser([UserType.Admin, UserType.Operator]), async (req, res, next) => {
   try {
     await createNetwork(NetworkFromJSON(req.body));
-    res.status(201).json({ message: "Network created successfully" });
+    res.status(201).send();
   } catch (error) {
     next(error);
   }

@@ -19,7 +19,7 @@ router.get("",authenticateUser([UserType.Admin,UserType.Operator,UserType.Viewer
 router.post("", authenticateUser([UserType.Admin, UserType.Operator]), async (req, res, next) => {
   try {
     await createGateway(GatewayFromJSON(req.body), req.params.networkCode);
-    res.status(201).json({ message: "Gateway created successfully" });
+    res.status(201).send();
   } catch (error) {
     next(error);
   }

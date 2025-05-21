@@ -40,7 +40,9 @@ export async function updateSensor(networkCode: string, gatewayMac: string, sens
   await (new NetworkRepository()).getNetworkByCode(networkCode);
 
   await (new GatewayRepository()).getGatewayByMacAddress(networkCode, gatewayMac);
-  await sensorRepo.updateSensor(networkCode,gatewayMac,sensorMac,sensorDto.macAddress,sensorDto.name,sensorDto.description,sensorDto.variable,sensorDto.unit);
+  await (sensorRepo.getSensorByMacAddress(networkCode,gatewayMac,sensorMac));
+
+  await sensorRepo.updateSensor(sensorMac,sensorDto.macAddress,sensorDto.name,sensorDto.description,sensorDto.variable,sensorDto.unit);
 }
 
 export async function deleteSensor(networkCode: string, gatewayMac: string, sensorMac:string): Promise<void> {
