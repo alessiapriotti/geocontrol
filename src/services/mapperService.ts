@@ -3,8 +3,10 @@ import { User as UserDTO } from "@dto/User";
 import { Network as NetworkDTO } from "@dto/Network";
 import { Gateway as GatewayDTO } from "@dto/Gateway";
 import { Measurement as MeasurementDTO } from "@dto/Measurement";
+import { Sensor as SensorDTO } from "@dto/Sensor";
 import { NetworkDAO } from "@models/dao/NetworkDAO";
 import { UserDAO } from "@models/dao/UserDAO";
+import { SensorDAO } from "@models/dao/SensorDAO";
 import { ErrorDTO } from "@models/dto/ErrorDTO";
 import { UserType } from "@models/UserType";
 import { GatewayDAO } from "@models/dao/GatewayDAO";
@@ -58,13 +60,16 @@ export function createGatewayDTO(
   macAddress: string,
   name?: string,
   description?: string,
+  sensors?:SensorDAO[],
 ): GatewayDTO {
   return removeNullAttributes({
     macAddress,
     name,
-    description
+    description,
+    sensors
   }) as GatewayDTO;
 }
+
 
 export function createMeasurementDTO(
     createdAt: Date,
@@ -76,6 +81,22 @@ export function createMeasurementDTO(
     value,
     isOutlier
   }) as MeasurementDTO;
+
+export function createSensorDTO(
+  macAddress: string,
+  name?: string,
+  description?: string,
+  variable?: string,
+  unit?: string
+): SensorDTO {
+  return removeNullAttributes({
+    macAddress,
+    name,
+    description,
+    variable,
+    unit,
+  }) as SensorDTO;
+
 }
 
 export function mapUserDAOToDTO(userDAO: UserDAO): UserDTO {
@@ -98,7 +119,7 @@ export function mapNetworkDAOToDTO(networkDAO: NetworkDAO): NetworkDTO {
 }
 
 export function mapGatewayDAOToDTO(gatewayDAO: GatewayDAO): GatewayDTO {
-  return createNetworkDTO(gatewayDAO.macAddress, gatewayDAO.name, gatewayDAO.description);
+  return createGatewayDTO(gatewayDAO.macAddress, gatewayDAO.name, gatewayDAO.description,gatewayDAO.sensors);
 }
 
 export function mapMeasurementDAOToDTO(measurementDAO: MeasurementDAO): MeasurementDTO {
@@ -107,4 +128,8 @@ export function mapMeasurementDAOToDTO(measurementDAO: MeasurementDAO): Measurem
 
 export function convertMeasurementDAOToDTO(measurementDAO: MeasurementDAO, isOutlier?: boolean): MeasurementDTO {
   return createMeasurementDTO(measurementDAO.createdAt, measurementDAO.value, isOutlier);
+}
+
+export function mapSensorDAOToDTO(sensorDAO: SensorDAO): SensorDTO {
+  return createSensorDTO(sensorDAO.macAddress, sensorDAO.name, sensorDAO.description, sensorDAO.variable,sensorDAO.unit);
 }

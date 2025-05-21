@@ -8,7 +8,7 @@ import { Router } from "express";
 const router = Router();
 
 // Get all networks (Any authenticated user)
-router.get("", async (req, res, next) => {
+router.get("", authenticateUser([UserType.Admin, UserType.Operator, UserType.Viewer]), async (req, res, next) => {
   try {
     res.status(200).json(await getAllNetworks());
   } catch (error) {
@@ -27,7 +27,7 @@ router.post("", authenticateUser([UserType.Admin, UserType.Operator]), async (re
 });
 
 // Get a specific network (Any authenticated user)
-router.get("/:networkCode", async (req, res, next) => {
+router.get("/:networkCode", authenticateUser([UserType.Admin, UserType.Operator, UserType.Viewer]), async (req, res, next) => {
   try {
     res.status(200).json(await getNetwork(req.params.networkCode));
   } catch (error) {
@@ -39,7 +39,7 @@ router.get("/:networkCode", async (req, res, next) => {
 router.patch("/:networkCode", authenticateUser([UserType.Admin, UserType.Operator]), async (req, res, next) => {
   try {
     await updateNetwork(req.params.networkCode, NetworkFromJSON(req.body));
-    res.status(201).json({ message: "Network updated successfully" });
+    res.status(204).json({ message: "Network updated successfully" });
   } catch (error) {
     next(error);
   }
