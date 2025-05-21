@@ -1,59 +1,158 @@
 import { CONFIG } from "@config";
-import AppError from "@models/errors/AppError";
+import { createMeasurement, getMeasurementsBySensor, getMeasurementsBySensorSet, getOutliersBySensor, getOutliersBySensorSet, getStatsBySensor, getStatsBySensorSet } from "@controllers/measurementController";
+import { authenticateUser } from "@middlewares/authMiddleware";
+import { UserType } from "@models/UserType";
 import { Router } from "express";
 
 const router = Router();
 
 // Store a measurement for a sensor (Admin & Operator)
 router.post(
-  CONFIG.ROUTES.V1_SENSORS + "/:sensorMac/measurements",
-  (req, res, next) => {
-    throw new AppError("Method not implemented", 500);
+  CONFIG.ROUTES.V1_SENSORS + "/:sensorMac/measurements", 
+  authenticateUser([UserType.Admin, UserType.Operator]),
+  async (req, res, next) => {
+    try {
+      for (const measure of req.body) {
+        await createMeasurement(
+          req.params.networkCode,
+          req.params.gatewayMac,
+          req.params.sensorMac,
+          measure
+        );
+      }
+      res.status(201).json({ message: "Measurement created" });
+    } 
+    catch (error) {
+      next(error);
+    }
   }
 );
 
 // Retrieve measurements for a specific sensor
 router.get(
   CONFIG.ROUTES.V1_SENSORS + "/:sensorMac/measurements",
-  (req, res, next) => {
-    throw new AppError("Method not implemented", 500);
+  authenticateUser([UserType.Admin, UserType.Operator, UserType.Viewer]),
+  async (req, res, next) => {
+    try {
+      res.status(200).json(
+        await getMeasurementsBySensor(
+          req.params.networkCode,
+          req.params.gatewayMac,
+          req.params.sensorMac,
+          req.query.startDate ? new Date(req.query.startDate.toString()) : null, 
+          req.query.endDate ? new Date(req.query.endDate.toString()) : null
+        )
+      );
+    }
+    catch (error) {
+      next(error);
+    }
   }
 );
 
 // Retrieve statistics for a specific sensor
-router.get(CONFIG.ROUTES.V1_SENSORS + "/:sensorMac/stats", (req, res, next) => {
-  throw new AppError("Method not implemented", 500);
-});
+router.get(CONFIG.ROUTES.V1_SENSORS + "/:sensorMac/stats",
+  authenticateUser([UserType.Admin, UserType.Operator, UserType.Viewer]),
+  async (req, res, next) => {
+    try {
+      res.status(200).json(
+        await getStatsBySensor(
+          req.params.networkCode,
+          req.params.gatewayMac,
+          req.params.sensorMac,
+          req.query.startDate ? new Date(req.query.startDate.toString()) : null, 
+          req.query.endDate ? new Date(req.query.endDate.toString()) : null
+        )
+      );
+    }
+    catch (error) {
+      next(error);
+    }
+  }
+);
 
 // Retrieve only outliers for a specific sensor
 router.get(
   CONFIG.ROUTES.V1_SENSORS + "/:sensorMac/outliers",
-  (req, res, next) => {
-    throw new AppError("Method not implemented", 500);
+  authenticateUser([UserType.Admin, UserType.Operator, UserType.Viewer]),
+  async (req, res, next) => {
+    try {
+      res.status(200).json(
+        await getOutliersBySensor(
+          req.params.networkCode,
+          req.params.gatewayMac,
+          req.params.sensorMac,
+          req.query.startDate ? new Date(req.query.startDate.toString()) : null, 
+          req.query.endDate ? new Date(req.query.endDate.toString()) : null
+        )
+      );
+    }
+    catch (error) {
+      next(error);
+    }
   }
 );
 
 // Retrieve measurements for a set of sensors of a specific network
 router.get(
   CONFIG.ROUTES.V1_NETWORKS + "/:networkCode/measurements",
-  (req, res, next) => {
-    throw new AppError("Method not implemented", 500);
+  authenticateUser([UserType.Admin, UserType.Operator, UserType.Viewer]),
+  async (req, res, next) => {
+    try {
+      res.status(200).json(
+        await getMeasurementsBySensorSet(
+          req.params.networkCode,
+          req.query.sensorMacs?.toString().split(","),
+          req.query.startDate ? new Date(req.query.startDate.toString()) : null, 
+          req.query.endDate ? new Date(req.query.endDate.toString()) : null
+        )
+      );
+    }
+    catch (error) {
+      next(error);
+    }
   }
 );
 
 // Retrieve statistics for a set of sensors of a specific network
 router.get(
   CONFIG.ROUTES.V1_NETWORKS + "/:networkCode/stats",
-  (req, res, next) => {
-    throw new AppError("Method not implemented", 500);
+  authenticateUser([UserType.Admin, UserType.Operator, UserType.Viewer]),
+  async (req, res, next) => {
+    try {
+      res.status(200).json(
+        await getStatsBySensorSet(
+          req.params.networkCode,
+          req.query.sensorMacs?.toString().split(","),
+          req.query.startDate ? new Date(req.query.startDate.toString()) : null, 
+          req.query.endDate ? new Date(req.query.endDate.toString()) : null
+        )
+      );
+    }
+    catch (error) {
+      next(error);
+    }
   }
 );
 
 // Retrieve only outliers for a set of sensors of a specific network
 router.get(
   CONFIG.ROUTES.V1_NETWORKS + "/:networkCode/outliers",
-  (req, res, next) => {
-    throw new AppError("Method not implemented", 500);
+  authenticateUser([UserType.Admin, UserType.Operator, UserType.Viewer]),
+  async (req, res, next) => {
+    try {
+      res.status(200).json(
+        await getOutliersBySensorSet(
+          req.params.networkCode,
+          req.query.sensorMacs?.toString().split(","),
+          req.query.startDate ? new Date(req.query.startDate.toString()) : null, 
+          req.query.endDate ? new Date(req.query.endDate.toString()) : null
+        )
+      );
+    }
+    catch (error) {
+      next(error);
+    }
   }
 );
 

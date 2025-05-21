@@ -2,6 +2,7 @@ import { Token as TokenDTO } from "@dto/Token";
 import { User as UserDTO } from "@dto/User";
 import { Network as NetworkDTO } from "@dto/Network";
 import { Gateway as GatewayDTO } from "@dto/Gateway";
+import { Measurement as MeasurementDTO } from "@dto/Measurement";
 import { Sensor as SensorDTO } from "@dto/Sensor";
 import { NetworkDAO } from "@models/dao/NetworkDAO";
 import { UserDAO } from "@models/dao/UserDAO";
@@ -9,6 +10,7 @@ import { SensorDAO } from "@models/dao/SensorDAO";
 import { ErrorDTO } from "@models/dto/ErrorDTO";
 import { UserType } from "@models/UserType";
 import { GatewayDAO } from "@models/dao/GatewayDAO";
+import { MeasurementDAO } from "@models/dao/MeasurementDAO";
 
 export function createErrorDTO(
   code: number,
@@ -68,6 +70,18 @@ export function createGatewayDTO(
   }) as GatewayDTO;
 }
 
+
+export function createMeasurementDTO(
+    createdAt: Date,
+    value: number,
+    isOutlier?: boolean
+): MeasurementDTO {
+  return removeNullAttributes({
+    createdAt,
+    value,
+    isOutlier
+  }) as MeasurementDTO;
+
 export function createSensorDTO(
   macAddress: string,
   name?: string,
@@ -82,6 +96,7 @@ export function createSensorDTO(
     variable,
     unit,
   }) as SensorDTO;
+
 }
 
 export function mapUserDAOToDTO(userDAO: UserDAO): UserDTO {
@@ -105,6 +120,14 @@ export function mapNetworkDAOToDTO(networkDAO: NetworkDAO): NetworkDTO {
 
 export function mapGatewayDAOToDTO(gatewayDAO: GatewayDAO): GatewayDTO {
   return createGatewayDTO(gatewayDAO.macAddress, gatewayDAO.name, gatewayDAO.description,gatewayDAO.sensors);
+}
+
+export function mapMeasurementDAOToDTO(measurementDAO: MeasurementDAO): MeasurementDTO {
+  return createMeasurementDTO(measurementDAO.createdAt, measurementDAO.value);
+}
+
+export function convertMeasurementDAOToDTO(measurementDAO: MeasurementDAO, isOutlier?: boolean): MeasurementDTO {
+  return createMeasurementDTO(measurementDAO.createdAt, measurementDAO.value, isOutlier);
 }
 
 export function mapSensorDAOToDTO(sensorDAO: SensorDAO): SensorDTO {
