@@ -1,5 +1,5 @@
 import { AppDataSource } from "@database";
-import { getRepository, Repository } from "typeorm";
+import { Repository } from "typeorm";
 import { findOrThrowNotFound, throwConflictIfFound } from "@utils";
 import { GatewayDAO } from "@models/dao/GatewayDAO";
 import { NetworkDAO } from "@models/dao/NetworkDAO";
@@ -20,7 +20,7 @@ export class GatewayRepository {
   async getGatewayByMacAddress(macAddress: string, networkCode: string): Promise<GatewayDAO> {
     
     return findOrThrowNotFound(
-      await this.repo.find({ where: { macAddress} }),
+      await this.repo.find({ where: { macAddress, network: {code: networkCode}} }),
       () => true,
       `Gateway with macAddress '${macAddress}' not found`
     );
@@ -30,9 +30,9 @@ export class GatewayRepository {
   async updateGateway(
     networkCode: string,
     currentMacAddress: string,
-    macAddress: string,
-    name: string,
-    description: string
+    macAddress?: string,
+    name?: string,
+    description?: string
     ): Promise<void> {
 
     if (currentMacAddress !== macAddress) {
@@ -42,7 +42,7 @@ export class GatewayRepository {
         `Network with macAddress '${macAddress}' already exists`
       );
     }
-    await this.repo.update({ macAddress: currentMacAddress }, { macAddress, name, description });
+    await this.repo.update({ macAddress: currentMacAddress, network: {code: networkCode} }, { macAddress, name, description });
   }
 
   async createGateway(

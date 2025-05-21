@@ -1,7 +1,6 @@
 import { createGateway, deleteGateway, getAllGateway, getGatewayByMacAddress, updateGateway } from "@controllers/gatewayController";
 import { authenticateUser } from "@middlewares/authMiddleware";
 import { GatewayFromJSON } from "@models/dto/Gateway";
-import AppError from "@models/errors/AppError";
 import { UserType } from "@models/UserType";
 import { Router } from "express";
 
@@ -39,7 +38,7 @@ router.get("/:gatewayMac",authenticateUser([UserType.Admin,UserType.Operator,Use
 router.patch("/:gatewayMac",authenticateUser([UserType.Admin, UserType.Operator]), async (req, res, next) => {
   try {
     await updateGateway(req.params.networkCode, req.params.gatewayMac, GatewayFromJSON(req.body));
-    res.status(204).json({ message: "Gateway updated successfully" });
+    res.status(204).send();
     } catch (error) {
       next(error);
     }
