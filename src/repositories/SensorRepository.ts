@@ -84,12 +84,4 @@ export class SensorRepository {
   }
 
 
- //Retrieve a specific sensor without errors
-  async getSensor(networkCode: string, sensorMac:string): Promise<SensorDAO> {
-    
-      return await this.repo.findOne({ where: { macAddress:sensorMac ,gateway:{network:{code:networkCode}}} });
-
-  }
-
-
 }
