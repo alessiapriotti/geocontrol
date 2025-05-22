@@ -44,10 +44,6 @@ describe("SensorRepository: SQLite in-memory", () => {
 
       await expect(
         TestDataSource.getRepository(SensorDAO).findOneOrFail({where: {macAddress: MAC}})
-      ).resolves.not.toThrow();
-
-      await expect(
-        TestDataSource.getRepository(SensorDAO).findOneOrFail({where: {macAddress: MAC}})
       ).resolves.toMatchObject({
         macAddress: MAC,
         name: "bbb",
