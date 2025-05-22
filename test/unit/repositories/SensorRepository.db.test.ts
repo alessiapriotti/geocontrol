@@ -27,7 +27,7 @@ beforeEach(async () => {
 describe("SensorRepository: SQLite in-memory", () => {
   const repo = new SensorRepository();
 
-  describe("createSensor()", () => {
+  describe("TS1: createSensor()", () => {
     let network: NetworkDAO = null;
     let gateway: GatewayDAO = null;
 
@@ -51,6 +51,14 @@ describe("SensorRepository: SQLite in-memory", () => {
         variable: "temp",
         unit: "K",
       } as SensorDAO);
+    });
+
+    it("T1.2: Error if sensor with same MAC exists", async () => {
+      const MAC = "11:22:33:aa";
+
+      await expect(
+        repo.createSensor(MAC, "aaa", "aaa", "temp", "K", gateway)
+      ).rejects.toThrow();
     });
   });
 });

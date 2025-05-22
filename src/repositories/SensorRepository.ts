@@ -11,15 +11,14 @@ export class SensorRepository {
     this.repo = AppDataSource.getRepository(SensorDAO);
   }
 
-//Retrieve all sensors of a gateway
- async getAllSensors(networkCode: string, gatewayMac: string): Promise<SensorDAO[]> {    
+  // Retrieve all sensors of a gateway
+  async getAllSensors(networkCode: string, gatewayMac: string): Promise<SensorDAO[]> {    
     return (await this.repo.find({ where: {gateway:{macAddress:gatewayMac,network:{code:networkCode}}} }));
-    
   }
 
 
-  //Retrieve a specific sensor
-  async getSensorByMacAddress(networkCode: string, gatewayMac: string,sensorMac:string): Promise<SensorDAO> {
+  // Retrieve a specific sensor
+  async getSensorByMacAddress(networkCode: string, gatewayMac: string, sensorMac: string): Promise<SensorDAO> {
     
     return findOrThrowNotFound(
       await this.repo.find({ where: { macAddress:sensorMac ,gateway:{macAddress:gatewayMac,network:{code:networkCode}}} }),
@@ -28,7 +27,7 @@ export class SensorRepository {
     );
   }
 
-  //create a new sensor for a gateway
+  // Create a new sensor for a gateway
   async createSensor(
     macAddress: string,
     name: string,
@@ -37,8 +36,6 @@ export class SensorRepository {
     unit: string,
     gateway: GatewayDAO
   ): Promise<SensorDAO> {
-
-
     return this.repo.save({
         macAddress: macAddress,
         name: name,
@@ -49,35 +46,29 @@ export class SensorRepository {
     });
   }
 
-//update a sensor
+  // Update a sensor
   async updateSensor(
-    sensorMac:string,
+    sensorMac: string,
     newMacAddress?: string,
     name?: string,
     description?: string,
-    variable?:string,
-    unit?:string
+    variable?: string,
+    unit?: string
   ): Promise<void> {
-
-  
     await this.repo.update({ macAddress:sensorMac }, { macAddress:newMacAddress, name, description,variable,unit });
   }
 
-//delete a sensor
-  async deleteSensor(networkCode: string,gatewayMac: string,sensorMac: string,): Promise<void> {
+  // Delete a sensor
+  async deleteSensor(networkCode: string, gatewayMac: string, sensorMac: string): Promise<void> {
     await this.repo.remove(await this.getSensorByMacAddress(networkCode,gatewayMac,sensorMac));
   }
 
-
-
-  //Retrieve a specific sensor from all database
-  async getSensor(sensorMac:string): Promise<void> {
+  // Retrieve a specific sensor from all database
+  async getSensor(sensorMac: string): Promise<void> {
     throwConflictIfFound(
-        await this.repo.find({  where: { macAddress:sensorMac}  }),
-        () => true,
-        `Sensor with macAddress '${sensorMac}' already exists`
-      );
+      await this.repo.find({  where: { macAddress:sensorMac}  }),
+      () => true,
+      `Sensor with macAddress '${sensorMac}' already exists`
+    );
   }
-
-
 }
