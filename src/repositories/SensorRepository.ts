@@ -39,14 +39,6 @@ export class SensorRepository {
   ): Promise<SensorDAO> {
 
 
-    throwConflictIfFound(
-      await this.repo.find({ where: { macAddress } }),
-      () => true,
-      `Sensor with macAddress '${macAddress}' already exists`
-    );
-
-    
-
     return this.repo.save({
         macAddress: macAddress,
         name: name,
@@ -67,13 +59,6 @@ export class SensorRepository {
     unit?:string
   ): Promise<void> {
 
-    if ((newMacAddress!==undefined)&&(sensorMac !== newMacAddress)) {
-      throwConflictIfFound(
-        await this.repo.find({ where: { macAddress:newMacAddress } }),
-        () => true,
-        `Sensor with macAddress '${newMacAddress}' already exists`
-      );
-    }
   
     await this.repo.update({ macAddress:sensorMac }, { macAddress:newMacAddress, name, description,variable,unit });
   }
@@ -81,6 +66,17 @@ export class SensorRepository {
 //delete a sensor
   async deleteSensor(networkCode: string,gatewayMac: string,sensorMac: string,): Promise<void> {
     await this.repo.remove(await this.getSensorByMacAddress(networkCode,gatewayMac,sensorMac));
+  }
+
+
+
+  //Retrieve a specific sensor from all database
+  async getSensor(sensorMac:string): Promise<void> {
+    throwConflictIfFound(
+        await this.repo.find({  where: { macAddress:sensorMac}  }),
+        () => true,
+        `Sensor with macAddress '${sensorMac}' already exists`
+      );
   }
 
 

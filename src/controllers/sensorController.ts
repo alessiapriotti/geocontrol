@@ -3,6 +3,7 @@ import { SensorRepository } from "@repositories/SensorRepository";
 import { GatewayRepository } from "@repositories/GatewayRepository";
 import { NetworkRepository } from "@repositories/NetworkRepository";
 import { mapSensorDAOToDTO } from "@services/mapperService";
+import {checkMacSensorsGateway} from "@services/checkService";
 
 export async function createSensor(networkCode: string, gatewayMac: string,sensorDto: SensorDTO): Promise<void> {
   const sensorRepo = new SensorRepository();
@@ -10,6 +11,8 @@ export async function createSensor(networkCode: string, gatewayMac: string,senso
   await (new NetworkRepository()).getNetworkByCode(networkCode);
 
   const gateway=await (new GatewayRepository()).getGatewayByMacAddress(networkCode, gatewayMac);
+
+  await(checkMacSensorsGateway(sensorDto.macAddress));
 
   await sensorRepo.createSensor(sensorDto.macAddress,sensorDto.name,sensorDto.description,sensorDto.variable,sensorDto.unit,gateway);
 }
@@ -40,7 +43,12 @@ export async function updateSensor(networkCode: string, gatewayMac: string, sens
   await (new NetworkRepository()).getNetworkByCode(networkCode);
 
   await (new GatewayRepository()).getGatewayByMacAddress(networkCode, gatewayMac);
+
   await (sensorRepo.getSensorByMacAddress(networkCode,gatewayMac,sensorMac));
+
+  if ((sensorDto.macAddress!==undefined)&&(sensorMac !== sensorDto.macAddress)) {
+    await(checkMacSensorsGateway(sensorDto.macAddress));
+  }
 
   await sensorRepo.updateSensor(sensorMac,sensorDto.macAddress,sensorDto.name,sensorDto.description,sensorDto.variable,sensorDto.unit);
 }
