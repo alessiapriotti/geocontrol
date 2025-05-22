@@ -34,13 +34,6 @@ export class GatewayRepository {
     description?: string
     ): Promise<void> {
 
-    if ((macAddress!==undefined)&&currentMacAddress !== macAddress) {
-      throwConflictIfFound(
-        await this.repo.find({ where: { macAddress } }),
-        (c) => c.macAddress === macAddress,
-        `Network with macAddress '${macAddress}' already exists`
-      );
-    }
     await this.repo.update({ macAddress: currentMacAddress}, { macAddress, name, description });
   }
 
@@ -50,11 +43,6 @@ export class GatewayRepository {
     description: string,
     networkDAO: NetworkDAO
   ): Promise<GatewayDAO> {
-    throwConflictIfFound(
-      await this.repo.find({ where: { macAddress } }),
-      () => true,
-      `Gateway with code '${macAddress}' already exists`
-    );
 
     return this.repo.save({
       macAddress,
