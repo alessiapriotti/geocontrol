@@ -60,5 +60,43 @@ describe("SensorRepository: SQLite in-memory", () => {
         repo.createSensor(MAC, "aaa", "aaa", "temp", "K", gateway)
       ).rejects.toThrow();
     });
+
+    it("T1.3: Invalid MAC (empty string)", async () => {
+      const MAC = "";
+      
+      await expect(
+        repo.createSensor(MAC, "aaa", "desc", "temp", "K", gateway)
+      ).rejects.toThrow();
+    });
+
+    it("T1.4: Invalid MAC (spaces only)", async () => {
+      const MAC = "    ";
+
+      await expect(
+        repo.createSensor(MAC, "aaa", "desc", "temp", "K", gateway)
+      ).rejects.toThrow();
+    });
+
+    it("T1.5: Invalid MAC (null)", async () => {
+      const MAC: string = null;
+      
+      await expect(
+        repo.createSensor(MAC, "aaa", "desc", "temp", "K", gateway)
+      ).rejects.toThrow();
+    });
+
+    it("T1.6: Valid MAC, name with spaces", async () => {
+      const MAC = "11:22:33:bb";
+      const NAME = "     ";
+
+      await repo.createSensor(MAC, NAME, "desc", "temp", "K", gateway);
+
+      await expect(
+        TestDataSource.getRepository(SensorDAO).findOneOrFail({ where: { macAddress: MAC } })
+      ).resolves.toMatchObject({
+        macAddress: MAC,
+        name: "",
+      } as SensorDAO);
+    });
   });
 });
