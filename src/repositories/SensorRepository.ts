@@ -67,8 +67,8 @@ export class SensorRepository {
     await this.repo.remove(await this.getSensorByMacAddress(networkCode,gatewayMac,sensorMac));
   }
 
-  // Retrieve a specific sensor from all database
-  async getSensor(sensorMac: string): Promise<void> {
+  // Throws ConflictError if the passed MAC is already used by a sensor
+  async testSensorExistance(sensorMac: string): Promise<void> {
     throwConflictIfFound(
       await this.repo.find({  where: { macAddress:sensorMac}  }),
       () => true,
