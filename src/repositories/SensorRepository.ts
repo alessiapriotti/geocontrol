@@ -3,6 +3,7 @@ import { Repository } from "typeorm";
 import { SensorDAO } from "@dao/SensorDAO";
 import { GatewayDAO } from "@dao/GatewayDAO";
 import { findOrThrowNotFound, throwConflictIfFound } from "@utils";
+import { BadRequestError } from "@models/errors/BadRequestError";
 
 export class SensorRepository {
   private repo: Repository<SensorDAO>;
@@ -36,12 +37,15 @@ export class SensorRepository {
     unit: string,
     gateway: GatewayDAO
   ): Promise<SensorDAO> {
+    if (macAddress.trim().length == 0)
+      throw new BadRequestError("/body/macAddress must have length > 0 (after trim)");
+
     return this.repo.save({
-        macAddress: macAddress,
-        name: name,
-        description: description,
-        variable: variable,
-        unit: unit,
+        macAddress: macAddress.trim(),
+        name: name.trim(),
+        description: description.trim(),
+        variable: variable.trim(),
+        unit: unit.trim(),
         gateway: gateway
     });
   }
