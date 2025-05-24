@@ -500,4 +500,46 @@ describe("SensorRepository: SQLite in-memory", () => {
       await expect(repo.deleteSensor(NET, GAT, MAC)).rejects.toThrow();
     });
   });
+  
+  describe("TS6: testSensorExistance()", () => {
+    let network: NetworkDAO = null;
+    let gateway: GatewayDAO = null;
+
+    // Setup del DB pre-test
+    beforeEach(async () => {
+      network = await TestDataSource.getRepository(NetworkDAO).save({code: "NET01"});
+      gateway = await TestDataSource.getRepository(GatewayDAO).save({macAddress: "11:22:33", network: network})
+      await TestDataSource.getRepository(SensorDAO).save({macAddress: "11:22:33:aa", gateway: gateway});
+    });
+
+    it("T6.1: Sensor MAC already used", async () => {
+      const MAC = "11:22:33:aa";
+      
+      await expect(repo.testSensorExistance(MAC)).rejects.toThrow(ConflictError);
+    });
+
+    it("T6.2: Sensor MAC unused", async () => {
+      const MAC = "11:22:33:xx";
+      
+      await expect(repo.testSensorExistance(MAC)).resolves.not.toThrow();
+    });
+
+    it("T6.3: Invalid MAC (empty string)", async () => {
+      const MAC = "";
+      
+      await expect(repo.testSensorExistance(MAC)).rejects.toThrow();
+    });
+
+    it("T6.4: Invalid MAC (only spaces)", async () => {
+      const MAC = "    ";
+      
+      await expect(repo.testSensorExistance(MAC)).rejects.toThrow();
+    });
+
+    it("T6.4: Invalid MAC (null)", async () => {
+      const MAC = null;
+      
+      await expect(repo.testSensorExistance(MAC)).rejects.toThrow();
+    });
+  });
 });
