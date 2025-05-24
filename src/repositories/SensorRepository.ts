@@ -13,7 +13,7 @@ export class SensorRepository {
   }
 
   // Retrieve all sensors of a gateway
-  async getAllSensors(networkCode: string, gatewayMac: string): Promise<SensorDAO[]> {    
+  async getAllSensors(networkCode: string, gatewayMac: string): Promise<SensorDAO[]> {
     return (await this.repo.find({ where: {gateway:{macAddress:gatewayMac,network:{code:networkCode}}} }));
   }
 
