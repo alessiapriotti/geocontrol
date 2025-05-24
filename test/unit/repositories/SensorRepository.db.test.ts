@@ -164,4 +164,109 @@ describe("SensorRepository: SQLite in-memory", () => {
       expect(sensors.map(s => s.macAddress).sort()).toEqual(["11:22:33:aa", "11:22:33:bb"]);
     });
   });
+
+  describe("TS3: getSensorByMacAddress()", () => {
+    let network: NetworkDAO = null;
+    let gateway: GatewayDAO = null;
+
+    // Setup del DB pre-test
+    beforeEach(async () => {
+      network = await TestDataSource.getRepository(NetworkDAO).save({code: "NET01"});
+      gateway = await TestDataSource.getRepository(GatewayDAO).save({macAddress: "11:22:33", network: network})
+      await TestDataSource.getRepository(SensorDAO).save({macAddress: "11:22:33:aa", gateway: gateway});
+      
+      let network2 = await TestDataSource.getRepository(NetworkDAO).save({code: "NET02"});
+      let gateway2 = await TestDataSource.getRepository(GatewayDAO).save({macAddress: "22:33:44", network: network2})
+      await TestDataSource.getRepository(SensorDAO).save({macAddress: "22:33:44:aa", gateway: gateway2});
+    });
+
+    it("T3.1: All valid params", async () => {
+      const NET = "NET01";
+      const GAT = "11:22:33";
+      const MAC = "11:22:33:aa";
+      await expect(repo.getSensorByMacAddress(NET, GAT, MAC)).resolves.toMatchObject({
+        macAddress: MAC
+      });
+    });
+
+    it("T3.2: Invalid Sensor MAC", async () => {
+      const NET = "NET01";
+      const GAT = "11:22:33";
+      const MAC = "pippo";
+      await expect(repo.getSensorByMacAddress(NET, GAT, MAC)).rejects.toThrow();
+    });
+
+    it("T3.3: Sensor MAC not bound to passed gateway", async () => {
+      const NET = "NET01";
+      const GAT = "11:22:33";
+      const MAC = "22:33:44:aa";
+      await expect(repo.getSensorByMacAddress(NET, GAT, MAC)).rejects.toThrow();
+    });
+
+    it("T3.4: Invalid Sensor MAC (empty string)", async () => {
+      const NET = "NET01";
+      const GAT = "11:22:33";
+      const MAC = "";
+      await expect(repo.getSensorByMacAddress(NET, GAT, MAC)).rejects.toThrow();
+    });
+
+    it("T3.5: Invalid Sensor MAC (null)", async () => {
+      //TODO: Non penso che questo sia comportamento desiderato
+      const NET = "NET01";
+      const GAT = "11:22:33";
+      const MAC = null;
+      await expect(repo.getSensorByMacAddress(NET, GAT, MAC)).rejects.toThrow();
+    });
+
+    it("T3.6: Invalid Gateway MAC", async () => {
+      const NET = "NET01";
+      const GAT = "pippo";
+      const MAC = "11:22:33:aa";
+      await expect(repo.getSensorByMacAddress(NET, GAT, MAC)).rejects.toThrow();
+    });
+
+    it("T3.7: Gateway not bound to passed network", async () => {
+      const NET = "NET01";
+      const GAT = "22:33:44";
+      const MAC = "11:22:33:aa";
+      await expect(repo.getSensorByMacAddress(NET, GAT, MAC)).rejects.toThrow();
+    });
+
+    it("T3.8: Invalid Gateway MAC (empty string)", async () => {
+      const NET = "NET01";
+      const GAT = "";
+      const MAC = "11:22:33:aa";
+      await expect(repo.getSensorByMacAddress(NET, GAT, MAC)).rejects.toThrow();
+    });
+
+    it("T3.9: Invalid Gateway MAC (null)", async () => {
+      //TODO: Né questo
+      const NET = "NET01";
+      const GAT = null;
+      const MAC = "11:22:33:aa";
+      await expect(repo.getSensorByMacAddress(NET, GAT, MAC)).rejects.toThrow();
+    });
+
+    it("T3.10: Invalid Network Code", async () => {
+      const NET = "pippo";
+      const GAT = "11:22:33";
+      const MAC = "11:22:33:aa";
+      await expect(repo.getSensorByMacAddress(NET, GAT, MAC)).rejects.toThrow();
+    });
+
+    it("T3.11: Invalid Network Code (empty string)", async () => {
+      const NET = "";
+      const GAT = "11:22:33";
+      const MAC = "11:22:33:aa";
+      await expect(repo.getSensorByMacAddress(NET, GAT, MAC)).rejects.toThrow();
+    });
+
+    it("T3.11: Invalid Network Code (null)", async () => {
+      //TODO: Né questo
+      const NET = null;
+      const GAT = "11:22:33";
+      const MAC = "11:22:33:aa";
+      await expect(repo.getSensorByMacAddress(NET, GAT, MAC)).rejects.toThrow();
+    });
+  });
 });
