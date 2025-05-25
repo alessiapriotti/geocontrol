@@ -14,7 +14,7 @@ export class SensorRepository {
 
   // Retrieve all sensors of a gateway
   async getAllSensors(networkCode: string, gatewayMac: string): Promise<SensorDAO[]> {
-    return (await this.repo.find({ where: {gateway:{macAddress:gatewayMac,network:{code:networkCode}}} }));
+    return (await this.repo.find({ where: { gateway: { macAddress: gatewayMac, network: {code: networkCode} } } }));
   }
 
 
@@ -22,7 +22,7 @@ export class SensorRepository {
   async getSensorByMacAddress(networkCode: string, gatewayMac: string, sensorMac: string): Promise<SensorDAO> {
     
     return findOrThrowNotFound(
-      await this.repo.find({ where: { macAddress:sensorMac ,gateway:{macAddress:gatewayMac,network:{code:networkCode}}} }),
+      await this.repo.find({ where: { macAddress: sensorMac, gateway: {macAddress: gatewayMac, network: {code: networkCode} } } }),
       () => true,
       `Sensor with macAddress '${sensorMac}' not found`
     );
@@ -37,15 +37,13 @@ export class SensorRepository {
     unit: string,
     gateway: GatewayDAO
   ): Promise<SensorDAO> {
-    if (macAddress.trim().length == 0)
-      throw new BadRequestError("/body/macAddress must have length > 0 (after trim)");
 
     return this.repo.save({
-        macAddress: macAddress.trim(),
-        name: name.trim(),
-        description: description.trim(),
-        variable: variable.trim(),
-        unit: unit.trim(),
+        macAddress: macAddress,
+        name: name,
+        description: description,
+        variable: variable,
+        unit: unit,
         gateway: gateway
     });
   }
@@ -59,18 +57,18 @@ export class SensorRepository {
     variable?: string,
     unit?: string
   ): Promise<void> {
-    await this.repo.update({ macAddress:sensorMac }, { macAddress:newMacAddress, name, description,variable,unit });
+    await this.repo.update({ macAddress: sensorMac }, { macAddress: newMacAddress, name, description, variable, unit });
   }
 
   // Delete a sensor
   async deleteSensor(networkCode: string, gatewayMac: string, sensorMac: string): Promise<void> {
-    await this.repo.remove(await this.getSensorByMacAddress(networkCode,gatewayMac,sensorMac));
+    await this.repo.remove(await this.getSensorByMacAddress(networkCode, gatewayMac, sensorMac));
   }
 
   // Throws ConflictError if the passed MAC is already used by a sensor
   async testSensorExistance(sensorMac: string): Promise<void> {
     throwConflictIfFound(
-      await this.repo.find({  where: { macAddress:sensorMac}  }),
+      await this.repo.find({  where: { macAddress: sensorMac}  }),
       () => true,
       `Sensor with macAddress '${sensorMac}' already exists`
     );

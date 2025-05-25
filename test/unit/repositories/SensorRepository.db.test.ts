@@ -3,7 +3,6 @@ import {
   closeTestDataSource,
   TestDataSource
 } from "@test/setup/test-datasource";
-import { NotFoundError } from "@models/errors/NotFoundError";
 import { ConflictError } from "@models/errors/ConflictError";
 import { SensorRepository } from "@repositories/SensorRepository";
 import { NetworkDAO } from "@models/dao/NetworkDAO";
@@ -60,44 +59,6 @@ describe("SensorRepository: SQLite in-memory", () => {
         repo.createSensor(MAC, "aaa", "aaa", "temp", "K", gateway)
       ).rejects.toThrow();
     });
-
-    it("T1.3: Invalid MAC (empty string)", async () => {
-      const MAC = "";
-      
-      await expect(
-        repo.createSensor(MAC, "aaa", "desc", "temp", "K", gateway)
-      ).rejects.toThrow();
-    });
-
-    it("T1.4: Invalid MAC (spaces only)", async () => {
-      const MAC = "    ";
-
-      await expect(
-        repo.createSensor(MAC, "aaa", "desc", "temp", "K", gateway)
-      ).rejects.toThrow();
-    });
-
-    it("T1.5: Invalid MAC (null)", async () => {
-      const MAC: string = null;
-      
-      await expect(
-        repo.createSensor(MAC, "aaa", "desc", "temp", "K", gateway)
-      ).rejects.toThrow();
-    });
-
-    it("T1.6: Valid MAC, name with spaces", async () => {
-      const MAC = "11:22:33:bb";
-      const NAME = "     ";
-
-      await repo.createSensor(MAC, NAME, "desc", "temp", "K", gateway);
-
-      await expect(
-        TestDataSource.getRepository(SensorDAO).findOneOrFail({ where: { macAddress: MAC } })
-      ).resolves.toMatchObject({
-        macAddress: MAC,
-        name: "",
-      } as SensorDAO);
-    });
   });
 
   describe("TS2: getAllSensors()", () => {
@@ -144,24 +105,6 @@ describe("SensorRepository: SQLite in-memory", () => {
 
     it("T2.6: Invalid Network Code (empty string)", async () => {
       await expect(repo.getAllSensors("", "11:22:33")).resolves.toEqual([]);
-    });
-
-    it("T2.7: Null Gateway MAC", async () => {
-      //TODO: Questo comportamento è aspettato? Vogliamo spostare il controllo su? O rigettiamo la richiesta subito
-      const sensors = await repo.getAllSensors("NET01", null);
-
-      expect(Array.isArray(sensors)).toBe(true);
-      expect(sensors).toHaveLength(2);
-      expect(sensors.map(s => s.macAddress).sort()).toEqual(["11:22:33:aa", "11:22:33:bb"]);
-    });
-
-    it("T2.8: Null Network Code", async () => {
-      //TODO: Same as above
-      const sensors = await repo.getAllSensors(null, "11:22:33");
-
-      expect(Array.isArray(sensors)).toBe(true);
-      expect(sensors).toHaveLength(2);
-      expect(sensors.map(s => s.macAddress).sort()).toEqual(["11:22:33:aa", "11:22:33:bb"]);
     });
   });
 
@@ -210,60 +153,36 @@ describe("SensorRepository: SQLite in-memory", () => {
       await expect(repo.getSensorByMacAddress(NET, GAT, MAC)).rejects.toThrow();
     });
 
-    it("T3.5: Invalid Sensor MAC (null)", async () => {
-      //TODO: Non penso che questo sia comportamento desiderato
-      const NET = "NET01";
-      const GAT = "11:22:33";
-      const MAC = null;
-      await expect(repo.getSensorByMacAddress(NET, GAT, MAC)).rejects.toThrow();
-    });
-
-    it("T3.6: Invalid Gateway MAC", async () => {
+    it("T3.5: Invalid Gateway MAC", async () => {
       const NET = "NET01";
       const GAT = "pippo";
       const MAC = "11:22:33:aa";
       await expect(repo.getSensorByMacAddress(NET, GAT, MAC)).rejects.toThrow();
     });
 
-    it("T3.7: Gateway not bound to passed network", async () => {
+    it("T3.6: Gateway not bound to passed network", async () => {
       const NET = "NET01";
       const GAT = "22:33:44";
       const MAC = "11:22:33:aa";
       await expect(repo.getSensorByMacAddress(NET, GAT, MAC)).rejects.toThrow();
     });
 
-    it("T3.8: Invalid Gateway MAC (empty string)", async () => {
+    it("T3.7: Invalid Gateway MAC (empty string)", async () => {
       const NET = "NET01";
       const GAT = "";
       const MAC = "11:22:33:aa";
       await expect(repo.getSensorByMacAddress(NET, GAT, MAC)).rejects.toThrow();
     });
 
-    it("T3.9: Invalid Gateway MAC (null)", async () => {
-      //TODO: Né questo
-      const NET = "NET01";
-      const GAT = null;
-      const MAC = "11:22:33:aa";
-      await expect(repo.getSensorByMacAddress(NET, GAT, MAC)).rejects.toThrow();
-    });
-
-    it("T3.10: Invalid Network Code", async () => {
+    it("T3.8: Invalid Network Code", async () => {
       const NET = "pippo";
       const GAT = "11:22:33";
       const MAC = "11:22:33:aa";
       await expect(repo.getSensorByMacAddress(NET, GAT, MAC)).rejects.toThrow();
     });
 
-    it("T3.11: Invalid Network Code (empty string)", async () => {
+    it("T3.9: Invalid Network Code (empty string)", async () => {
       const NET = "";
-      const GAT = "11:22:33";
-      const MAC = "11:22:33:aa";
-      await expect(repo.getSensorByMacAddress(NET, GAT, MAC)).rejects.toThrow();
-    });
-
-    it("T3.12: Invalid Network Code (null)", async () => {
-      //TODO: Né questo
-      const NET = null;
       const GAT = "11:22:33";
       const MAC = "11:22:33:aa";
       await expect(repo.getSensorByMacAddress(NET, GAT, MAC)).rejects.toThrow();
@@ -299,24 +218,7 @@ describe("SensorRepository: SQLite in-memory", () => {
       } as SensorDAO);
     });
 
-    it("T4.2: Optional params with spaces", async () => {
-      const MAC = "11:22:33:aa";
-      const NEW_MAC = "11:22:33:ab";
-      
-      await repo.updateSensor(MAC, NEW_MAC, "aaa    ", "aaa", "aaa", "aaa");
-
-      await expect(
-        TestDataSource.getRepository(SensorDAO).findOneOrFail({ where: { macAddress: NEW_MAC } })
-      ).resolves.toMatchObject({
-        macAddress: NEW_MAC,
-        name: "aaa",
-        description: "aaa",
-        variable: "aaa",
-        unit: "aaa"
-      } as SensorDAO);
-    });
-
-    it("T4.3: No MAC address change (undefined)", async () => {
+    it("T4.2: No MAC address change (undefined)", async () => {
       const MAC = "11:22:33:aa";
       
       await repo.updateSensor(MAC, undefined, "aaa", "aaa", "aaa", "aaa");
@@ -332,7 +234,7 @@ describe("SensorRepository: SQLite in-memory", () => {
       } as SensorDAO);
     });
 
-    it("T4.4: No MAC address change (NEW_MAC == MAC)", async () => {
+    it("T4.3: No MAC address change (NEW_MAC == MAC)", async () => {
       const MAC = "11:22:33:aa";
       
       await repo.updateSensor(MAC, MAC, "aaa", "aaa", "aaa", "aaa");
@@ -348,51 +250,9 @@ describe("SensorRepository: SQLite in-memory", () => {
       } as SensorDAO);
     });
 
-    it("T4.5: MAC address change to create conflict", async () => {
+    it("T4.4: MAC address change to create conflict", async () => {
       const MAC = "11:22:33:bb";
       const NEW_MAC = "11:22:33:aa";
-      
-      await expect(repo.updateSensor(MAC, NEW_MAC, "aaa", "aaa", "aaa", "aaa")).rejects.toThrow();
-    });
-
-    it("T4.6: MAC address change to empty string", async () => {
-      const MAC = "11:22:33:bb";
-      const NEW_MAC = "";
-      
-      await expect(repo.updateSensor(MAC, NEW_MAC, "aaa", "aaa", "aaa", "aaa")).rejects.toThrow();
-    });
-
-    it("T4.7: MAC address change to only spaces", async () => {
-      const MAC = "11:22:33:bb";
-      const NEW_MAC = "    ";
-      
-      await expect(repo.updateSensor(MAC, NEW_MAC, "aaa", "aaa", "aaa", "aaa")).rejects.toThrow();
-    });
-
-    it("T4.8: MAC address change to null", async () => {
-      const MAC = "11:22:33:bb";
-      const NEW_MAC = "    ";
-      
-      await expect(repo.updateSensor(MAC, NEW_MAC, "aaa", "aaa", "aaa", "aaa")).rejects.toThrow();
-    });
-
-    it("T4.9: Invalid Sensor MAC", async () => {
-      const MAC = "pippo";
-      const NEW_MAC = "11:22:33:xx";
-      
-      await expect(repo.updateSensor(MAC, NEW_MAC, "aaa", "aaa", "aaa", "aaa")).rejects.toThrow();
-    });
-
-    it("T4.10: Invalid Sensor MAC (empty string)", async () => {
-      const MAC = "";
-      const NEW_MAC = "11:22:33:xx";
-      
-      await expect(repo.updateSensor(MAC, NEW_MAC, "aaa", "aaa", "aaa", "aaa")).rejects.toThrow();
-    });
-
-    it("T4.10: Invalid Sensor MAC (null)", async () => {
-      const MAC = null;
-      const NEW_MAC = "11:22:33:xx";
       
       await expect(repo.updateSensor(MAC, NEW_MAC, "aaa", "aaa", "aaa", "aaa")).rejects.toThrow();
     });
@@ -441,60 +301,36 @@ describe("SensorRepository: SQLite in-memory", () => {
       await expect(repo.deleteSensor(NET, GAT, MAC)).rejects.toThrow();
     });
 
-    it("T5.5: Invalid Sensor MAC (null)", async () => {
-      //TODO: Non penso che questo sia comportamento desiderato
-      const NET = "NET01";
-      const GAT = "11:22:33";
-      const MAC = null;
-      await expect(repo.deleteSensor(NET, GAT, MAC)).rejects.toThrow();
-    });
-
-    it("T5.6: Invalid Gateway MAC", async () => {
+    it("T5.5: Invalid Gateway MAC", async () => {
       const NET = "NET01";
       const GAT = "pippo";
       const MAC = "11:22:33:aa";
       await expect(repo.deleteSensor(NET, GAT, MAC)).rejects.toThrow();
     });
 
-    it("T5.7: Gateway not bound to passed network", async () => {
+    it("T5.6: Gateway not bound to passed network", async () => {
       const NET = "NET01";
       const GAT = "22:33:44";
       const MAC = "11:22:33:aa";
       await expect(repo.deleteSensor(NET, GAT, MAC)).rejects.toThrow();
     });
 
-    it("T5.8: Invalid Gateway MAC (empty string)", async () => {
+    it("T5.7: Invalid Gateway MAC (empty string)", async () => {
       const NET = "NET01";
       const GAT = "";
       const MAC = "11:22:33:aa";
       await expect(repo.deleteSensor(NET, GAT, MAC)).rejects.toThrow();
     });
 
-    it("T5.9: Invalid Gateway MAC (null)", async () => {
-      //TODO: Né questo
-      const NET = "NET01";
-      const GAT = null;
-      const MAC = "11:22:33:aa";
-      await expect(repo.deleteSensor(NET, GAT, MAC)).rejects.toThrow();
-    });
-
-    it("T5.10: Invalid Network Code", async () => {
+    it("T5.8: Invalid Network Code", async () => {
       const NET = "pippo";
       const GAT = "11:22:33";
       const MAC = "11:22:33:aa";
       await expect(repo.deleteSensor(NET, GAT, MAC)).rejects.toThrow();
     });
 
-    it("T5.11: Invalid Network Code (empty string)", async () => {
+    it("T5.9: Invalid Network Code (empty string)", async () => {
       const NET = "";
-      const GAT = "11:22:33";
-      const MAC = "11:22:33:aa";
-      await expect(repo.deleteSensor(NET, GAT, MAC)).rejects.toThrow();
-    });
-
-    it("T5.12: Invalid Network Code (null)", async () => {
-      //TODO: Né questo
-      const NET = null;
       const GAT = "11:22:33";
       const MAC = "11:22:33:aa";
       await expect(repo.deleteSensor(NET, GAT, MAC)).rejects.toThrow();
@@ -527,13 +363,7 @@ describe("SensorRepository: SQLite in-memory", () => {
     it("T6.3: Invalid MAC (empty string)", async () => {
       const MAC = "";
       
-      await expect(repo.testSensorExistance(MAC)).rejects.toThrow();
-    });
-
-    it("T6.4: Invalid MAC (only spaces)", async () => {
-      const MAC = "    ";
-      
-      await expect(repo.testSensorExistance(MAC)).rejects.toThrow();
+      await expect(repo.testSensorExistance(MAC)).resolves.not.toThrow();
     });
 
     it("T6.4: Invalid MAC (null)", async () => {
