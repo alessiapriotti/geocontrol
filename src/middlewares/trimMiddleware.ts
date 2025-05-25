@@ -1,3 +1,4 @@
+import { CONFIG } from "@config";
 import { Request, Response, NextFunction } from "express";
 
 export function trimBody(
@@ -5,11 +6,12 @@ export function trimBody(
   res: Response,
   next: NextFunction
 ): void {
+  // Non fare trim se è autenticazione
+  if (req.path.startsWith(CONFIG.ROUTES.V1_AUTH)) {
+    return next();
+  }
+  
   if (req.body && typeof req.body === "object") {
-    // Se c'è la password, non bisogna fare trimming
-    if (req.body['password'])
-      next();
-
     for (const key in req.body) {
       if (typeof req.body[key] === "string") {
         req.body[key] = req.body[key].trim();
