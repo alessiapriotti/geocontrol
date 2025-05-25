@@ -4,7 +4,7 @@ import { NetworkRepository } from "@repositories/NetworkRepository";
 import { mapGatewayDAOToDTO } from "@services/mapperService";
 import {checkMacSensorsGateway,checkNetwork} from "@services/checkService";
 
-export async function createGateway(gatewayDTO: GatewayDTO, code: string): Promise<void> {
+export async function createGateway(code: string,gatewayDTO: GatewayDTO): Promise<void> {
     
     const gatewayRep = new GatewayRepository();
     const network = await(checkNetwork(code));
@@ -47,10 +47,10 @@ export async function updateGateway(
     await gatewayRep.updateGateway(currentMacAddress, gatewayDTO.macAddress, gatewayDTO.name, gatewayDTO.description);
 }
 
-export async function deleteGateway(macAddress: string, networkCode: string): Promise<void> {
+export async function deleteGateway(networkCode: string, macAddress: string ): Promise<void> {
 
     const gatewayRep = new GatewayRepository();
     await (checkNetwork(networkCode));
 
-    await gatewayRep.deleteGateway(macAddress, networkCode);
+    await gatewayRep.deleteGateway(networkCode, macAddress);
 }
