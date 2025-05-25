@@ -161,7 +161,7 @@ describe("GatewayRepository: SQLite in-memory", () => {
   });
 
 
-  describe("TS6: getGateway()", () => {
+  describe("TS6: testGatewayExistance()", () => {
     let network: NetworkDAO = null;
 
     beforeEach(async () => {
@@ -172,7 +172,7 @@ describe("GatewayRepository: SQLite in-memory", () => {
 
     it("MacAddress Gateway: conflict", async () => {
         await expect(
-          repo.getGateway("11:22:33")
+          repo.testGatewayExistance("11:22:33")
         ).rejects.toThrow(ConflictError);
       });
     

@@ -57,8 +57,8 @@ export class GatewayRepository {
     await this.repo.remove(await this.getGatewayByMacAddress(networkCode, macAddress));
   }
 
-  //Retrieve a specific gateway from all database
-  async getGateway(gatewayMac:string): Promise<void> {
+ // Throws ConflictError if the passed MAC is already used by a gateway
+  async testGatewayExistance(gatewayMac:string): Promise<void> {
     throwConflictIfFound(
         await this.repo.find({  where: { macAddress:gatewayMac}  }),
         () => true,
