@@ -24,8 +24,8 @@ export class NetworkRepository {
 
   async createNetwork(
     code: string,
-    name: string,
-    description: string
+    name?: string,
+    description?: string
   ): Promise<NetworkDAO> {
     throwConflictIfFound(
       await this.repo.find({ where: { code } }),
@@ -33,8 +33,6 @@ export class NetworkRepository {
       `Network with code '${code}' already exists`
     );
 
-    if (!name) name = "";
-    if (!description) description = "";
 
     return this.repo.save({
       code: code,

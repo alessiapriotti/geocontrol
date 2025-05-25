@@ -34,7 +34,7 @@ describe("NetworkRoutes integration", () => {
 
             expect(response.status).toBe(200);
             expect(response.body).toEqual(mockNetworks);
-            expect(authService.processToken).toHaveBeenCalledWith(token, []);
+            expect(authService.processToken).toHaveBeenCalledWith(token, ["admin", "operator", "viewer"]);
             expect(networkController.getAllNetworks).toHaveBeenCalled();
         });
 
@@ -65,7 +65,7 @@ describe("NetworkRoutes integration", () => {
 
             expect(response.status).toBe(200);
             expect(response.body).toEqual(mockNetwork);
-            expect(authService.processToken).toHaveBeenCalledWith(token, []);
+            expect(authService.processToken).toHaveBeenCalledWith(token, ["admin", "operator", "viewer"]);
             expect(networkController.getNetwork).toHaveBeenCalledWith("NET01");
         });
 
@@ -110,7 +110,7 @@ describe("NetworkRoutes integration", () => {
                 .send(mockNetwork);
 
             expect(response.status).toBe(201);
-            expect(authService.processToken).toHaveBeenCalledWith(token, ["admin"]);
+            expect(authService.processToken).toHaveBeenCalledWith(token, ["admin", "operator"]);
             expect(networkController.createNetwork).toHaveBeenCalledWith(mockNetwork);
         });
 
@@ -167,13 +167,13 @@ describe("NetworkRoutes integration", () => {
             (networkController.updateNetwork as jest.Mock).mockResolvedValue(mockNetwork);
 
             const response = await request(app)
-                .put("/api/v1/networks/NET01")
+                .patch("/api/v1/networks/NET01")
                 .set("Authorization", token)
                 .send(mockNetwork);
 
             expect(response.status).toBe(204);
-            expect(response.body).toEqual(mockNetwork);
-            expect(authService.processToken).toHaveBeenCalledWith(token, ["admin"]);
+            expect(response.body).toEqual({});
+            expect(authService.processToken).toHaveBeenCalledWith(token, ["admin", "operator"]);
             expect(networkController.updateNetwork).toHaveBeenCalledWith("NET01", mockNetwork);
         });
 
@@ -183,7 +183,7 @@ describe("NetworkRoutes integration", () => {
             });
 
             const response = await request(app)
-                .put("/api/v1/networks/NET01")
+                .patch("/api/v1/networks/NET01")
                 .set("Authorization", "Bearer invalid")
                 .send({ code: "NET01", name: "Updated Network", description: "Updated description" });
 
@@ -197,7 +197,7 @@ describe("NetworkRoutes integration", () => {
             });
 
             const response = await request(app)
-                .put("/api/v1/networks/NET01")
+                .patch("/api/v1/networks/NET01")
                 .set("Authorization", token)
                 .send({ code: "NET01", name: "Updated Network", description: "Updated description" });
 
@@ -212,7 +212,7 @@ describe("NetworkRoutes integration", () => {
             });
 
             const response = await request(app)
-                .put("/api/v1/networks/INVALID")
+                .patch("/api/v1/networks/INVALID")
                 .set("Authorization", token)
                 .send({ code: "INVALID", name: "Updated Network", description: "Updated description" });
 
@@ -224,15 +224,15 @@ describe("NetworkRoutes integration", () => {
     describe("delete network integration tests", () => {
         it("delete network", async () => {
             (authService.processToken as jest.Mock).mockResolvedValue(undefined);
-            (networkController.deleteNetwork as jest.Mock).mockResolvedValue({ success: true });
+            (networkController.deleteNetwork as jest.Mock).mockResolvedValue(undefined);
 
             const response = await request(app)
                 .delete("/api/v1/networks/NET01")
                 .set("Authorization", token);
 
             expect(response.status).toBe(204);
-            expect(response.body).toEqual({ success: true });
-            expect(authService.processToken).toHaveBeenCalledWith(token, ["admin"]);
+            expect(response.body).toEqual({});
+            expect(authService.processToken).toHaveBeenCalledWith(token, ["admin", "operator"]);
             expect(networkController.deleteNetwork).toHaveBeenCalledWith("NET01");
         });
 

@@ -5,8 +5,6 @@ import {
 } from "@test/setup/test-datasource";
 import { NetworkRepository } from "@repositories/NetworkRepository";
 import { NetworkDAO } from "@dao/NetworkDAO";
-import { before } from "node:test";
-
 
 beforeAll(async () => {
   await initializeTestDataSource();
