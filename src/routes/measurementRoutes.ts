@@ -2,6 +2,7 @@ import { CONFIG } from "@config";
 import { createMeasurement, getMeasurementsBySensor, getMeasurementsBySensorSet, getOutliersBySensor, getOutliersBySensorSet, getStatsBySensor, getStatsBySensorSet } from "@controllers/measurementController";
 import { authenticateUser } from "@middlewares/authMiddleware";
 import { UserType } from "@models/UserType";
+import { parseISODateParamToUTC } from "@utils";
 import { Router } from "express";
 
 const router = Router();
@@ -39,8 +40,8 @@ router.get(
           req.params.networkCode,
           req.params.gatewayMac,
           req.params.sensorMac,
-          req.query.startDate ? new Date(req.query.startDate.toString()) : null, 
-          req.query.endDate ? new Date(req.query.endDate.toString()) : null
+          parseISODateParamToUTC(req.query.startDate),
+          parseISODateParamToUTC(req.query.endDate)
         )
       );
     }
@@ -60,8 +61,8 @@ router.get(CONFIG.ROUTES.V1_SENSORS + "/:sensorMac/stats",
           req.params.networkCode,
           req.params.gatewayMac,
           req.params.sensorMac,
-          req.query.startDate ? new Date(req.query.startDate.toString()) : null, 
-          req.query.endDate ? new Date(req.query.endDate.toString()) : null
+          parseISODateParamToUTC(req.query.startDate),
+          parseISODateParamToUTC(req.query.endDate)
         )
       );
     }
@@ -82,8 +83,8 @@ router.get(
           req.params.networkCode,
           req.params.gatewayMac,
           req.params.sensorMac,
-          req.query.startDate ? new Date(req.query.startDate.toString()) : null, 
-          req.query.endDate ? new Date(req.query.endDate.toString()) : null
+          parseISODateParamToUTC(req.query.startDate),
+          parseISODateParamToUTC(req.query.endDate)
         )
       );
     }
@@ -103,8 +104,8 @@ router.get(
         await getMeasurementsBySensorSet(
           req.params.networkCode,
           req.query.sensorMacs?.toString().split(","),
-          req.query.startDate ? new Date(req.query.startDate.toString()) : null, 
-          req.query.endDate ? new Date(req.query.endDate.toString()) : null
+          parseISODateParamToUTC(req.query.startDate),
+          parseISODateParamToUTC(req.query.endDate)
         )
       );
     }
@@ -124,8 +125,8 @@ router.get(
         await getStatsBySensorSet(
           req.params.networkCode,
           req.query.sensorMacs?.toString().split(","),
-          req.query.startDate ? new Date(req.query.startDate.toString()) : null, 
-          req.query.endDate ? new Date(req.query.endDate.toString()) : null
+          parseISODateParamToUTC(req.query.startDate),
+          parseISODateParamToUTC(req.query.endDate)
         )
       );
     }
@@ -145,8 +146,8 @@ router.get(
         await getOutliersBySensorSet(
           req.params.networkCode,
           req.query.sensorMacs?.toString().split(","),
-          req.query.startDate ? new Date(req.query.startDate.toString()) : null, 
-          req.query.endDate ? new Date(req.query.endDate.toString()) : null
+          parseISODateParamToUTC(req.query.startDate),
+          parseISODateParamToUTC(req.query.endDate)
         )
       );
     }
