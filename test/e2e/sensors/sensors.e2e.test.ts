@@ -9,6 +9,11 @@ import { SensorDAO } from "@models/dao/SensorDAO";
 import { Sensor as SensorDTO } from "@models/dto/Sensor";
 
 describe("Sensor routes (e2e)", () => {
+  const BadRequest = "Bad Request";
+  const ConflictError = "ConflictError";
+  const InsufficientRightsError = "InsufficientRightsError";
+  const UnauthorizedError = "UnauthorizedError";
+  const NotFoundError = "NotFoundError";
   const tokenInvalid = "abcdefghijklmnopqrstuvwxyz";
   let token: string;
   let tokenViewer: string;
@@ -68,7 +73,7 @@ describe("Sensor routes (e2e)", () => {
         .set("Authorization", `Bearer ${token}`);
 
       expect(res.status).toBe(404);
-      expect(res.body.name).toBe("NotFoundError");
+      expect(res.body.name).toBe(NotFoundError);
     });
 
     it("T1.3: Gateway not bound to passed network", async () => {
@@ -79,7 +84,7 @@ describe("Sensor routes (e2e)", () => {
         .set("Authorization", `Bearer ${token}`);
 
       expect(res.status).toBe(404);
-      expect(res.body.name).toBe("NotFoundError");
+      expect(res.body.name).toBe(NotFoundError);
     });
 
     it("T1.4: Network not found", async () => {
@@ -90,7 +95,7 @@ describe("Sensor routes (e2e)", () => {
         .set("Authorization", `Bearer ${token}`);
 
       expect(res.status).toBe(404);
-      expect(res.body.name).toBe("NotFoundError");
+      expect(res.body.name).toBe(NotFoundError);
     });
 
     // --- Realizza una richiesta ad un'altra rotta
@@ -102,7 +107,7 @@ describe("Sensor routes (e2e)", () => {
     //     .set("Authorization", `Bearer ${token}`);
 
     //   expect(res.status).toBe(404);
-    //   expect(res.body.name).toBe("NotFoundError");
+    //   expect(res.body.name).toBe(NotFoundError);
     // });
 
     // --- Realizza una richiesta ad un'altra rotta
@@ -114,7 +119,7 @@ describe("Sensor routes (e2e)", () => {
     //     .set("Authorization", `Bearer ${token}`);
 
     //   expect(res.status).toBe(404);
-    //   expect(res.body.name).toBe("NotFoundError");
+    //   expect(res.body.name).toBe(NotFoundError);
     // });
 
     it("T1.5: Null Gateway MAC", async () => {
@@ -125,7 +130,7 @@ describe("Sensor routes (e2e)", () => {
         .set("Authorization", `Bearer ${token}`);
 
       expect(res.status).toBe(404);
-      expect(res.body.name).toBe("NotFoundError");
+      expect(res.body.name).toBe(NotFoundError);
     });
 
     it("T1.6: Null Network Code", async () => {
@@ -136,7 +141,7 @@ describe("Sensor routes (e2e)", () => {
         .set("Authorization", `Bearer ${token}`);
 
       expect(res.status).toBe(404);
-      expect(res.body.name).toBe("NotFoundError");
+      expect(res.body.name).toBe(NotFoundError);
     });
   });
 
@@ -195,7 +200,7 @@ describe("Sensor routes (e2e)", () => {
         .send(sensorDTO);
 
       expect(res.status).toBe(409);
-      expect(res.body.name).toBe("ConflictError");
+      expect(res.body.name).toBe(ConflictError);
     }); 
         
     it("T2.3: Invalid MAC (empty string)", async () => {
@@ -214,7 +219,7 @@ describe("Sensor routes (e2e)", () => {
         .send(sensorDTO);
       
       expect(res.status).toBe(400);
-      expect(res.body.name).toBe("Bad Request"); //TODO: Attendere risposta di Mancini
+      expect(res.body.name).toBe(BadRequest);
     });
 
     it("T2.4: Invalid MAC (spaces only)", async () => {
@@ -233,7 +238,7 @@ describe("Sensor routes (e2e)", () => {
         .send(sensorDTO);
       
       expect(res.status).toBe(400);
-      expect(res.body.name).toBe("Bad Request"); //TODO: Attendere risposta di Mancini
+      expect(res.body.name).toBe(BadRequest);
     });
 
     it("T2.5: Invalid MAC (null)", async () => {
@@ -252,7 +257,7 @@ describe("Sensor routes (e2e)", () => {
         .send(sensorDTO);
       
       expect(res.status).toBe(400);
-      expect(res.body.name).toBe("Bad Request"); //TODO: Attendere risposta di Mancini
+      expect(res.body.name).toBe(BadRequest);
     });
 
     it("T2.6: Valid MAC, name with spaces", async () => {
@@ -298,7 +303,7 @@ describe("Sensor routes (e2e)", () => {
         .send(sensorDTO);
       
       expect(res.status).toBe(404);
-      expect(res.body.name).toBe("NotFoundError");
+      expect(res.body.name).toBe(NotFoundError);
     });
 
     it("T2.8: Invalid Gateway MAC", async () => {
@@ -318,7 +323,7 @@ describe("Sensor routes (e2e)", () => {
         .send(sensorDTO);
       
       expect(res.status).toBe(404);
-      expect(res.body.name).toBe("NotFoundError");
+      expect(res.body.name).toBe(NotFoundError);
     });
 
     it("T2.9: Invalid token", async () => {
@@ -337,7 +342,7 @@ describe("Sensor routes (e2e)", () => {
         .send(sensorDTO);
 
       expect(res.status).toBe(401);
-      expect(res.body.name).toBe("UnauthorizedError");
+      expect(res.body.name).toBe(UnauthorizedError);
     });
 
     it("T2.10: Insufficient permissions", async () => {
@@ -356,7 +361,7 @@ describe("Sensor routes (e2e)", () => {
         .send(sensorDTO);
       
       expect(res.status).toBe(403);
-      expect(res.body.name).toBe("InsufficientRightsError");
+      expect(res.body.name).toBe(InsufficientRightsError);
     });
   });
 
@@ -399,7 +404,7 @@ describe("Sensor routes (e2e)", () => {
         .set("Authorization", `Bearer ${token}`);
 
       expect(res.status).toBe(404);
-      expect(res.body.name).toBe("NotFoundError");
+      expect(res.body.name).toBe(NotFoundError);
     });
 
     it("T3.3: Sensor MAC not bound to passed gateway", async () => {
@@ -410,7 +415,7 @@ describe("Sensor routes (e2e)", () => {
         .set("Authorization", `Bearer ${token}`);
 
       expect(res.status).toBe(404);
-      expect(res.body.name).toBe("NotFoundError");
+      expect(res.body.name).toBe(NotFoundError);
     });
 
     // --- Realizza una richiesta ad un'altra rotta
@@ -422,7 +427,7 @@ describe("Sensor routes (e2e)", () => {
     //     .set("Authorization", `Bearer ${token}`);
 
     //   expect(res.status).toBe(404);
-    //   expect(res.body.name).toBe("NotFoundError");
+    //   expect(res.body.name).toBe(NotFoundError);
     // });
 
     it("T3.4: Null Sensor MAC", async () => {
@@ -433,7 +438,7 @@ describe("Sensor routes (e2e)", () => {
         .set("Authorization", `Bearer ${token}`);
 
       expect(res.status).toBe(404);
-      expect(res.body.name).toBe("NotFoundError");
+      expect(res.body.name).toBe(NotFoundError);
     });
 
     it("T3.5: Invalid Gateway MAC", async () => {
@@ -445,7 +450,7 @@ describe("Sensor routes (e2e)", () => {
         .set("Authorization", `Bearer ${token}`);
 
       expect(res.status).toBe(404);
-      expect(res.body.name).toBe("NotFoundError");
+      expect(res.body.name).toBe(NotFoundError);
     });
 
     it("T3.6: Gateway not bound to passed network", async () => {
@@ -457,7 +462,7 @@ describe("Sensor routes (e2e)", () => {
         .set("Authorization", `Bearer ${token}`);
 
       expect(res.status).toBe(404);
-      expect(res.body.name).toBe("NotFoundError");
+      expect(res.body.name).toBe(NotFoundError);
     });
 
     // --- Realizza una richiesta ad una rotta non valida
@@ -470,7 +475,7 @@ describe("Sensor routes (e2e)", () => {
         .set("Authorization", `Bearer ${token}`);
 
       expect(res.status).toBe(404);
-      //expect(res.body.name).toBe("NotFoundError");
+      //expect(res.body.name).toBe(NotFoundError);
     });
 
     it("T3.8: Null Gateway MAC", async () => {
@@ -482,7 +487,7 @@ describe("Sensor routes (e2e)", () => {
         .set("Authorization", `Bearer ${token}`);
 
       expect(res.status).toBe(404);
-      expect(res.body.name).toBe("NotFoundError");
+      expect(res.body.name).toBe(NotFoundError);
     });
 
     it("T3.9: Invalid Network Code", async () => {
@@ -494,7 +499,7 @@ describe("Sensor routes (e2e)", () => {
         .set("Authorization", `Bearer ${token}`);
 
       expect(res.status).toBe(404);
-      expect(res.body.name).toBe("NotFoundError");
+      expect(res.body.name).toBe(NotFoundError);
     });
 
     // --- Realizza una richiesta ad una rotta non valida
@@ -507,7 +512,7 @@ describe("Sensor routes (e2e)", () => {
         .set("Authorization", `Bearer ${token}`);
 
       expect(res.status).toBe(404);
-      //expect(res.body.name).toBe("NotFoundError");
+      //expect(res.body.name).toBe(NotFoundError);
     });
 
     it("T3.11: Null Network Code", async () => {
@@ -519,7 +524,7 @@ describe("Sensor routes (e2e)", () => {
         .set("Authorization", `Bearer ${token}`);
 
       expect(res.status).toBe(404);
-      expect(res.body.name).toBe("NotFoundError");
+      expect(res.body.name).toBe(NotFoundError);
     });
   });
 
@@ -666,7 +671,7 @@ describe("Sensor routes (e2e)", () => {
         .send(sensorDTO);
 
       expect(res.status).toBe(409);
-      expect(res.body.name).toBe("ConflictError");
+      expect(res.body.name).toBe(ConflictError);
     });
 
     it("T4.6: MAC address change to empty string", async () => {
@@ -686,7 +691,7 @@ describe("Sensor routes (e2e)", () => {
         .send(sensorDTO);
 
       expect(res.status).toBe(400);
-      expect(res.body.name).toBe("Bad Request"); //TODO: Waiting for Mancini
+      expect(res.body.name).toBe(BadRequest);
     });
 
     it("T4.7: MAC address change to only spaces", async () => {
@@ -706,7 +711,7 @@ describe("Sensor routes (e2e)", () => {
         .send(sensorDTO);
 
       expect(res.status).toBe(400);
-      expect(res.body.name).toBe("Bad Request"); //TODO: Waiting for Mancini
+      expect(res.body.name).toBe(BadRequest);
     });
 
     it("T4.8: MAC address change to null", async () => {
@@ -726,7 +731,7 @@ describe("Sensor routes (e2e)", () => {
         .send(sensorDTO);
 
       expect(res.status).toBe(400);
-      expect(res.body.name).toBe("Bad Request"); //TODO: Waiting for Mancini
+      expect(res.body.name).toBe(BadRequest);
     });
 
     it("T4.9: Invalid Sensor MAC", async () => {
@@ -746,7 +751,7 @@ describe("Sensor routes (e2e)", () => {
         .send(sensorDTO);
 
       expect(res.status).toBe(404);
-      expect(res.body.name).toBe("NotFoundError");
+      expect(res.body.name).toBe(NotFoundError);
     });
 
     // --- Realizza una richiesta ad un'altra rotta
@@ -767,7 +772,7 @@ describe("Sensor routes (e2e)", () => {
     //     .send(sensorDTO);
 
     //   expect(res.status).toBe(404);
-    //   expect(res.body.name).toBe("NotFoundError");
+    //   expect(res.body.name).toBe(NotFoundError);
     // });
 
     it("T4.10: Invalid Sensor MAC (null)", async () => {
@@ -787,7 +792,7 @@ describe("Sensor routes (e2e)", () => {
         .send(sensorDTO);
 
       expect(res.status).toBe(404);
-      expect(res.body.name).toBe("NotFoundError");
+      expect(res.body.name).toBe(NotFoundError);
     });
 
     it("T4.11: Invalid Gateway MAC", async () => {
@@ -808,7 +813,7 @@ describe("Sensor routes (e2e)", () => {
         .send(sensorDTO);
 
       expect(res.status).toBe(404);
-      expect(res.body.name).toBe("NotFoundError");
+      expect(res.body.name).toBe(NotFoundError);
     });
 
     it("T4.12: Invalid Network Code", async () => {
@@ -829,7 +834,7 @@ describe("Sensor routes (e2e)", () => {
         .send(sensorDTO);
 
       expect(res.status).toBe(404);
-      expect(res.body.name).toBe("NotFoundError");
+      expect(res.body.name).toBe(NotFoundError);
     });
 
     it("T2.9: Invalid token", async () => {
@@ -847,7 +852,7 @@ describe("Sensor routes (e2e)", () => {
         .send(sensorDTO);
 
       expect(res.status).toBe(401);
-      expect(res.body.name).toBe("UnauthorizedError");
+      expect(res.body.name).toBe(UnauthorizedError);
     });
 
     it("T2.10: Insufficient permissions", async () => {
@@ -865,7 +870,7 @@ describe("Sensor routes (e2e)", () => {
         .send(sensorDTO);
       
       expect(res.status).toBe(403);
-      expect(res.body.name).toBe("InsufficientRightsError");
+      expect(res.body.name).toBe(InsufficientRightsError);
     });
   });
 
@@ -904,7 +909,7 @@ describe("Sensor routes (e2e)", () => {
         .set("Authorization", `Bearer ${token}`);
 
       expect(res.status).toBe(404);
-      expect(res.body.name).toBe("NotFoundError");
+      expect(res.body.name).toBe(NotFoundError);
     });
 
     it("T5.3: Sensor MAC not bound to passed gateway", async () => {
@@ -915,7 +920,7 @@ describe("Sensor routes (e2e)", () => {
         .set("Authorization", `Bearer ${token}`);
 
       expect(res.status).toBe(404);
-      expect(res.body.name).toBe("NotFoundError");
+      expect(res.body.name).toBe(NotFoundError);
     });
 
     // --- Realizza una richiesta ad un'altra rotta
@@ -927,7 +932,7 @@ describe("Sensor routes (e2e)", () => {
     //     .set("Authorization", `Bearer ${token}`);
 
     //   expect(res.status).toBe(404);
-    //   expect(res.body.name).toBe("NotFoundError");
+    //   expect(res.body.name).toBe(NotFoundError);
     // });
 
     it("T5.4: Invalid Sensor MAC (null)", async () => {
@@ -938,7 +943,7 @@ describe("Sensor routes (e2e)", () => {
         .set("Authorization", `Bearer ${token}`);
 
       expect(res.status).toBe(404);
-      expect(res.body.name).toBe("NotFoundError");
+      expect(res.body.name).toBe(NotFoundError);
     });
 
     it("T5.5: Invalid Gateway MAC", async () => {
@@ -950,7 +955,7 @@ describe("Sensor routes (e2e)", () => {
         .set("Authorization", `Bearer ${token}`);
 
       expect(res.status).toBe(404);
-      expect(res.body.name).toBe("NotFoundError");
+      expect(res.body.name).toBe(NotFoundError);
     });
 
     it("T5.6: Gateway not bound to passed network", async () => {
@@ -962,7 +967,7 @@ describe("Sensor routes (e2e)", () => {
         .set("Authorization", `Bearer ${token}`);
 
       expect(res.status).toBe(404);
-      expect(res.body.name).toBe("NotFoundError");
+      expect(res.body.name).toBe(NotFoundError);
     });
 
     // --- Realizza una richiesta ad un'altra rotta
@@ -975,7 +980,7 @@ describe("Sensor routes (e2e)", () => {
     //     .set("Authorization", `Bearer ${token}`);
 
     //   expect(res.status).toBe(404);
-    //   expect(res.body.name).toBe("NotFoundError");
+    //   expect(res.body.name).toBe(NotFoundError);
     // });
 
     it("T5.7: Invalid Gateway MAC (null)", async () => {
@@ -987,7 +992,7 @@ describe("Sensor routes (e2e)", () => {
         .set("Authorization", `Bearer ${token}`);
 
       expect(res.status).toBe(404);
-      expect(res.body.name).toBe("NotFoundError");
+      expect(res.body.name).toBe(NotFoundError);
     });
 
     it("T5.8: Invalid Network Code", async () => {
@@ -999,7 +1004,7 @@ describe("Sensor routes (e2e)", () => {
         .set("Authorization", `Bearer ${token}`);
 
       expect(res.status).toBe(404);
-      expect(res.body.name).toBe("NotFoundError");
+      expect(res.body.name).toBe(NotFoundError);
     });
 
     // --- Realizza una richiesta ad un'altra rotta
@@ -1012,7 +1017,7 @@ describe("Sensor routes (e2e)", () => {
     //     .set("Authorization", `Bearer ${token}`);
 
     //   expect(res.status).toBe(404);
-    //   expect(res.body.name).toBe("NotFoundError");
+    //   expect(res.body.name).toBe(NotFoundError);
     // });
 
     it("T5.9: Invalid Network Code (null)", async () => {
@@ -1024,7 +1029,7 @@ describe("Sensor routes (e2e)", () => {
         .set("Authorization", `Bearer ${token}`);
 
       expect(res.status).toBe(404);
-      expect(res.body.name).toBe("NotFoundError");
+      expect(res.body.name).toBe(NotFoundError);
     });
 
     it("T5.10: Invalid token", async () => {
@@ -1035,7 +1040,7 @@ describe("Sensor routes (e2e)", () => {
         .set("Authorization", `Bearer ${tokenInvalid}`);
 
       expect(res.status).toBe(401);
-      expect(res.body.name).toBe("UnauthorizedError");
+      expect(res.body.name).toBe(UnauthorizedError);
     });
 
     it("T5.11: Insufficient permissions", async () => {
@@ -1046,7 +1051,7 @@ describe("Sensor routes (e2e)", () => {
         .set("Authorization", `Bearer ${tokenViewer}`);
       
       expect(res.status).toBe(403);
-      expect(res.body.name).toBe("InsufficientRightsError");
+      expect(res.body.name).toBe(InsufficientRightsError);
     });
   });
 });
