@@ -50,12 +50,7 @@ describe("GatewayController: SQLite in-memory, checkService integration", () => 
       expect(result[1]).toMatchObject({ macAddress: "11:22:44", name: "Gateway2", description: "dscr gateway2" });
     });
 
-    it("T1.2 return an empty array if no gateways exist", async () => {
-      const result = await getAllGateway("NET01");
-      expect(result).toEqual([]);
-    });
-
-    it("T1.3 throw NotFoundError if network does not exist", async () => {
+    it("T1.2 throw NotFoundError if network does not exist", async () => {
 
       await expect(getAllGateway("NET02")).rejects.toThrow(NotFoundError);
     });

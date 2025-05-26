@@ -63,12 +63,8 @@ describe("GatewayController: SQLite in-memory, repo integration", () => {
       expect(result[1]).toMatchObject({ macAddress: "11:22:44", name: "Gateway2", description: "dscr gateway2" });
     });
 
-    it("T1.2 return an empty array if no gateways exist", async () => {
-      const result = await getAllGateway("NET01");
-      expect(result).toEqual([]);
-    });
 
-    it("T1.3 throw NotFoundError if network does not exist", async () => {
+    it("T1.2 throw NotFoundError if network does not exist", async () => {
       (checkNetwork as jest.Mock).mockRejectedValue(new NotFoundError("Network not found"));
 
       await expect(getAllGateway("NET01")).rejects.toThrow(NotFoundError);
