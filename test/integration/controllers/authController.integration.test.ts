@@ -15,7 +15,7 @@ afterAll(async () => {
   await closeTestDataSource();
 });
 
-describe("AuthController big-bang integration", () => {
+describe("TS1: AuthController big-bang integration", () => {
   it("T1.1: all valid", async () => {
     const USERNAME = "root";
     const userDTO: UserDTO = {

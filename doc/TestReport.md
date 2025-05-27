@@ -326,12 +326,12 @@
 | Functional Requirement or scenario | Test(s) |
 |------------------------------------|---------|
 | *FR1 Authentication* |         |
-| FR1.1 Authenticate user |         |
-| *FR2 Manage users* |         |
-| FR2.1 Retrieve all users |         |
-| FR2.2 Create a new user |         |
-| FR2.3 Retrieve a specific user |         |
-| FR2.4 Delete a specific user |         |
+| FR1.1 Authenticate user | AuthController.integration.test → TS1: AuthController big-bang integration |  
+| *FR2 Manage users* |  |
+| FR2.1 Retrieve all users | UserRepository.db.test → TS1: getAllUsers <br> UserRepository.mock.test → TS1: getAllUsers <br> UserRoutes.integration.test → TS1: get all users <br> Users.e2e.test → T1: GET all users |  
+| FR2.2 Create a new user | UserRepository.db.test → TS2: createUser <br> UserRepository.mock.test → TS2: createUser <br> UserController2.integration.test → TS1: createUser() <br> Users.e2e.test → T2: POST create a user |  
+| FR2.3 Retrieve a specific user | UserRepository.db.test → TS3: getUserByUsername <br> UserRepository.mock.test → TS3: getUserByUsername <br> UserController.integration.test → TS1: getUser <br> Users.e2e.test → T3: GET a user |  
+| FR2.4 Delete a specific user | UserRepository.db.test → TS4: deleteUser <br> UserRepository.mock.test → TS4: deleteUser <br> UserController2.integration.test → TS2: deleteUser() <br> Users.e2e.test → T4: DELETE a user|  
 | *FR3 Manage networks* |  |
 | FR3.1 Retrieve all networks | NetworkRepository.db.test → TNR3: GetAllNetworks <br> NetworkController.integration.test → TNC3: get All Networks <br> NetworkRoutes.integration.test → get all networks <br> Network.e2e.test → TNE3: GET all networks |  
 | FR3.2 Create a new network | NetworkRepository.db.test → TNR1: Create Network <br> NetworkController.integration.test → TNC1: Create Network <br> NetworkRoutes.integration.test → create network <br> Network.e2e.test → TNE1: POST create a network |  
