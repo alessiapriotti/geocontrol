@@ -1,11 +1,9 @@
 import { Sensor as SensorDTO } from "@dto/Sensor";
 import { SensorRepository } from "@repositories/SensorRepository";
-import { GatewayRepository } from "@repositories/GatewayRepository";
-import { NetworkRepository } from "@repositories/NetworkRepository";
 import { mapSensorDAOToDTO } from "@services/mapperService";
 import {checkMacSensorsGateway,checkGateway,checkNetwork} from "@services/checkService";
 
-export async function createSensor(networkCode: string, gatewayMac: string,sensorDto: SensorDTO): Promise<void> {
+export async function createSensor(networkCode: string, gatewayMac: string, sensorDto: SensorDTO): Promise<void> {
   const sensorRepo = new SensorRepository();
 
   await(checkNetwork(networkCode));
