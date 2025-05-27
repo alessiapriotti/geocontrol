@@ -31,8 +31,8 @@ app.use(
     validateRequests: true,
     validateResponses: true,
     validateApiSpec: true,
-    validateFormats: 'full',
-    
+    validateFormats: true,
+    ajvFormats: require("ajv-formats"),
   })
 );
 
