@@ -85,8 +85,6 @@ export function createMeasurementsDTO(sens: SensorDAO, startDate: Date, endDate:
     mss = {
       ...mss,
       stats: {
-        startDate: startDate,
-        endDate: endDate,
         mean: mean,
         variance: vari,
         upperThreshold: upp,
@@ -94,6 +92,13 @@ export function createMeasurementsDTO(sens: SensorDAO, startDate: Date, endDate:
       },
       measurements: calculateOutliers(meases, upp, low)
     }
+    
+    // Se la data non è stata inserita non voglio metterla nello stats (altrimenti rompe validazione)
+    if (endDate)
+      mss.stats = {endDate: endDate, ...mss.stats};
+
+    if (startDate)
+      mss.stats = {startDate: startDate, ...mss.stats};
   }
 
   return mss;

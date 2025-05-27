@@ -10,16 +10,16 @@ These figures will not be used to evaluate neither the project nor the team, the
 
 |      Week      | requirement engineering | design | coding | unit testing | integration testing | acceptance testing | containerization | management |
 | :------------: | :---------------------: | :----: | :----: | :----------: | :-----------------: | :----------------: | :--------------: | :--------: |
-|  Mar 24 - 30   | 0                       |        |        |              |                     |                    |                  |            |
-| Mar 31 - Apr 6 |  28                     |        |        |              |                     |                    |                  |            |
+|  Mar 24 - 30   | 0                       |        |        |              |                     |                    |                  |      1     |
+| Mar 31 - Apr 6 |  28                     |        |        |              |                     |                    |                  |     4      |
 |   Apr 7 - 13   | 28                     |        |        |              |                     |                    |                  |            |
 |  Apr 14 - 20   |                         |        |        |              |                     |                    |                  |            |
 |  Apr 21 - 27   |                         |        |        |              |                     |                    |                  |            |
-| Apr 28 - May 4 |                         |        |        |              |                     |                    |                  |            |
-|   May 5 - 11   |                         |        |  9      |              |                     |                    |                  |            |
+| Apr 28 - May 4 |                         |        |        |              |                     |                    |                  |     2      |
+|   May 5 - 11   |                         |        |  9      |              |                     |                    |                  |     2      |
 |  May 12 - 18   |                         |        |  12+8      |              |                     |                    |                  |            |
-|  May 19 - 25   |                         |        |   4,5     |              |                     |                    |                  |            |
-| May 26 - Jun 1 |                         |        |        |              |                     |                    |                  |            |
+|  May 19 - 25   |                         |        |   4,5     |      6       |         2           |        2           |                  |     2      |
+| May 26 - Jun 1 |                         |        |      |             |                     |                    |                  |     2      |
 |   Jun 2 - 8    |                         |        |        |              |                     |                    |                  |            |
 |   Jun 9 - 15   |                         |        |        |              |                     |                    |                  |            |
 |  Jun 16 - 22   |                         |        |        |              |                     |                    |                  |            |
