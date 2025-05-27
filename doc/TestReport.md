@@ -323,6 +323,43 @@
 |                FRy                 |         |
 |                ...                 |         |
 
+| Functional Requirement or scenario | Test(s) |
+|------------------------------------|---------|
+| *FR1 Authentication* |         |
+| FR1.1 Authenticate user |         |
+| *FR2 Manage users* |         |
+| FR2.1 Retrieve all users |         |
+| FR2.2 Create a new user |         |
+| FR2.3 Retrieve a specific user |         |
+| FR2.4 Delete a specific user |         |
+| *FR3 Manage networks* |  |
+| FR3.1 Retrieve all networks | NetworkRepository.db.test → TNR3: GetAllNetworks <br> NetworkController.integration.test → TNC3: get All Networks <br> NetworkRoutes.integration.test → get all networks <br> Network.e2e.test → TNE3: GET all networks |  
+| FR3.2 Create a new network | NetworkRepository.db.test → TNR1: Create Network <br> NetworkController.integration.test → TNC1: Create Network <br> NetworkRoutes.integration.test → create network <br> Network.e2e.test → TNE1: POST create a network |  
+| FR3.3 Retrieve a specific network | NetworkRepository.db.test → TNR2: Get Network by Code <br> NetworkController.integration.test → TNC2: get Network <br> NetworkRoutes.integration.test → get network by code <br> Network.e2e.test → TNE2: GET a network |  
+| FR3.4 Update a network | NetworkRepository.db.test → TNR4: Update Network <br> NetworkController.integration.test → TNC4: Update Network <br> NetworkRoutes.integration.test → update network <br> Network.e2e.test → TNE4: PATCH update a network |  
+| FR3.5 Delete a specific network | NetworkRepository.db.test → TNR5: Delete Network <br> NetworkController.integration.test → TNC5: Delete Network <br> NetworkRoutes.integration.test → delete network <br> Network.e2e.test → TNE5: DELETE a network |  
+| *FR4 Manage gateways* |  |
+| FR4.1 Retrieve all gateways of a network | GatewayRepository.db.test → TS2: getAllGateway() <br> GatewayController.integration.repo.test.ts → TS1: getAllGateway() <br> GatewayController.integration.mapper.test → TS1: getAllGateway() <br> GatewayController.integration.check.test → TS1: getAllGateway() <br> GatewayRoutes.integration.test → TS1: getAllGateway() <br> Gateways.e2e.test → TS1: GET all gateways |  
+| FR4.2 Create a new gateway for a network | GatewayRepository.db.test → TS1: createGateway() <br> GatewayRepository.db.test → TS6: testGatewayExistance() <br> GatewayController.integration.repo.test.ts → TS2: createGateway() <br> GatewayController.integration.mapper.test → TS2: createGateway() <br> GatewayController.integration.check.test → TS2: createGateway() <br> GatewayRoutes.integration.test → TS2: createGateway() <br> Gateways.e2e.test → TS2: POST create a gateway |  
+| FR4.3 Retrieve a specific gateway | GatewayRepository.db.test → TS3: getGatewayByMacAddress() <br> GatewayController.integration.repo.test.ts → TS3: getGatewayByMacAddress() <br> GatewayController.integration.mapper.test → TS3: getGatewayByMacAddress() <br> GatewayController.integration.check.test → TS3: getGatewayByMacAddress() <br> GatewayRoutes.integration.test → TS3: getGatewayByMacAddress() <br> Gateways.e2e.test → TS3: GET a gateway |  
+| FR4.4 Update a gateway | GatewayRepository.db.test → TS4: updateGateway() <br> GatewayRepository.db.test → TS6: testGatewayExistance() <br> GatewayController.integration.repo.test.ts → TS5: updateGateway() <br> GatewayController.integration.mapper.test → TS4: updateGateway() <br> GatewayController.integration.check.test → TS4: updateGateway() <br> GatewayRoutes.integration.test → TS4: updateGateway() <br> Gateways.e2e.test → TS4: PATCH a gateway |  
+| FR4.5 Delete a specific gateway | GatewayRepository.db.test → TS5: deleteGateway() <br> GatewayController.integration.repo.test.ts → TS4: deleteGateway() <br> GatewayController.integration.mapper.test → TS5: deleteGateway() <br> GatewayController.integration.check.test → TS5: deleteGateway() <br> GatewayRoutes.integration.test → TS5: deleteGateway() <br> Gateways.e2e.test → TS5: DELETE a gateway |  
+| *FR5 Manage sensors* |  |
+| FR5.1 Retrieve all sensors of a gateway | SensorRepository.db.test → TS2: getAllSensors() <br> SensorController.integration.test → TS2: getAllSensors() <br> Sensors.e2e.test → TS1: GET all sensors |  
+| FR5.2 Create a new sensor for a gateway | SensorRepository.db.test → TS1: createSensor() <br> SensorRepository.db.test → TS6: testSensorExistance() <br> SensorController.integration.test → TS1: createSensor() <br> Sensors.e2e.test → TS2: POST create a sensor |  
+| FR5.3 Retrieve a specific sensor | SensorRepository.db.test → TS3: getSensorByMacAddress() <br> SensorController.integration.test → TS3: getSensorByMacAddress() <br> Sensors.e2e.test → TS3: GET a sensor |  
+| FR5.4 Update a sensor | SensorRepository.db.test → TS4: updateSensor() <br> SensorRepository.db.test → TS6: testSensorExistance() <br> SensorController.integration.test → TS4: updateSensor() <br> Sensors.e2e.test → TS4: PATCH a sensor |  
+| FR5.5 Delete a specific sensor | SensorRepository.db.test → TS5: deleteSensor() <br> SensorController.integration.test → TS5: deleteSensor() <br> Sensors.e2e.test → TS5: DELETE a sensor |  
+| *FR6 Manage measurements* |         |
+| FR6.1 Retrieve measurements for a set of sensors of a specific network |         |
+| FR6.2 Retrieve statistics for a set of sensors of a specific network |         |
+| FR6.3 Retrieve outliers for a set of sensors of a specific network |         |
+| FR6.4 Store measurements for a specific sensor |         |
+| FR6.5 Retrieve measurements for a specific sensor |         |
+| FR6.6 Retrieve statistics for a specific sensor |         |
+| FR6.7 Retrieve outliers for a specific sensor |         |
+
+
 ## Coverage white box
 
 Report here the screenshot of coverage values obtained with jest-- coverage
