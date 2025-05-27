@@ -48,7 +48,7 @@ describe("NetworkRoutes integration", () => {
                 .set("Authorization", "Bearer invalid");
 
             expect(response.status).toBe(401);
-            //expect(response.body.message).toMatch(/Unauthorized/);
+            expect(response.body.message).toMatch(/Unauthorized/);
         });
     });
 
@@ -79,7 +79,7 @@ describe("NetworkRoutes integration", () => {
                 .set("Authorization", "Bearer invalid");
 
             expect(response.status).toBe(401);
-            //expect(response.body.message).toMatch(/Unauthorized/);
+            expect(response.body.message).toMatch(/Unauthorized/);
         });
         
         it("get network by code: 404 NotFoundError", async () => {
@@ -93,7 +93,7 @@ describe("NetworkRoutes integration", () => {
                 .set("Authorization", token);
 
             expect(response.status).toBe(404);
-            //expect(response.body.message).toMatch(/Network not found/);
+            expect(response.body.message).toMatch(/Network not found/);
         });
     });
 
@@ -125,7 +125,7 @@ describe("NetworkRoutes integration", () => {
                 .send({ code: "NET01", name: "Network 1", description: "First network" });
 
             expect(response.status).toBe(401);
-            //expect(response.body.message).toMatch(/Unauthorized/);
+            expect(response.body.message).toMatch(/Unauthorized/);
         });
 
         it("create network: 403 InsufficientRightsError", async () => {
@@ -139,7 +139,7 @@ describe("NetworkRoutes integration", () => {
                 .send({ code: "NET01", name: "Network 1", description: "First network" });
 
             expect(response.status).toBe(403);
-            //expect(response.body.message).toMatch(/Insufficient rights/);
+            expect(response.body.message).toMatch(/Insufficient rights/);
         });
 
         it("create network: 409 ConflictError", async () => {
@@ -155,7 +155,7 @@ describe("NetworkRoutes integration", () => {
                 .send({ code: "NET01", name: "Network 1", description: "First network" });
 
             expect(response.status).toBe(409);
-            //expect(response.body.message).toMatch(/Network already exists/);
+            expect(response.body.message).toMatch(/Network already exists/);
         });
     });
 
@@ -188,7 +188,7 @@ describe("NetworkRoutes integration", () => {
                 .send({ code: "NET01", name: "Updated Network", description: "Updated description" });
 
             expect(response.status).toBe(401);
-            //expect(response.body.message).toMatch(/Unauthorized/);
+            expect(response.body.message).toMatch(/Unauthorized/);
         });
 
         it("update network: 403 InsufficientRightsError", async () => {
@@ -202,7 +202,7 @@ describe("NetworkRoutes integration", () => {
                 .send({ code: "NET01", name: "Updated Network", description: "Updated description" });
 
             expect(response.status).toBe(403);
-            //expect(response.body.message).toMatch(/Insufficient rights/);
+            expect(response.body.message).toMatch(/Insufficient rights/);
         });
 
         it("update network: 404 NotFoundError", async () => {
@@ -217,7 +217,7 @@ describe("NetworkRoutes integration", () => {
                 .send({ code: "INVALID", name: "Updated Network", description: "Updated description" });
 
             expect(response.status).toBe(404);
-            //expect(response.body.message).toMatch(/Network not found/);
+            expect(response.body.message).toMatch(/Network not found/);
         });
     });
 
@@ -246,7 +246,7 @@ describe("NetworkRoutes integration", () => {
                 .set("Authorization", "Bearer invalid");
 
             expect(response.status).toBe(401);
-            //expect(response.body.message).toMatch(/Unauthorized/);
+            expect(response.body.message).toMatch(/Unauthorized/);
         });
 
         it("delete network: 403 InsufficientRightsError", async () => {
@@ -259,7 +259,7 @@ describe("NetworkRoutes integration", () => {
                 .set("Authorization", token);
 
             expect(response.status).toBe(403);
-            //expect(response.body.message).toMatch(/Insufficient rights/);
+            expect(response.body.message).toMatch(/Insufficient rights/);
         });
 
         it("delete network: 404 NotFoundError", async () => {
@@ -273,7 +273,7 @@ describe("NetworkRoutes integration", () => {
                 .set("Authorization", token);
 
             expect(response.status).toBe(404);
-            //expect(response.body.message).toMatch(/Network not found/);
+            expect(response.body.message).toMatch(/Network not found/);
         });
     });
 });
