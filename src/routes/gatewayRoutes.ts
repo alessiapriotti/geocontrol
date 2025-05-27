@@ -18,7 +18,7 @@ router.get("",authenticateUser([UserType.Admin,UserType.Operator,UserType.Viewer
 // Create a new gateway (Admin & Operator)
 router.post("", authenticateUser([UserType.Admin, UserType.Operator]), async (req, res, next) => {
   try {
-    await createGateway(GatewayFromJSON(req.body), req.params.networkCode);
+    await createGateway( req.params.networkCode,GatewayFromJSON(req.body));
     res.status(201).send();
   } catch (error) {
     next(error);
@@ -47,7 +47,7 @@ router.patch("/:gatewayMac",authenticateUser([UserType.Admin, UserType.Operator]
 // Delete a gateway (Admin & Operator)
 router.delete("/:gatewayMac", authenticateUser([UserType.Admin, UserType.Operator]), async (req, res, next) => {
   try {
-    await deleteGateway(req.params.gatewayMac, req.params.networkCode);
+    await deleteGateway(req.params.networkCode,req.params.gatewayMac );
     res.status(204).send();
   } catch (error) {
     next(error);
