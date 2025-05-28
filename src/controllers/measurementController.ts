@@ -1,5 +1,6 @@
 import { Measurement as MeasurementDTO } from "@dto/Measurement";
 import { Measurements as MeasurementsDTO } from "@dto/Measurements";
+import { Stats } from "@models/dto/Stats";
 import { GatewayRepository } from "@repositories/GatewayRepository";
 import { MeasurementRepository } from "@repositories/MeasurementRepository";
 import { NetworkRepository } from "@repositories/NetworkRepository";
@@ -67,13 +68,10 @@ export async function getMeasurementsBySensor(network: string, gateway: string, 
   return createMeasurementsDTO(sensorFound, startDate, endDate);
 }
 
-export async function getStatsBySensor(network: string, gateway: string, sensor: string, startDate: Date, endDate: Date): Promise<MeasurementsDTO> {
+export async function getStatsBySensor(network: string, gateway: string, sensor: string, startDate: Date, endDate: Date): Promise<Stats> {
   const measurementsDTO = await getMeasurementsBySensor(network, gateway, sensor, startDate, endDate);
   
-  return {
-    sensorMacAddress: measurementsDTO.sensorMacAddress,
-    stats: measurementsDTO.stats,
-  } as MeasurementsDTO;
+  return measurementsDTO.stats;
 }
 
 export async function getOutliersBySensor(network: string, gateway: string, sensor: string, startDate: Date, endDate: Date): Promise<MeasurementsDTO> {

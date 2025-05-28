@@ -9,7 +9,7 @@ export class MeasurementDAO {
   @Column({ nullable: false })
   createdAt: Date;
 
-  @Column({ nullable: false })
+  @Column({ nullable: false, type: "float" })
   value: number;
 
   @ManyToOne(() => SensorDAO, (sensor) => sensor.measurement, { nullable: false, onDelete: "CASCADE" })

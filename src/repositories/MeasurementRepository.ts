@@ -20,9 +20,9 @@ export class MeasurementRepository {
     sensor: SensorDAO
   ): Promise<MeasurementDAO> {
     return this.repo.save({
-        createdAt: timestamp,
-        value: value,
-        sensor: sensor
+      createdAt: timestamp,
+      value: value,
+      sensor: sensor,
     });
   }
 }
