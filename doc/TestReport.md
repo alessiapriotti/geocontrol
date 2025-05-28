@@ -54,9 +54,9 @@ Bottom-up
 - Step2: SensorRepository + SensorController + checkService
 - Step3: SensorRepository + SensorController + checkService + mapperService + SensorRoutes
 
-  ## Measurement
+## Measurement
 
-  Bottom-up
+Bottom-up
 
 - Step1: MeasurementRepository
 - Step2: MeasurementRepository + SensorController
@@ -65,20 +65,41 @@ Bottom-up
 
 # Tests
 
+Sono stati esclusi dalle tabelle i test non scritti da noi.
+
+Tra parentesi vicino ad ogni tecnica è segnato il numero di test case che usano tale tecnica.
+
+## Auth
+| Test case name | Object(s) tested | Test level | Technique used |
+| :------------ | :--------------: | :--------: | :------------: |
+| TS1: authenticateUser() | **authMiddleware** | Unit | WB/ coverage (4) |
+| TS1: getToken() | **authController** | Integration | WB/ coverage (3) |
+| TS1: GET /auth | **AuthRoutes** | E2E | WB/ coverage (3) |
+
+## Users
+| Test case name | Object(s) tested | Test level | Technique used |
+| :------------ | :--------------: | :--------: | :------------: |
+| TS1: createUser() | **userController** | Integration | WB/ coverage (2) |
+| TS2: deleteUser() | **userController** | Integration | WB/ coverage (2) |
+| TS1: GET /users | **UserRoutes** | E2E | WB/ coverage (5) |
+| TS2: POST /users | **UserRoutes** | E2E | WB/ coverage (2) |
+| TS3: GET /users/:userName | **UserRoutes** | E2E | WB/ coverage (2) |
+| TS4: DELETE /users/:userName | **UserRoutes** | E2E | WB/ coverage (2) |
+
 ## Networks
 
 | Test case name               |   Object(s) tested    | Test level  |               Technique used               |
 | :--------------------------- | :-------------------: | :---------: | :----------------------------------------: |
 | TN1: createNetwork()         | **NetworkRepository** |    Unit     |          BB/ Eq Partitioning (2)           |
-| TN2: getNetworkByCode()      | **NetworkRepository** |    Unit     | BB/ Eq Partitioning (2) - BB/ Boundary (1) |
+| TN2: getNetworkByCode()      | **NetworkRepository** |    Unit     | BB/ Eq Partitioning (2), <br>BB/ Boundary (1) |
 | TN3: getAllNetwork()         | **NetworkRepository** |    Unit     |          BB/ Eq Partitioning (2)           |
-| TN4: updateNetwork()         | **NetworkRepository** |    Unit     | BB/ Eq Partitioning (4) - BB/ Boundary (1) |
-| TN5: deleteNetwork()         | **NetworkRepository** |    Unit     | BB/ Eq Partitioning (2) - BB/ Boundary (1) |
-| TNC1: createNetwork()        | **NetworkController** | Integration | BB/ Eq Partitioning (2) - BB/ Boundary (1) |
-| TNC2: getNetwork()           | **NetworkController** | Integration | BB/ Eq Partitioning (2) - BB/ Boundary (1) |
+| TN4: updateNetwork()         | **NetworkRepository** |    Unit     | BB/ Eq Partitioning (4), <br>BB/ Boundary (1) |
+| TN5: deleteNetwork()         | **NetworkRepository** |    Unit     | BB/ Eq Partitioning (2), <br>BB/ Boundary (1) |
+| TNC1: createNetwork()        | **NetworkController** | Integration | BB/ Eq Partitioning (2), <br>BB/ Boundary (1) |
+| TNC2: getNetwork()           | **NetworkController** | Integration | BB/ Eq Partitioning (2), <br>BB/ Boundary (1) |
 | TNC3: getAllNetworks()       | **NetworkController** | Integration |          BB/ Eq Partitioning (2)           |
-| TNC4: updateNetwork()        | **NetworkController** | Integration | BB/ Eq Partitioning (4) - BB/ Boundary (1) |
-| TNC5: deleteNetwork()        | **NetworkController** | Integration | BB/ Eq Partitioning (2) - BB/ Boundary (1) |
+| TNC4: updateNetwork()        | **NetworkController** | Integration | BB/ Eq Partitioning (4), <br>BB/ Boundary (1) |
+| TNC5: deleteNetwork()        | **NetworkController** | Integration | BB/ Eq Partitioning (2), <br>BB/ Boundary (1) |
 | TNR1: POST /networks         |   **NetworkRoutes**   | Integration |          BB/ Eq Partitioning (4)           |
 | TNR2: GET /networks/:code    |   **NetworkRoutes**   | Integration |          BB/ Eq Partitioning (3)           |
 | TNR3: GET /networks          |   **NetworkRoutes**   | Integration |          BB/ Eq Partitioning (2)           |
@@ -121,8 +142,8 @@ Bottom-up
 | Test case name                                                             |   Object(s) tested   | Test level  |                 Technique used                 |
 | :------------------------------------------------------------------------- | :------------------: | :---------: | :--------------------------------------------: |
 | TS1: createSensor()                                                        | **SensorRepository** |    Unit     |              BB/ Eq Partitioning               |
-| TS2: getAllSensors()                                                       | **SensorRepository** |    Unit     |  BB/ Eq Partitioning (4),<br>BB/ Boundary(2)   |
-| TS3: getSensorByMacAddress()                                               | **SensorRepository** |    Unit     | BB/ Eq Partitioning (6), <br> BB/ Boundary (3) |
+| TS2: getAllSensors()                                                       | **SensorRepository** |    Unit     | BB/ Eq Partitioning (4), <br>BB/ Boundary (2)  |
+| TS3: getSensorByMacAddress()                                               | **SensorRepository** |    Unit     | BB/ Eq Partitioning (6), <br>BB/ Boundary (3)  |
 | TS4: updateSensor()                                                        | **SensorRepository** |    Unit     |              BB/ Eq Partitioning               |
 | TS5: deleteSensor()                                                        | **SensorRepository** |    Unit     | BB/ Eq Partitioning (6), <br>BB/ Boundary (3)  |
 | TS6: testSensorExistance()                                                 | **SensorRepository** |    Unit     | BB/ Eq Partitioning (2), <br>BB/ Boundary (2)  |

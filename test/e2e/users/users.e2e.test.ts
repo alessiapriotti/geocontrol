@@ -55,6 +55,30 @@ describe("User Routes (e2e)", () => {
       expect(res.status).toBe(403);
       expect(res.body.name).toBe("InsufficientRightsError");
     });
+
+    it("T1.4: token is from a user that do not exist", async () => {
+      const tokenNoLongerValid = generateToken({ 
+        username: "pippo", 
+        password: "pippopass", 
+        type: UserType.Admin 
+      });
+      
+      const res = await request(app)
+        .get("/api/v1/users")
+        .set("Authorization", `Bearer ${tokenNoLongerValid}`);
+
+      expect(res.status).toBe(401);
+      expect(res.body.name).toBe("UnauthorizedError");
+    });
+
+    it("T1.5: token is not formatted correctly", async () => {
+      const res = await request(app)
+        .get("/api/v1/users")
+        .set("Authorization", `Bearerrrrr`);
+
+      expect(res.status).toBe(401);
+      expect(res.body.name).toBe("UnauthorizedError");
+    });
   });
 
   describe("POST /users", () => {
@@ -114,7 +138,7 @@ describe("User Routes (e2e)", () => {
       });
     });
 
-    it("T3.1: user do not exist", async () => {
+    it("T3.2: user do not exist", async () => {
       const USERNAME = "pippo";
       
       const res = await request(app)
@@ -145,7 +169,7 @@ describe("User Routes (e2e)", () => {
       ).rejects.toThrow();
     });
 
-    it("T2.1: user not found", async () => {
+    it("T2.2: user not found", async () => {
       const USERNAME = "pippo";
 
       const res = await request(app)
