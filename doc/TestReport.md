@@ -59,6 +59,8 @@
 
 
 ## Networks
+| Test case name | Object(s) tested | Test level | Technique used |
+| :------------ | :--------------: | :--------: | :------------: |
 | TN1: createNetwork() | **NetworkRepository** | Unit | BB/ Eq Partitioning (2) |
 | TN2: getNetworkByCode() | **NetworkRepository** | Unit | BB/ Eq Partitioning (2) - BB/ Boundary (1) |
 | TN3: getAllNetwork() | **NetworkRepository** | Unit | BB/ Eq Partitioning (2) |
