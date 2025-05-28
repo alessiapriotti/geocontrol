@@ -10,7 +10,7 @@ import { NotFoundError } from "@models/errors/NotFoundError";
 import { ConflictError } from "@models/errors/ConflictError";
 
 jest.mock("@services/authService");
-jest.mock("@controllers/GatewayController");
+jest.mock("@controllers/gatewayController");
 
 describe("GatewayRoutes integration", () => {
   const token = "Bearer faketoken";
