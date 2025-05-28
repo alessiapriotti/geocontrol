@@ -27,6 +27,12 @@
 
     <One step will  correspond to API testing, or testing unit route.js>
 
+## Network
+  Bottom-up
+  - Step1: NetworkRepository
+  - Step2: NetworkRepository + NetworkController + mapperService
+  - Step3: NetworkRepository + NetworkController + mapperService + NetworkRoutes
+  - Step3: NetworkRepository + NetworkController + mapperService + NetworkRoutes + Network (E2E)
 
   ## Gateways
   Bottom-up
@@ -51,6 +57,28 @@
 | Test case name | Object(s) tested | Test level | Technique used |
 | :------------: | :--------------: | :--------: | :------------: |
 
+
+## Networks
+| TN1: createNetwork() | **NetworkRepository** | Unit | BB/ Eq Partitioning (2) |
+| TN2: getNetworkByCode() | **NetworkRepository** | Unit | BB/ Eq Partitioning (2) - BB/ Boundary (1) |
+| TN3: getAllNetwork() | **NetworkRepository** | Unit | BB/ Eq Partitioning (2) |
+| TN4: updateNetwork() | **NetworkRepository** | Unit | BB/ Eq Partitioning (4) - BB/ Boundary (1) |
+| TN5: deleteNetwork() | **NetworkRepository** | Unit | BB/ Eq Partitioning (2) - BB/ Boundary (1) |
+| TNC1: createNetwork() | **NetworkController** | Integration | BB/ Eq Partitioning (2) - BB/ Boundary (1) |
+| TNC2: getNetwork() | **NetworkController** | Integration | BB/ Eq Partitioning (2) - BB/ Boundary (1) |
+| TNC3: getAllNetworks() | **NetworkController** | Integration | BB/ Eq Partitioning (2) |
+| TNC4: updateNetwork() | **NetworkController** | Integration | BB/ Eq Partitioning (4) - BB/ Boundary (1) |
+| TNC5: deleteNetwork() | **NetworkController** | Integration | BB/ Eq Partitioning (2) - BB/ Boundary (1) |
+| TNR1: POST /networks | **NetworkRoutes** | Integration | BB/ Eq Partitioning (4) |
+| TNR2: GET /networks/:code | **NetworkRoutes** | Integration | BB/ Eq Partitioning (3) |
+| TNR3: GET /networks | **NetworkRoutes** | Integration | BB/ Eq Partitioning (2) |
+| TNR4: PATCH /networks/:code | **NetworkRoutes** | Integration | BB/ Eq Partitioning (2) |
+| TNR5: DELETE /networks/:code | **NetworkRoutes** | Integration | BB/ Eq Partitioning (2) |
+| TNE1: POST /networks | **Network (E2E)** | E2E | BB/ Eq Partitioning (4) |
+| TNE2: GET /networks/:code | **Network (E2E)** | E2E | BB/ Eq Partitioning (3) |
+| TNE3: GET /networks | **Network (E2E)** | E2E | BB/ Eq Partitioning (2) |
+| TNE4: PATCH /networks/:code | **Network (E2E)** | E2E | BB/ Eq Partitioning (4) |
+| TNE5: DELETE /networks/:code | **Network (E2E)** | E2E | BB/ Eq Partitioning (4) |
 
 ## Gateways
 | Test case name | Object(s) tested | Test level | Technique used |
@@ -122,11 +150,11 @@
 | FR2.3 Retrieve a specific user | UserRepository.db.test → TS3: getUserByUsername <br> UserRepository.mock.test → TS3: getUserByUsername <br> UserController.integration.test → TS1: getUser <br> Users.e2e.test → T3: GET a user |  
 | FR2.4 Delete a specific user | UserRepository.db.test → TS4: deleteUser <br> UserRepository.mock.test → TS4: deleteUser <br> UserController2.integration.test → TS2: deleteUser() <br> Users.e2e.test → T4: DELETE a user|  
 | *FR3 Manage networks* |  |
-| FR3.1 Retrieve all networks | NetworkRepository.db.test → TNR3: GetAllNetworks <br> NetworkController.integration.test → TNC3: get All Networks <br> NetworkRoutes.integration.test → get all networks <br> Network.e2e.test → TNE3: GET all networks |  
-| FR3.2 Create a new network | NetworkRepository.db.test → TNR1: Create Network <br> NetworkController.integration.test → TNC1: Create Network <br> NetworkRoutes.integration.test → create network <br> Network.e2e.test → TNE1: POST create a network |  
-| FR3.3 Retrieve a specific network | NetworkRepository.db.test → TNR2: Get Network by Code <br> NetworkController.integration.test → TNC2: get Network <br> NetworkRoutes.integration.test → get network by code <br> Network.e2e.test → TNE2: GET a network |  
-| FR3.4 Update a network | NetworkRepository.db.test → TNR4: Update Network <br> NetworkController.integration.test → TNC4: Update Network <br> NetworkRoutes.integration.test → update network <br> Network.e2e.test → TNE4: PATCH update a network |  
-| FR3.5 Delete a specific network | NetworkRepository.db.test → TNR5: Delete Network <br> NetworkController.integration.test → TNC5: Delete Network <br> NetworkRoutes.integration.test → delete network <br> Network.e2e.test → TNE5: DELETE a network |  
+| FR3.1 Retrieve all networks | NetworkRepository.db.test → TN3: GetAllNetworks <br> NetworkController.integration.test → TNC3: get All Networks <br> NetworkRoutes.integration.test → TNR3: get all networks <br> Network.e2e.test → TNE3: GET all networks |  
+| FR3.2 Create a new network | NetworkRepository.db.test → TN1: Create Network <br> NetworkController.integration.test → TNC1: Create Network <br> NetworkRoutes.integration.test → TNR1: create network <br> Network.e2e.test → TNE1: POST create a network |  
+| FR3.3 Retrieve a specific network | NetworkRepository.db.test → TN2: Get Network by Code <br> NetworkController.integration.test → TNC2: get Network <br> NetworkRoutes.integration.test → TNR2: get network by code <br> Network.e2e.test → TNE2: GET a network |  
+| FR3.4 Update a network | NetworkRepository.db.test → TN4: Update Network <br> NetworkController.integration.test → TNC4: Update Network <br> NetworkRoutes.integration.test → TNR4: update network <br> Network.e2e.test → TNE4: PATCH update a network |  
+| FR3.5 Delete a specific network | NetworkRepository.db.test → TN5: Delete Network <br> NetworkController.integration.test → TNC5: Delete Network <br> NetworkRoutes.integration.test → TNR5: delete network <br> Network.e2e.test → TNE5: DELETE a network |  
 | *FR4 Manage gateways* |  |
 | FR4.1 Retrieve all gateways of a network | GatewayRepository.db.test → TS2: getAllGateway() <br> GatewayController.integration.repo.test.ts → TS1: getAllGateway() <br> GatewayController.integration.mapper.test → TS1: getAllGateway() <br> GatewayController.integration.check.test → TS1: getAllGateway() <br> GatewayRoutes.integration.test → TS1: getAllGateway() <br> Gateways.e2e.test → TS1: GET all gateways |  
 | FR4.2 Create a new gateway for a network | GatewayRepository.db.test → TS1: createGateway() <br> GatewayRepository.db.test → TS6: testGatewayExistance() <br> GatewayController.integration.repo.test.ts → TS2: createGateway() <br> GatewayController.integration.mapper.test → TS2: createGateway() <br> GatewayController.integration.check.test → TS2: createGateway() <br> GatewayRoutes.integration.test → TS2: createGateway() <br> Gateways.e2e.test → TS2: POST create a gateway |  
