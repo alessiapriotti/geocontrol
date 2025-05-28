@@ -18,8 +18,116 @@ describe("NetworkRoutes integration", () => {
         jest.clearAllMocks();
     });
 
-    describe("get all networks integration tests", () => {
-        it("get all networks", async () => {
+    
+    describe("TNR1: Create network integration", () => {
+        it("TNR1.1: All parameters valid", async () => {
+            const mockNetwork: NetworkDTO = { code: "NET01", name: "Network 1", description: "First network" };
+
+            (authService.processToken as jest.Mock).mockResolvedValue(undefined);
+            (networkController.createNetwork as jest.Mock).mockResolvedValue(mockNetwork);
+
+            const response = await request(app)
+                .post("/api/v1/networks")
+                .set("Authorization", token)
+                .send(mockNetwork);
+
+            expect(response.status).toBe(201);
+            expect(authService.processToken).toHaveBeenCalledWith(token, ["admin", "operator"]);
+            expect(networkController.createNetwork).toHaveBeenCalledWith(mockNetwork);
+        });
+
+        it("TNR1.2: 401 UnauthorizedError", async () => {
+            (authService.processToken as jest.Mock).mockImplementation(() => {
+                throw new UnauthorizedError("Unauthorized: No token provided");
+            });
+
+            const response = await request(app)
+                .post("/api/v1/networks")
+                .set("Authorization", "Bearer invalid")
+                .send({ code: "NET01", name: "Network 1", description: "First network" });
+
+            expect(response.status).toBe(401);
+            expect(response.body.message).toMatch(/Unauthorized/);
+        });
+
+        it("TNR1.3: 403 InsufficientRightsError", async () => {
+            (authService.processToken as jest.Mock).mockImplementation(() => {
+                throw new InsufficientRightsError("Insufficient rights to create network");
+            });
+
+            const response = await request(app)
+                .post("/api/v1/networks")
+                .set("Authorization", token)
+                .send({ code: "NET01", name: "Network 1", description: "First network" });
+
+            expect(response.status).toBe(403);
+            expect(response.body.message).toMatch(/Insufficient rights/);
+        });
+
+        it("TNR1.4: 409 ConflictError", async () => {
+            
+            (authService.processToken as jest.Mock).mockResolvedValue(undefined);
+            (networkController.createNetwork as jest.Mock).mockImplementation(() => {
+                throw new ConflictError("Network already exists");
+            });
+
+            const response = await request(app)
+                .post("/api/v1/networks")
+                .set("Authorization", token)
+                .send({ code: "NET01", name: "Network 1", description: "First network" });
+
+            expect(response.status).toBe(409);
+            expect(response.body.message).toMatch(/Network already exists/);
+        });
+    });
+
+    describe("TNR2: get network by code integration", () => {
+        it("TNR2.1: All parameters valid", async () => {
+            const mockNetwork: NetworkDTO = { code: "NET01", name: "Network 1", description: "First network" };
+
+            (authService.processToken as jest.Mock).mockResolvedValue(undefined);
+            (networkController.getNetwork as jest.Mock).mockResolvedValue(mockNetwork);
+
+            const response = await request(app)
+                .get("/api/v1/networks/NET01")
+                .set("Authorization", token);
+
+            expect(response.status).toBe(200);
+            expect(response.body).toEqual(mockNetwork);
+            expect(authService.processToken).toHaveBeenCalledWith(token, ["admin", "operator", "viewer"]);
+            expect(networkController.getNetwork).toHaveBeenCalledWith("NET01");
+        });
+
+        it("TNR2.2: 401 UnauthorizedError", async () => {
+            (authService.processToken as jest.Mock).mockImplementation(() => {
+                throw new UnauthorizedError("Unauthorized: No token provided");
+            });
+
+            const response = await request(app)
+                .get("/api/v1/networks/NET01")
+                .set("Authorization", "Bearer invalid");
+
+            expect(response.status).toBe(401);
+            expect(response.body.message).toMatch(/Unauthorized/);
+        });
+        
+        it("TNR2.3: 404 NotFoundError", async () => {
+            (authService.processToken as jest.Mock).mockResolvedValue(undefined);
+            (networkController.getNetwork as jest.Mock).mockImplementation(() => {
+                throw new NotFoundError("Network not found");
+            });
+
+            const response = await request(app)
+                .get("/api/v1/networks/INVALID")
+                .set("Authorization", token);
+
+            expect(response.status).toBe(404);
+            expect(response.body.message).toMatch(/Network not found/);
+        });
+    });
+
+    describe("TNR3: get all networks integration", () => {
+        it("TNR3.1: All parameters valid", async () => {
             const mockNetworks: NetworkDTO[] = [
                 { code: "NET01", name: "Network 1", description: "First network" },
                 { code: "NET02", name: "Network 2", description: "Second network" }
@@ -38,7 +146,7 @@ describe("NetworkRoutes integration", () => {
             expect(networkController.getAllNetworks).toHaveBeenCalled();
         });
 
-        it("get all networks: 401 UnauthorizedError", async () => {
+        it("TNR3.2: 401 UnauthorizedError", async () => {
             (authService.processToken as jest.Mock).mockImplementation(() => {
                 throw new UnauthorizedError("Unauthorized: No token provided");
             });
@@ -52,115 +160,8 @@ describe("NetworkRoutes integration", () => {
         });
     });
 
-    describe("get network by code integration tests", () => {
-        it("get network by code", async () => {
-            const mockNetwork: NetworkDTO = { code: "NET01", name: "Network 1", description: "First network" };
-
-            (authService.processToken as jest.Mock).mockResolvedValue(undefined);
-            (networkController.getNetwork as jest.Mock).mockResolvedValue(mockNetwork);
-
-            const response = await request(app)
-                .get("/api/v1/networks/NET01")
-                .set("Authorization", token);
-
-            expect(response.status).toBe(200);
-            expect(response.body).toEqual(mockNetwork);
-            expect(authService.processToken).toHaveBeenCalledWith(token, ["admin", "operator", "viewer"]);
-            expect(networkController.getNetwork).toHaveBeenCalledWith("NET01");
-        });
-
-        it("get network by code: 401 UnauthorizedError", async () => {
-            (authService.processToken as jest.Mock).mockImplementation(() => {
-                throw new UnauthorizedError("Unauthorized: No token provided");
-            });
-
-            const response = await request(app)
-                .get("/api/v1/networks/NET01")
-                .set("Authorization", "Bearer invalid");
-
-            expect(response.status).toBe(401);
-            expect(response.body.message).toMatch(/Unauthorized/);
-        });
-        
-        it("get network by code: 404 NotFoundError", async () => {
-            (authService.processToken as jest.Mock).mockResolvedValue(undefined);
-            (networkController.getNetwork as jest.Mock).mockImplementation(() => {
-                throw new NotFoundError("Network not found");
-            });
-
-            const response = await request(app)
-                .get("/api/v1/networks/INVALID")
-                .set("Authorization", token);
-
-            expect(response.status).toBe(404);
-            expect(response.body.message).toMatch(/Network not found/);
-        });
-    });
-
-    describe("create network integration tests", () => {
-        it("create network", async () => {
-            const mockNetwork: NetworkDTO = { code: "NET01", name: "Network 1", description: "First network" };
-
-            (authService.processToken as jest.Mock).mockResolvedValue(undefined);
-            (networkController.createNetwork as jest.Mock).mockResolvedValue(mockNetwork);
-
-            const response = await request(app)
-                .post("/api/v1/networks")
-                .set("Authorization", token)
-                .send(mockNetwork);
-
-            expect(response.status).toBe(201);
-            expect(authService.processToken).toHaveBeenCalledWith(token, ["admin", "operator"]);
-            expect(networkController.createNetwork).toHaveBeenCalledWith(mockNetwork);
-        });
-
-        it("create network: 401 UnauthorizedError", async () => {
-            (authService.processToken as jest.Mock).mockImplementation(() => {
-                throw new UnauthorizedError("Unauthorized: No token provided");
-            });
-
-            const response = await request(app)
-                .post("/api/v1/networks")
-                .set("Authorization", "Bearer invalid")
-                .send({ code: "NET01", name: "Network 1", description: "First network" });
-
-            expect(response.status).toBe(401);
-            expect(response.body.message).toMatch(/Unauthorized/);
-        });
-
-        it("create network: 403 InsufficientRightsError", async () => {
-            (authService.processToken as jest.Mock).mockImplementation(() => {
-                throw new InsufficientRightsError("Insufficient rights to create network");
-            });
-
-            const response = await request(app)
-                .post("/api/v1/networks")
-                .set("Authorization", token)
-                .send({ code: "NET01", name: "Network 1", description: "First network" });
-
-            expect(response.status).toBe(403);
-            expect(response.body.message).toMatch(/Insufficient rights/);
-        });
-
-        it("create network: 409 ConflictError", async () => {
-            
-            (authService.processToken as jest.Mock).mockResolvedValue(undefined);
-            (networkController.createNetwork as jest.Mock).mockImplementation(() => {
-                throw new ConflictError("Network already exists");
-            });
-
-            const response = await request(app)
-                .post("/api/v1/networks")
-                .set("Authorization", token)
-                .send({ code: "NET01", name: "Network 1", description: "First network" });
-
-            expect(response.status).toBe(409);
-            expect(response.body.message).toMatch(/Network already exists/);
-        });
-    });
-
-    describe("update network integration tests", () => {
-        it("update network", async () => {
+    describe("TNR4: update network integration", () => {
+        it("TNR4.1: All valid params", async () => {
             const mockNetwork: NetworkDTO = { code: "NET01", name: "Updated Network", description: "Updated description" };
 
             (authService.processToken as jest.Mock).mockResolvedValue(undefined);
@@ -177,7 +178,7 @@ describe("NetworkRoutes integration", () => {
             expect(networkController.updateNetwork).toHaveBeenCalledWith("NET01", mockNetwork);
         });
 
-        it("update network: 401 UnauthorizedError", async () => {
+        it("TNR4.2: 401 UnauthorizedError", async () => {
             (authService.processToken as jest.Mock).mockImplementation(() => {
                 throw new UnauthorizedError("Unauthorized: No token provided");
             });
@@ -191,7 +192,7 @@ describe("NetworkRoutes integration", () => {
             expect(response.body.message).toMatch(/Unauthorized/);
         });
 
-        it("update network: 403 InsufficientRightsError", async () => {
+        it("TNR4.3: 403 InsufficientRightsError", async () => {
             (authService.processToken as jest.Mock).mockImplementation(() => {
                 throw new InsufficientRightsError("Insufficient rights to update network");
             });
@@ -205,7 +206,7 @@ describe("NetworkRoutes integration", () => {
             expect(response.body.message).toMatch(/Insufficient rights/);
         });
 
-        it("update network: 404 NotFoundError", async () => {
+        it("TNR4.4: 404 NotFoundError", async () => {
             (authService.processToken as jest.Mock).mockResolvedValue(undefined);
             (networkController.updateNetwork as jest.Mock).mockImplementation(() => {
                 throw new NotFoundError("Network not found");
@@ -221,8 +222,8 @@ describe("NetworkRoutes integration", () => {
         });
     });
 
-    describe("delete network integration tests", () => {
-        it("delete network", async () => {
+    describe("TNR5: delete network integration", () => {
+        it("TNR5.1: All parameters valid", async () => {
             (authService.processToken as jest.Mock).mockResolvedValue(undefined);
             (networkController.deleteNetwork as jest.Mock).mockResolvedValue(undefined);
 
@@ -236,7 +237,7 @@ describe("NetworkRoutes integration", () => {
             expect(networkController.deleteNetwork).toHaveBeenCalledWith("NET01");
         });
 
-        it("delete network: 401 UnauthorizedError", async () => {
+        it("TNR5.2: 401 UnauthorizedError", async () => {
             (authService.processToken as jest.Mock).mockImplementation(() => {
                 throw new UnauthorizedError("Unauthorized: No token provided");
             });
@@ -249,7 +250,7 @@ describe("NetworkRoutes integration", () => {
             expect(response.body.message).toMatch(/Unauthorized/);
         });
 
-        it("delete network: 403 InsufficientRightsError", async () => {
+        it("TNR5.3: 403 InsufficientRightsError", async () => {
             (authService.processToken as jest.Mock).mockImplementation(() => {
                 throw new InsufficientRightsError("Insufficient rights to delete network");
             });
@@ -262,7 +263,7 @@ describe("NetworkRoutes integration", () => {
             expect(response.body.message).toMatch(/Insufficient rights/);
         });
 
-        it("delete network: 404 NotFoundError", async () => {
+        it("TNR5.4: 404 NotFoundError", async () => {
             (authService.processToken as jest.Mock).mockResolvedValue(undefined);
             (networkController.deleteNetwork as jest.Mock).mockImplementation(() => {
                 throw new NotFoundError("Network not found");
