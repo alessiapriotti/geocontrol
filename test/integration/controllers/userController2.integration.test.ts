@@ -63,7 +63,7 @@ describe("UserController big-bang integration", () => {
       ).rejects.toThrow();
     });
 
-    it("T2.1: user not found", async () => {
+    it("T2.2: user not found", async () => {
       const USERNAME = "pippo";
 
       await expect(ctrl.deleteUser(USERNAME)).rejects.toThrow(NotFoundError);

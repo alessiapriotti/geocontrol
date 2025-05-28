@@ -114,7 +114,7 @@ describe("User Routes (e2e)", () => {
       });
     });
 
-    it("T3.1: user do not exist", async () => {
+    it("T3.2: user do not exist", async () => {
       const USERNAME = "pippo";
       
       const res = await request(app)
@@ -145,7 +145,7 @@ describe("User Routes (e2e)", () => {
       ).rejects.toThrow();
     });
 
-    it("T2.1: user not found", async () => {
+    it("T2.2: user not found", async () => {
       const USERNAME = "pippo";
 
       const res = await request(app)

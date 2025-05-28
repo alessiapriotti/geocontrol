@@ -48,8 +48,29 @@
 
 <in the table below list the test cases defined For each test report the object tested, the test level (API, integration, unit) and the technique used to define the test case (BB/ eq partitioning, BB/ boundary, WB/ statement coverage, etc)> <split the table if needed>
 
+Sono stati esclusi dalle tabelle i test non scritti da noi.
+
+Tra parentesi vicino ad ogni tecnica è segnato il numero di test case che usano tale tecnica.
+
 | Test case name | Object(s) tested | Test level | Technique used |
 | :------------: | :--------------: | :--------: | :------------: |
+
+## Auth
+| Test case name | Object(s) tested | Test level | Technique used |
+| :------------ | :--------------: | :--------: | :------------: |
+| TS1: authenticateUser() | **authMiddleware** | Unit | WB/ coverage (4) |
+| TS1: getToken() | **authController** | Integration | WB/ coverage (3) |
+| TS1: GET /auth | **AuthRoutes** | e2e | WB/ coverage (3) |
+
+## Users
+| Test case name | Object(s) tested | Test level | Technique used |
+| :------------ | :--------------: | :--------: | :------------: |
+| TS1: createUser() | **userController** | Integration | WB/ coverage (2) |
+| TS2: deleteUser() | **userController** | Integration | WB/ coverage (2) |
+| TS1: GET /users | **UserRoutes** | e2e | WB/ coverage (3) |
+| TS2: POST /users | **UserRoutes** | e2e | WB/ coverage (2) |
+| TS3: GET /users/:userName | **UserRoutes** | e2e | WB/ coverage (2) |
+| TS4: DELETE /users/:userName | **UserRoutes** | e2e | WB/ coverage (2) |
 
 ## Sensors
 | Test case name | Object(s) tested | Test level | Technique used |
