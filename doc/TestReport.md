@@ -67,7 +67,7 @@ Tra parentesi vicino ad ogni tecnica è segnato il numero di test case che usano
 | :------------ | :--------------: | :--------: | :------------: |
 | TS1: createUser() | **userController** | Integration | WB/ coverage (2) |
 | TS2: deleteUser() | **userController** | Integration | WB/ coverage (2) |
-| TS1: GET /users | **UserRoutes** | e2e | WB/ coverage (3) |
+| TS1: GET /users | **UserRoutes** | e2e | WB/ coverage (5) |
 | TS2: POST /users | **UserRoutes** | e2e | WB/ coverage (2) |
 | TS3: GET /users/:userName | **UserRoutes** | e2e | WB/ coverage (2) |
 | TS4: DELETE /users/:userName | **UserRoutes** | e2e | WB/ coverage (2) |

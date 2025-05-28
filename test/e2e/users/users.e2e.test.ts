@@ -55,6 +55,30 @@ describe("User Routes (e2e)", () => {
       expect(res.status).toBe(403);
       expect(res.body.name).toBe("InsufficientRightsError");
     });
+
+    it("T1.4: token is from a user that do not exist", async () => {
+      const tokenNoLongerValid = generateToken({ 
+        username: "pippo", 
+        password: "pippopass", 
+        type: UserType.Admin 
+      });
+      
+      const res = await request(app)
+        .get("/api/v1/users")
+        .set("Authorization", `Bearer ${tokenNoLongerValid}`);
+
+      expect(res.status).toBe(401);
+      expect(res.body.name).toBe("UnauthorizedError");
+    });
+
+    it("T1.5: token is not formatted correctly", async () => {
+      const res = await request(app)
+        .get("/api/v1/users")
+        .set("Authorization", `Bearerrrrr`);
+
+      expect(res.status).toBe(401);
+      expect(res.body.name).toBe("UnauthorizedError");
+    });
   });
 
   describe("POST /users", () => {
