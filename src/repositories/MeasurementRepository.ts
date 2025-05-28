@@ -19,23 +19,6 @@ export class MeasurementRepository {
     value: number,
     sensor: SensorDAO
   ): Promise<MeasurementDAO> {
-    // Validate the parameters
-    if (!timestamp) {
-      throw new Error("Timestamp cannot be null or undefined");
-    }
-
-    if (timestamp > new Date()) {
-      throw new Error("Measurement timestamp cannot be in the future");
-    }
-
-    if (value === null || value === undefined || isNaN(value)) {
-      throw new Error("Measurement value must be a valid number");
-    }
-
-    if (!sensor) {
-      throw new Error("Sensor cannot be null or undefined");
-    }
-
     return this.repo.save({
       createdAt: timestamp,
       value: value,

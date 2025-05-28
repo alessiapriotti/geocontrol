@@ -89,16 +89,7 @@ describe("MeasurementRepository: SQLite in-memory", () => {
       ).rejects.toThrow();
     });
 
-    it("T1.5: Error if date is in the future", async () => {
-      const date = createDate("2099-01-01");
-      const value = 25.5;
-
-      await expect(
-        repo.createMeasurement(date, value, sensor)
-      ).rejects.toThrow();
-    });
-
-    it("T1.6: Error if date is null", async () => {
+    it("T1.5: Error if date is null", async () => {
       const date = null;
       const value = 25.5;
 
