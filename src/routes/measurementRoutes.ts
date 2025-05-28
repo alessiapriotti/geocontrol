@@ -115,7 +115,6 @@ router.get(
   }
 );
 
-// Retrieve statistics for a set of sensors of a specific network
 router.get(
   CONFIG.ROUTES.V1_NETWORKS + "/:networkCode/stats",
   authenticateUser([UserType.Admin, UserType.Operator, UserType.Viewer]),
@@ -136,7 +135,6 @@ router.get(
   }
 );
 
-// Retrieve only outliers for a set of sensors of a specific network
 router.get(
   CONFIG.ROUTES.V1_NETWORKS + "/:networkCode/outliers",
   authenticateUser([UserType.Admin, UserType.Operator, UserType.Viewer]),

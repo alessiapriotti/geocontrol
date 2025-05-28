@@ -16,7 +16,7 @@ import { NetworkDAO } from "@models/dao/NetworkDAO";
  *   - lowerThreshold: La soglia superiore (calcolata come \mu - 2\sigma).
  *   Restituisce [NaN, NaN, NaN, NaN] se non ci sono valori nell'array in input.
  */
-function calculateStats(values: number[]): [number, number, number, number] {
+export function calculateStats(values: number[]): [number, number, number, number] {
   if (values.length === 0) {
     return [NaN, NaN, NaN, NaN];
   }
@@ -113,7 +113,7 @@ export function createMeasurementsDTO(sens: SensorDAO, startDate: Date, endDate:
  * @returns Un array di `MeasurementDAO` che rientrano nell'intervallo specificato.
  * Nel caso in cui uno (o entrambi) degli estremi non sia specificato viene considerato come -Inf o +Inf.
  */
-function getFilteredMeasurements(sens: SensorDAO, startDate: Date, endDate: Date): MeasurementDAO[] {
+export function getFilteredMeasurements(sens: SensorDAO, startDate: Date, endDate: Date): MeasurementDAO[] {
   return sens.measurement.filter((m) => {
     if (startDate && endDate) {
       return m.createdAt >= startDate && m.createdAt <= endDate;
