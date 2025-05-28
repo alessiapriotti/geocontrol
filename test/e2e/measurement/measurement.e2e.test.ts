@@ -42,7 +42,6 @@ describe("Measurement routes (e2e)", () => {
     const GAT = "11:22:33";
     const SEN = "11:22:33:aa";
 
-    // Setup del DB pre-test
     beforeEach(async () => {
       let network = await TestDataSource.getRepository(NetworkDAO).save({code: NET});
       let gateway = await TestDataSource.getRepository(GatewayDAO).save({macAddress: GAT, network: network})
@@ -62,7 +61,6 @@ describe("Measurement routes (e2e)", () => {
 
       expect(res.status).toBe(201);
 
-      // Verify the measurement was created
       const measurements = await TestDataSource.getRepository(MeasurementDAO).find({
         relations: ["sensor"]
       });
@@ -87,7 +85,6 @@ describe("Measurement routes (e2e)", () => {
 
       expect(res.status).toBe(201);
 
-      // Verify both measurements were created
       const measurements = await TestDataSource.getRepository(MeasurementDAO).find({
         relations: ["sensor"]
       });
@@ -191,9 +188,7 @@ describe("Measurement routes (e2e)", () => {
       expect(res.body.name).toBe(InsufficientRightsError);
     });
 
-    // Aggiungi questo test per coprire la riga 92 (catch error nella route POST measurements)
     it("TS1.10: Error handling for POST measurements endpoint", async () => {
-      // Mock per forzare il controller a lanciare un'eccezione
       jest.spyOn(measurementController, 'createMeasurement').mockImplementation(() => {
         throw new Error("Test error");
       });
@@ -208,10 +203,8 @@ describe("Measurement routes (e2e)", () => {
         .set("Authorization", `Bearer ${token}`)
         .send([measurementDTO]);
 
-      // L'errore dovrebbe essere gestito dal middleware errorHandler
       expect(res.status).toBe(500);
       
-      // Ripristina l'implementazione originale
       jest.restoreAllMocks();
     });
   });
@@ -222,7 +215,6 @@ describe("Measurement routes (e2e)", () => {
     const SEN = "11:22:33:aa";
     const SEN2 = "11:22:33:bb";
 
-    // Setup del DB pre-test
     beforeEach(async () => {
       const now = new Date();
       const yesterday = new Date(now);
@@ -245,14 +237,12 @@ describe("Measurement routes (e2e)", () => {
         gateway: gateway
       });
       
-      // Create measurements for first sensor
       await TestDataSource.getRepository(MeasurementDAO).save([
         { createdAt: yesterday, value: 21.5, sensor: sensor },
         { createdAt: now, value: 22.0, sensor: sensor },
-        { createdAt: now, value: 100.0, sensor: sensor } // Outlier
+        { createdAt: now, value: 100.0, sensor: sensor }
       ]);
       
-      // Create measurements for second sensor
       await TestDataSource.getRepository(MeasurementDAO).save([
         { createdAt: yesterday, value: 45.0, sensor: sensor2 },
         { createdAt: now, value: 47.0, sensor: sensor2 }
@@ -271,7 +261,6 @@ describe("Measurement routes (e2e)", () => {
     });
 
     it("T2.2: Filter measurements by date range", async () => {
-      // Get only today's measurements
       const today = new Date();
       today.setHours(0, 0, 0, 0);
       const tomorrow = new Date(today);
@@ -289,7 +278,6 @@ describe("Measurement routes (e2e)", () => {
       expect(res.body).toBeDefined();
       expect(res.body.measurements).toHaveLength(2);
       
-      // All returned measurements should be from today
       for (const measurement of res.body.measurements) {
         const measurementDate = new Date(measurement.createdAt);
         expect(measurementDate >= today).toBe(true);
@@ -344,7 +332,6 @@ describe("Measurement routes (e2e)", () => {
     const GAT = "11:22:33";
     const SEN = "11:22:33:aa";
     
-    // Setup del DB pre-test (come per i test delle measurements)
     beforeEach(async () => {
       const now = new Date();
       const yesterday = new Date(now);
@@ -372,23 +359,20 @@ describe("Measurement routes (e2e)", () => {
         .get(`/api/v1/networks/${NET}/gateways/${GAT}/sensors/${SEN}/stats`)
         .set("Authorization", `Bearer ${token}`);
 
+      console.log(res.body);
+
       expect(res.status).toBe(200);
       expect(res.body).toBeDefined();
-      expect(res.body.sensorMacAddress).toBe(SEN);
+
+      expect(res.body.variance).toBeDefined();
+      expect(res.body.mean).toBeDefined();
+      expect(res.body.upperThreshold).toBeDefined();
+      expect(res.body.lowerThreshold).toBeDefined();
       
-      // Check stats are included
-      expect(res.body.stats).toBeDefined();
-      
-      // Verifica i valori usando l'oggetto stats nella risposta
-      expect(res.body.stats.mean).toBeCloseTo(22.0, 1);
-      // Non controllare min e max poiché non sono restituiti dall'API
-      // expect(res.body.stats.min).toBe(20.0);
-      // expect(res.body.stats.max).toBe(24.0);
-      // expect(res.body.stats.count).toBe(3);
+      expect(res.body.mean).toBeCloseTo(22.0, 1);
     });
 
     it("T3.2: Filter stats by date range", async () => {
-      // Get only today's stats
       const today = new Date();
       today.setHours(0, 0, 0, 0);
       const tomorrow = new Date(today);
@@ -404,13 +388,12 @@ describe("Measurement routes (e2e)", () => {
 
       expect(res.status).toBe(200);
       expect(res.body).toBeDefined();
-      expect(res.body.stats).toBeDefined();
+      expect(res.body.variance).toBeDefined();
+      expect(res.body.mean).toBeDefined();
+      expect(res.body.upperThreshold).toBeDefined();
+      expect(res.body.lowerThreshold).toBeDefined();
       
-      // Usa mean anziché min/max che non esistono nella risposta reale
-      expect(res.body.stats.mean).toBeCloseTo(23.0, 1);
-      // expect(res.body.stats.min).toBe(22.0);
-      // expect(res.body.stats.max).toBe(24.0);
-      // expect(res.body.stats.count).toBe(2);
+      expect(res.body.mean).toBeCloseTo(23.0, 1);
     });
 
     it("T3.3: Error when sensor not found", async () => {
@@ -430,7 +413,6 @@ describe("Measurement routes (e2e)", () => {
     const GAT = "11:22:33";
     const SEN = "11:22:33:aa";
     
-    // Setup del DB pre-test
     beforeEach(async () => {
       const now = new Date();
       
@@ -448,7 +430,7 @@ describe("Measurement routes (e2e)", () => {
         { createdAt: now, value: 22.0, sensor: sensor },
         { createdAt: now, value: 23.0, sensor: sensor },
         { createdAt: now, value: 21.0, sensor: sensor },
-        { createdAt: now, value: 100.0, sensor: sensor } // Outlier
+        { createdAt: now, value: 100.0, sensor: sensor }
       ]);
     });
 
@@ -461,13 +443,10 @@ describe("Measurement routes (e2e)", () => {
       expect(res.body).toBeDefined();
       expect(res.body.sensorMacAddress).toBe(SEN);
       
-      // Check that the outlier measurements are present
       expect(res.body.measurements).toBeDefined();
     });
 
-    // Aggiungi questo test alla sezione "TS4: GET /networks/:networkCode/gateways/:gatewayMac/sensors/:sensorMac/outliers"
     it("T4.2: Error handling for GET sensor outliers endpoint", async () => {
-      // Mock per forzare il controller a lanciare un'eccezione
       jest.spyOn(measurementController, 'getOutliersBySensor').mockImplementation(() => {
         throw new Error("Test error");
       });
@@ -476,10 +455,8 @@ describe("Measurement routes (e2e)", () => {
         .get(`/api/v1/networks/${NET}/gateways/${GAT}/sensors/${SEN}/outliers`)
         .set("Authorization", `Bearer ${token}`);
 
-      // L'errore dovrebbe essere gestito dal middleware errorHandler
       expect(res.status).toBe(500);
       
-      // Ripristina l'implementazione originale
       jest.restoreAllMocks();
     });
   });
@@ -490,7 +467,6 @@ describe("Measurement routes (e2e)", () => {
     const SEN1 = "11:22:33:aa";
     const SEN2 = "11:22:33:bb";
     
-    // Setup del DB pre-test
     beforeEach(async () => {
       const now = new Date();
       const yesterday = new Date(now);
@@ -515,7 +491,6 @@ describe("Measurement routes (e2e)", () => {
         gateway: gateway
       });
       
-      // Create measurements for sensors
       await TestDataSource.getRepository(MeasurementDAO).save([
         { createdAt: yesterday, value: 21.0, sensor: sensor1 },
         { createdAt: now, value: 22.0, sensor: sensor1 },
@@ -531,13 +506,11 @@ describe("Measurement routes (e2e)", () => {
 
       expect(res.status).toBe(200);
       expect(Array.isArray(res.body)).toBe(true);
-      expect(res.body).toHaveLength(2); // One result per sensor
+      expect(res.body).toHaveLength(2);
       
-      // Check that both sensors are included
       const sensorMacs = res.body.map(s => s.sensorMacAddress).sort();
       expect(sensorMacs).toEqual([SEN1, SEN2].sort());
       
-      // Check that all measurements are included
       const totalMeasurements = res.body.reduce((sum, sensor) => 
         sum + sensor.measurements.length, 0);
       expect(totalMeasurements).toBe(4);
@@ -551,7 +524,7 @@ describe("Measurement routes (e2e)", () => {
 
       expect(res.status).toBe(200);
       expect(Array.isArray(res.body)).toBe(true);
-      expect(res.body).toHaveLength(1); // Only one sensor
+      expect(res.body).toHaveLength(1);
       expect(res.body[0].sensorMacAddress).toBe(SEN1);
       expect(res.body[0].measurements).toHaveLength(2);
     });
@@ -572,7 +545,6 @@ describe("Measurement routes (e2e)", () => {
 
       expect(res.status).toBe(200);
       
-      // Check that only today's measurements are included
       for (const sensor of res.body) {
         for (const measurement of sensor.measurements) {
           const measurementDate = new Date(measurement.createdAt);
@@ -580,7 +552,6 @@ describe("Measurement routes (e2e)", () => {
         }
       }
       
-      // Count total measurements (should be 2, one per sensor)
       const totalMeasurements = res.body.reduce((sum, sensor) => 
         sum + sensor.measurements.length, 0);
       expect(totalMeasurements).toBe(2);
@@ -597,9 +568,7 @@ describe("Measurement routes (e2e)", () => {
       expect(res.body.name).toBe(NotFoundError);
     });
 
-    // Per coprire la riga 134 (catch error nella route GET network/measurements)
     it("TS5.5: Error handling for GET network measurements endpoint", async () => {
-      // Mock per forzare il controller a lanciare un'eccezione
       jest.spyOn(measurementController, 'getMeasurementsBySensorSet').mockImplementation(() => {
         throw new Error("Test error");
       });
@@ -608,10 +577,8 @@ describe("Measurement routes (e2e)", () => {
         .get(`/api/v1/networks/${NET}/measurements`)
         .set("Authorization", `Bearer ${token}`);
 
-      // L'errore dovrebbe essere gestito dal middleware errorHandler
       expect(res.status).toBe(500);
       
-      // Ripristina l'implementazione originale
       jest.restoreAllMocks();
     });
   });
@@ -619,9 +586,7 @@ describe("Measurement routes (e2e)", () => {
   describe("TS6: GET /networks/:networkCode/stats", () => {
     const NET = "NET01";
     
-    // Setup del DB pre-test (simile a TS5)
     beforeEach(async () => {
-      // Setup identico a TS5
       const now = new Date();
       const yesterday = new Date(now);
       yesterday.setDate(yesterday.getDate() - 1);
@@ -660,31 +625,21 @@ describe("Measurement routes (e2e)", () => {
 
       expect(res.status).toBe(200);
       expect(Array.isArray(res.body)).toBe(true);
-      expect(res.body).toHaveLength(2); // One result per sensor
+      expect(res.body).toHaveLength(2);
       
-      // Check that stats are included for each sensor
       for (const sensorResult of res.body) {
         expect(sensorResult.stats).toBeDefined();
-        // Non controllare count poiché non è restituito dall'API
-        // expect(sensorResult.stats.count).toBe(2);
       }
       
-      // Trova i sensori in base al MAC address invece che per variabile (che non è inclusa)
       const tempSensor = res.body.find(s => s.sensorMacAddress === "11:22:33:aa");
       const humiditySensor = res.body.find(s => s.sensorMacAddress === "11:22:33:bb");
       
       expect(tempSensor.stats.mean).toBeCloseTo(22.5, 1);
-      // expect(tempSensor.stats.min).toBe(20.0);
-      // expect(tempSensor.stats.max).toBe(25.0);
       
       expect(humiditySensor.stats.mean).toBeCloseTo(47.5, 1);
-      // expect(humiditySensor.stats.min).toBe(45.0);
-      // expect(humiditySensor.stats.max).toBe(50.0);
     });
 
-    // Per coprire la riga 155 (catch error nella route GET network/stats)
     it("TS6.3: Error handling for GET network stats endpoint", async () => {
-      // Mock per forzare il controller a lanciare un'eccezione
       jest.spyOn(measurementController, 'getStatsBySensorSet').mockImplementation(() => {
         throw new Error("Test error");
       });
@@ -693,10 +648,8 @@ describe("Measurement routes (e2e)", () => {
         .get(`/api/v1/networks/${NET}/stats`)
         .set("Authorization", `Bearer ${token}`);
 
-      // L'errore dovrebbe essere gestito dal middleware errorHandler
       expect(res.status).toBe(500);
       
-      // Ripristina l'implementazione originale
       jest.restoreAllMocks();
     });
   });
@@ -704,7 +657,6 @@ describe("Measurement routes (e2e)", () => {
   describe("TS7: GET /networks/:networkCode/outliers", () => {
     const NET = "NET01";
     
-    // Setup del DB pre-test
     beforeEach(async () => {
       const now = new Date();
       const network = await TestDataSource.getRepository(NetworkDAO).save({code: NET});
@@ -722,7 +674,7 @@ describe("Measurement routes (e2e)", () => {
         { createdAt: now, value: 22.0, sensor: sensor },
         { createdAt: now, value: 23.0, sensor: sensor },
         { createdAt: now, value: 21.0, sensor: sensor },
-        { createdAt: now, value: 100.0, sensor: sensor } // Outlier
+        { createdAt: now, value: 100.0, sensor: sensor }
       ]);
     });
 
@@ -733,16 +685,13 @@ describe("Measurement routes (e2e)", () => {
 
       expect(res.status).toBe(200);
       expect(Array.isArray(res.body)).toBe(true);
-      expect(res.body).toHaveLength(1); // One sensor
+      expect(res.body).toHaveLength(1);
       
-      // Check that the outlier detection works
       const sensorResult = res.body[0];
       expect(sensorResult.measurements).toBeDefined();
     });
 
-    // Aggiungi questo test alla sezione "TS7: GET /networks/:networkCode/outliers"
     it("T7.2: Error handling for GET network outliers endpoint", async () => {
-      // Mock per forzare il controller a lanciare un'eccezione
       jest.spyOn(measurementController, 'getOutliersBySensorSet').mockImplementation(() => {
         throw new Error("Test error");
       });
@@ -751,10 +700,8 @@ describe("Measurement routes (e2e)", () => {
         .get(`/api/v1/networks/${NET}/outliers`)
         .set("Authorization", `Bearer ${token}`);
 
-      // L'errore dovrebbe essere gestito dal middleware errorHandler
       expect(res.status).toBe(500);
       
-      // Ripristina l'implementazione originale
       jest.restoreAllMocks();
     });
   });
