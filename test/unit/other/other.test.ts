@@ -1,7 +1,7 @@
 import { generateToken, processToken } from "@services/authService";
 import { createAppError } from "@services/errorService";
 import { afterAllE2e, beforeAllE2e, TEST_USERS } from "@test/e2e/lifecycle";
-import { parseStringArrayParam } from "@utils"
+import { parseStringArrayParam,parseISODateParamToUTC } from "@utils"
 import { ErrorDTO } from "@dto/ErrorDTO";
 import { initializeTestDataSource } from "@test/setup/test-datasource";
 
@@ -11,6 +11,16 @@ describe("Other misc tests to increase coverage", () => {
         it("parseStringArrayParam: StringArray param passed as string", () => {
             const res = parseStringArrayParam("a,b,c");
             expect(res).toStrictEqual(["a", "b", "c"]);
+        });
+
+        it("parseStringArrayParam: array with no string parameters", () => {
+            const res = parseStringArrayParam(["a",42, "c"]);
+            expect(res).toStrictEqual(["a", "c"]);
+        });
+
+        it("parseISODateParamToUTC: param is string but not a date", () => {
+            const res = parseISODateParamToUTC("pippo");
+            expect(res).toBe(undefined);
         });
     });
 
@@ -62,6 +72,15 @@ describe("Other misc tests to increase coverage", () => {
                 code: 500,
                 name: "InternalServerError",
                 message: "Internal Server Error"
+            } as ErrorDTO);
+        });
+
+        it("createAppError: Error 500 without stacktrace", () => {
+            const errDTO = createAppError({message:"il mio bellissimo stacktrace"});
+            expect(errDTO).toMatchObject({
+                code: 500,
+                name: "InternalServerError",
+                message: "il mio bellissimo stacktrace"
             } as ErrorDTO);
         });
     });

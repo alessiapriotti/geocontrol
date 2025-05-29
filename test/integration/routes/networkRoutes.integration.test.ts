@@ -161,7 +161,7 @@ describe("NetworkRoutes integration", () => {
         
         it("TNR3.3: 500 InternalServerError", async () => {
             (authService.processToken as jest.Mock).mockResolvedValue(undefined);
-            (networkController.getAllNetworks as jest.Mock).mockResolvedValue(new Error("Some generic error from the DB."));
+            (networkController.getAllNetworks as jest.Mock).mockRejectedValue(new Error("Some generic error from the DB."));
         
             const response = await request(app)
               .get("/api/v1/networks")

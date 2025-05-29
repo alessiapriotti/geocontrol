@@ -98,7 +98,7 @@ Tra parentesi vicino ad ogni tecnica è segnato il numero di test case che usano
 | TNC5: deleteNetwork()        | **NetworkController** | Integration | BB/ Eq Partitioning (2), <br>BB/ Boundary (1) |
 | TNR1: POST /networks         |   **NetworkRoutes**   | Integration |          BB/ Eq Partitioning (4)           |
 | TNR2: GET /networks/:code    |   **NetworkRoutes**   | Integration |          BB/ Eq Partitioning (3)           |
-| TNR3: GET /networks          |   **NetworkRoutes**   | Integration |          BB/ Eq Partitioning (2)           |
+| TNR3: GET /networks          |   **NetworkRoutes**   | Integration |          BB/ Eq Partitioning (3)           |
 | TNR4: PATCH /networks/:code  |   **NetworkRoutes**   | Integration |          BB/ Eq Partitioning (2)           |
 | TNR5: DELETE /networks/:code |   **NetworkRoutes**   | Integration |          BB/ Eq Partitioning (2)           |
 | TNE1: POST /networks         |   **Network (E2E)**   |     E2E     |          BB/ Eq Partitioning (4)           |
@@ -229,9 +229,4 @@ Tra parentesi vicino ad ogni tecnica è segnato il numero di test case che usano
 
 ![coverage](diagrams/coverage.png)
 
-Purtroppo non siamo riusciti ad ottenere il 100% ovunque, ma comunque abbiamo ottenuto un buon 99.64% degli statement. Le righe che Jest segnala come non coperte, secondo noi, sono coperte da casi aggiuntivi che abbiamo scritto, ma secondo Jest non lo sono comunque.
-Le 5 righe scoperte sono:
-- utils.ts: due operatori ternari nel caso di parsificazione di query params.
-- networkRoutes.ts: il catch dell'errore nel caso di getAllNetworks, che dovrebbe essere coperto dal "TNR3.3: 500 InternalServerError" in cui mockiamo la funzione del controller di modo che lanci un Error.
-- userRoutes.ts: il catch dell'errore nel caso di getAllUsers, allo stesso modo del precedente.
-- errorService.ts: operatore ternario che logga lo stacktrace, anche questo dovrebbe essere coperto da "createAppError: Error 500 with stacktrace" in `others.test.ts`
+Abbiamo ottenuto il 100% di coverage.

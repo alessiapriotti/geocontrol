@@ -66,7 +66,7 @@ describe("UserRoutes integration", () => {
 
   it("get all users: 500 InternalServerError", async () => {
     (authService.processToken as jest.Mock).mockResolvedValue(undefined);
-    (userController.getAllUsers as jest.Mock).mockResolvedValue(new Error("Some generic error from the DB."));
+    (userController.getAllUsers as jest.Mock).mockRejectedValue(new Error("Some generic error from the DB."));
 
     const response = await request(app)
       .get("/api/v1/users")
