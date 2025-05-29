@@ -1,7 +1,5 @@
 # Test Report
 
-<The goal of this document is to explain how the application was tested, detailing how the test cases were defined and what they cover>
-
 # Contents
 
 - [Test Report](#test-report)
@@ -18,14 +16,12 @@
 ![dependency-graph](diagrams/dependency_graph.svg)
 
 # Integration approach
-
-    <Write here the integration sequence you adopted, in general terms (top down, bottom up, mixed) and as sequence
-
-    (ex: step1: unit A, step 2: unit A+B, step 3: unit A+B+C, etc)>
-
-    <Some steps may  correspond to unit testing (ex step1 in ex above)>
-
-    <One step will  correspond to API testing, or testing unit route.js>
+Tutti i test seguenti sono stati effettuati usando SQLite in memory come DB, e jest.mock per l'integrazione incrementale.
+In breve:
+- Siamo partiti dallo unit testing BB per ogni Repository, usando il DB in memory.
+- Poi abbiamo integrato usando i mock, i controller con gli eventuali service.
+- Dopodiché abbiamo integrato, sempre usando i mock, le rotte che chiamano i controller, con eventuali service.
+- Infine abbiamo testato le rotte per intero con test e2e.
 
 ## Network
 
@@ -184,6 +180,11 @@ Tra parentesi vicino ad ogni tecnica è segnato il numero di test case che usano
 | TS6: GET /networks/:networkCode/stats                                                 |   **measurementRoutes**   |  API (e2e)  | BB/ Eq Partitioning (3), <br>BB/ Boundary (1) |
 | TS7: GET /networks/:networkCode/outliers                                              |   **measurementRoutes**   |  API (e2e)  | BB/ Eq Partitioning (2), <br>BB/ Boundary (1) |
 
+## Others
+| src/utils.ts | Integration | WB/ coverage |
+| src/services/authService.ts | Integration | WB/ coverage |
+| src/services/errorService.ts | Integration | WB/ coverage |
+
 ## Coverage of FR
 
 | Functional Requirement or scenario                                     | Test(s)                                                                                                                                                                                                                                                                                                                                                                                                                                        |
@@ -224,4 +225,11 @@ Tra parentesi vicino ad ogni tecnica è segnato il numero di test case che usano
 
 ## Coverage white box
 
-Report here the screenshot of coverage values obtained with jest-- coverage
+![coverage](diagrams/coverage.png)
+
+Purtroppo non siamo riusciti ad ottenere il 100% ovunque, ma comunque abbiamo ottenuto un buon 99.64% degli statement. Le righe che Jest segnala come non coperte, secondo noi, sono coperte da casi aggiuntivi che abbiamo scritto, ma secondo Jest non lo sono comunque.
+Le 5 righe scoperte sono:
+- utils.ts: due operatori ternari nel caso di parsificazione di query params.
+- networkRoutes.ts: il catch dell'errore nel caso di getAllNetworks, che dovrebbe essere coperto dal "TNR3.3: 500 InternalServerError" in cui mockiamo la funzione del controller di modo che lanci un Error.
+- userRoutes.ts: il catch dell'errore nel caso di getAllUsers, allo stesso modo del precedente.
+- errorService.ts: operatore ternario che logga lo stacktrace, anche questo dovrebbe essere coperto da "createAppError: Error 500 with stacktrace" in `others.test.ts`
