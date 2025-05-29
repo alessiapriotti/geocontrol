@@ -181,6 +181,8 @@ Tra parentesi vicino ad ogni tecnica è segnato il numero di test case che usano
 | TS7: GET /networks/:networkCode/outliers                                              |   **measurementRoutes**   |  API (e2e)  | BB/ Eq Partitioning (2), <br>BB/ Boundary (1) |
 
 ## Others
+| Test case name | Object(s) tested | Test level | Technique used |
+| :---------------------------- | :-------------: | :---------: | :---------------: |
 | src/utils.ts | Integration | WB/ coverage |
 | src/services/authService.ts | Integration | WB/ coverage |
 | src/services/errorService.ts | Integration | WB/ coverage |
