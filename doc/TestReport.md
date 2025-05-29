@@ -182,10 +182,10 @@ Tra parentesi vicino ad ogni tecnica è segnato il numero di test case che usano
 
 ## Others
 | Test case name | Object(s) tested | Test level | Technique used |
-| :---------------------------- | :-------------: | :---------: | :---------------: |
-| src/utils.ts | Integration | WB/ coverage |
-| src/services/authService.ts | Integration | WB/ coverage |
-| src/services/errorService.ts | Integration | WB/ coverage |
+| :----------------------------: | :-------------: | :---------: | :---------------: |
+| src/utils.ts | src/utils.ts | Integration | WB/ coverage |
+| src/services/authService.ts |src/services/authService.ts| Integration | WB/ coverage |
+| src/services/errorService.ts | src/services/errorService.ts| Integration | WB/ coverage |
 
 ## Coverage of FR
 
