@@ -52,7 +52,7 @@ export function createNetworkDTO(
     code,
     name,
     description,
-    gateways: gateways ? gateways.map(mapGatewayDAOToDTO) : undefined,
+    gateways: gateways?.map(mapGatewayDAOToDTO),
   }) as NetworkDTO;
 }
 
@@ -66,7 +66,7 @@ export function createGatewayDTO(
     macAddress,
     name,
     description,
-    sensors: sensors ? sensors.map(mapSensorDAOToDTO) : undefined,
+    sensors: sensors?.map(mapSensorDAOToDTO),
   }) as GatewayDTO;
 }
 

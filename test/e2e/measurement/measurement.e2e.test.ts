@@ -359,8 +359,6 @@ describe("Measurement routes (e2e)", () => {
         .get(`/api/v1/networks/${NET}/gateways/${GAT}/sensors/${SEN}/stats`)
         .set("Authorization", `Bearer ${token}`);
 
-      console.log(res.body);
-
       expect(res.status).toBe(200);
       expect(res.body).toBeDefined();
 

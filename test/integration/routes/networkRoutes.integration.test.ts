@@ -158,6 +158,17 @@ describe("NetworkRoutes integration", () => {
             expect(response.status).toBe(401);
             expect(response.body.message).toMatch(/Unauthorized/);
         });
+        
+        it("TNR3.3: 500 InternalServerError", async () => {
+            (authService.processToken as jest.Mock).mockResolvedValue(undefined);
+            (networkController.getAllNetworks as jest.Mock).mockResolvedValue(new Error("Some generic error from the DB."));
+        
+            const response = await request(app)
+              .get("/api/v1/networks")
+              .set("Authorization", token);
+        
+            expect(response.status).toBe(500);
+        });
     });
 
     describe("TNR4: update network integration", () => {
