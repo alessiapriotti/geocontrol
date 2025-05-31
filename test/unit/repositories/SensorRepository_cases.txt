@@ -1,0 +1,173 @@
+SensorRepo
+
+------
+createSensor(string, string?, string?, string?, string, GatewayDAO)
+
+-- ATTRIBUTI
+macAddress
+	- Valido
+	- Conflitto
+	- Invalido/Empty
+	- Spazi
+	- Null
+	
+altri parametri facoltativi
+	- Valido
+	- Spazi
+	
+-- COMBINAZIONI
+V V -> "11:22:33:bb" 	"aaa"	; SensorDAO("11:22:33:bb")
+C V -> "11:22:33:aa"	"aaa"	; ConflictError
+I V -> "" 				"aaa"	; Invalid
+S V -> "    " 			"aaa"	; Invalid
+N V -> null 			"aaa"	; Invalid
+V S -> "11:22:33:bb" 	"     "	; SensorDAO("11:22:33:bb") ma deve aver tolto spazi
+
+
+-----
+getAllSensors(netCode: string, gatMac: string)
+
+-- ATTRIBUTI
+netCode
+	- Valido (c'è nel DB)
+	- Invalido
+	- Empty
+	- Null
+gatMac
+	- Valido (c'è nel DB ed è associato alla rete)
+	- Invalido (non c'è nel DB o non è associato alla rete)
+	- Empty
+	- Null
+	
+-- COMBINAZIONI
+V V -> "NET01" "11:22:33"	; SensorDAO["11:22:33:aa", "11:22:33:bb"]
+V I -> "NET01" "pippo"		; NotFoundError
+V I -> "NET01" "22:33:44"	; NotFoundError
+I V -> "pippo" "11:22:33"	; NotFoundError
+V E -> "NET01" ""			; Invalid input ??
+E V -> "" 	   "11:22:33"	; Invalid input ??
+V N -> "NET01" null			; Invalid input ??
+N V -> null	   "11:22:33"	; Invalid input ??
+
+
+-----
+getSensorByMac(netCode: string, gatMac: string, senMac: string)
+
+-- ATTRIBUTI
+netCode
+	- Valido (c'è nel DB)
+	- Invalido 
+	- Empty
+	- Null
+gatMac
+	- Valido (c'è nel DB ed è associato alla rete)
+	- Invalido (non c'è nel DB o non è associato alla rete)
+	- Empty
+	- Null
+senMac
+	- Valido (c'è nel DB ed è associato al gateway)
+	- Invalido (non c'è nel DB o non è associato al gateway)
+	- Empty
+	- Null
+	
+-- COMBINAZIONI
+V V V -> "NET01" "11:22:33" "11:22:33:aa" 	; SensorDAO("11:22:33:aa")
+V V I -> "NET01" "11:22:33" "pippozzo"		; NotFoundError
+V V I -> "NET01" "11:22:33" "22:33:44:aa"	; NotFoundError
+V V E -> "NET01" "11:22:33" ""				; Invalid ?
+V V N -> "NET01" "11:22:33" null			; Invalid ?
+V I V -> "NET01" "pippo" 	"11:22:33:aa"	; NotFoundError
+V I V -> "NET01" "22:33:44" "11:22:33:aa"	; NotFoundError
+V E V -> "NET01" ""			"11:22:33:aa"	; Invalid ?
+V N V -> "NET01" null		"11:22:33:aa"	; Invalid ?
+I V V -> "pippo" "11:22:33" "11:22:33:aa"	; NotFoundError
+E V V -> ""		 "11:22:33" "11:22:33:aa"	; Invalid ?
+N V V -> null	 "11:22:33" "11:22:33:aa"	; Invalid ?
+
+
+-----
+updateSensor(string, string?, string?, string?, string?, string?)
+
+-- ATTRIBUTI
+macAddress
+	- Valido
+	- Invalido (non nel DB)
+	- Empty
+	- Null
+
+newMacAddress
+	- Valido
+	- Mancante
+	- Uguale
+	- Conflitto
+	- Invalido/Empty
+	- Spazi
+	- Null
+
+altri parametri facoltativi
+	- Spazi
+
+-- COMBINAZIONI
+V V V -> "11:22:33:aa" "11:22:33:ab" "aaa"
+V V S -> "11:22:33:aa" "11:22:33:ab" "   "
+V / V -> "11:22:33:aa" /			 "aaa"
+V U V -> "11:22:33:aa" "11:22:33:aa" "aaa"
+V C V -> "11:22:33:bb" "11:22:33:aa" "aaa"
+V I V -> "11:22:33:aa" "" 			 "aaa"
+V S V -> "11:22:33:aa" "   "		 "aaa"
+V N V -> "11:22:33:aa" null			 "aaa"
+I V V -> "pippo"	   "11:22:33:ab" "aaa"
+E V V -> ""			   "11:22:33:ab" "aaa"
+N V V -> null		   "11:22:33:ab" "aaa"
+
+
+-----
+deleteSensor(netCode: string, gatMac: string, senMac: string)
+
+-- ATTRIBUTI
+netCode
+	- Valido
+	- Invalido (non nel DB)
+	- Empty
+	- Null
+gatMac
+	- Valido (c'è nel DB ed è associato alla rete)
+	- Invalido (non c'è nel DB o non è associato alla rete)
+	- Empty
+	- Null
+senMac
+	- Valido (c'è nel DB ed è associato al gateway)
+	- Invalido (non c'è nel DB o non è associato al gateway)
+	- Empty
+	- Null
+	
+-- COMBINAZIONI
+V V V -> "NET01" "11:22:33" "11:22:33:aa" 	; SensorDAO("11:22:33:aa")
+V V I -> "NET01" "11:22:33" "pippozzo"		; NotFoundError
+V V I -> "NET01" "11:22:33" "22:33:44:aa"	; NotFoundError
+V V E -> "NET01" "11:22:33" ""				; Invalid ?
+V V N -> "NET01" "11:22:33" null			; Invalid ?
+V I V -> "NET01" "pippo" 	"11:22:33:aa"	; NotFoundError
+V I V -> "NET01" "22:33:44" "11:22:33:aa"	; NotFoundError
+V E V -> "NET01" ""			"11:22:33:aa"	; Invalid ?
+V N V -> "NET01" null		"11:22:33:aa"	; Invalid ?
+I V V -> "pippo" "11:22:33" "11:22:33:aa"	; NotFoundError
+E V V -> ""		 "11:22:33" "11:22:33:aa"	; Invalid ?
+N V V -> null	 "11:22:33" "11:22:33:aa"	; Invalid ?
+
+
+-----
+getSensor(senMac: string)
+
+--ATTRIBUTI
+senMac
+	- Valido (c'è nel DB)
+	- Invalido
+	- Empty
+	- Null
+	
+-- COMBINAZIONI
+V -> "11:22:33:aa"
+I -> "pippo"
+E -> ""
+N -> null

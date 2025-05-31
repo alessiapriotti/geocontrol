@@ -63,4 +63,15 @@ describe("UserRoutes integration", () => {
     expect(response.status).toBe(403);
     expect(response.body.message).toMatch(/Insufficient rights/);
   });
+
+  it("get all users: 500 InternalServerError", async () => {
+    (authService.processToken as jest.Mock).mockResolvedValue(undefined);
+    (userController.getAllUsers as jest.Mock).mockRejectedValue(new Error("Some generic error from the DB."));
+
+    const response = await request(app)
+      .get("/api/v1/users")
+      .set("Authorization", token);
+
+    expect(response.status).toBe(500);
+  });
 });

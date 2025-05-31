@@ -21,7 +21,7 @@
     "cors": "^2.8.5",
     "date-fns": "^4.1.0",
     "express": "^4.21.2",
-    "express-openapi-validator": "^5.4.3",
+    "express-openapi-validator": "^5.5.2",
     "geocontrol": "file:",
     "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.14.0",
