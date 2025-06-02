@@ -1,6 +1,10 @@
 x-constants:
   backend_host: &backend_host localhost
   backend_port: &backend_port 5000
+  db_host: &db_host localhost
+  db_port: &db_port 4444
+  db_user: &db_user root
+  db_pass: &db_pass LaM14PasswordSuperSegreta!!
 
 services:
   frontend:
@@ -11,3 +15,30 @@ services:
         # Values like port numbers must be written explicitly as literals, but they should remain consistent with the defined variables.
     volumes: # Environment variables for the front-end must be defined in the frontend/env.vars.json and the file must be
       - ./frontend/env-vars.json:/app/dist/config.json # explicitly mounted in the container to be effective
+
+  backend:
+    build:
+      context: ..
+      dockerfile: ./docker/backend/Dockerfile
+    container_name: geocontrol-backend
+    environment:
+      DB_NAME: "mysql"
+      DB_TYPE: "mysql"
+      DB_HOST: *db_host
+      DB_PORT: *db_port
+      DB_USERNAME: *db_user
+      DB_PASSWORD: *db_pass
+
+  database:
+    image: mysql:8.0
+    container_name: geocontrol-db
+    restart: always
+    ports:
+      - "4444:4444"
+    environment:
+      MYSQL_ROOT_PASSWORD: *db_pass
+      MYSQL_TCP_PORT: *db_port
+    volumes:
+      - ../db/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ../db/mysql:/var/lib/mysql 
+      # ^ Boh la vogliamo la durabilità?
