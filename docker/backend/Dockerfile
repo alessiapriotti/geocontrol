@@ -10,10 +10,8 @@ COPY . /geocontrol
 
 # Run create-root
 WORKDIR /geocontrol
-RUN npm i && \ 
-    npm run create-root
+RUN npm i
 
 # Run npm start
 EXPOSE 5000
-ENTRYPOINT [ "npm" ]
-CMD [ "start" ]
+CMD npm run create-root && npm start
