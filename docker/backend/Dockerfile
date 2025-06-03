@@ -14,5 +14,6 @@ RUN npm i && \
     npm run create-root
 
 # Run npm start
+EXPOSE 5000
 ENTRYPOINT [ "npm" ]
 CMD [ "start" ]

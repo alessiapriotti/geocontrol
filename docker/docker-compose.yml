@@ -2,9 +2,11 @@ x-constants:
   backend_host: &backend_host localhost
   backend_port: &backend_port 5000
   db_host: &db_host localhost
-  db_port: &db_port 4444
-  db_user: &db_user root
-  db_pass: &db_pass LaM14PasswordSuperSegreta!!
+  db_port: &db_port 3306
+  db_ruser: &db_ruser root
+  db_rpass: &db_rpass LaM14PasswordSuperSegreta!!
+  db_user: &db_user geocontrol
+  db_pass: &db_pass geocontrolpass
 
 services:
   frontend:
@@ -20,7 +22,10 @@ services:
     build:
       context: ..
       dockerfile: ./docker/backend/Dockerfile
+    image: geocontrol-backend:latest
     container_name: geocontrol-backend
+    ports:
+      - "5000:5000"
     environment:
       DB_NAME: "mysql"
       DB_TYPE: "mysql"
@@ -30,15 +35,16 @@ services:
       DB_PASSWORD: *db_pass
 
   database:
-    image: mysql:8.0
+    image: mysql:8
     container_name: geocontrol-db
-    restart: always
     ports:
-      - "4444:4444"
+      - "3306:3306"
     environment:
-      MYSQL_ROOT_PASSWORD: *db_pass
-      MYSQL_TCP_PORT: *db_port
+      MYSQL_ROOT_PASSWORD: ssss
+      MYSQL_DATABASE: db
+      MYSQL_USER: alessia
+      MYSQL_PASSWORD: alessia
     volumes:
-      - ../db/init.sql:/docker-entrypoint-initdb.d/init.sql
-      - ../db/mysql:/var/lib/mysql 
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+      #- ../data/mysql:/var/lib/mysql:rw
       # ^ Boh la vogliamo la durabilità?
