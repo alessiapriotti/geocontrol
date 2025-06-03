@@ -1,10 +1,8 @@
 x-constants:
   backend_host: &backend_host localhost
   backend_port: &backend_port 5000
-  db_host: &db_host localhost
   db_port: &db_port 3306
   db_name: &db_name geodb
-  db_ruser: &db_ruser root
   db_rpass: &db_rpass LaM14PasswordSuperSegreta!!
   db_user: &db_user geocontrol
   db_pass: &db_pass geocontrolpass
@@ -28,12 +26,12 @@ services:
     ports:
       - "5000:5000"
     environment:
-      DB_NAME: geodb
+      DB_NAME: *db_name
       DB_TYPE: mysql
       DB_HOST: database
-      DB_PORT: 3306
-      DB_USERNAME: user
-      DB_PASSWORD: pass
+      DB_PORT: *db_port
+      DB_USERNAME: *db_user
+      DB_PASSWORD: *db_pass
 
   database:
     image: mysql:8
@@ -41,11 +39,9 @@ services:
     ports:
       - "3306:3306"
     environment:
-      MYSQL_ROOT_PASSWORD: superpass
-      MYSQL_DATABASE: geodb
-      MYSQL_USER: user
-      MYSQL_PASSWORD: pass
+      MYSQL_ROOT_PASSWORD: *db_rpass
+      MYSQL_DATABASE: *db_name
+      MYSQL_USER: *db_user
+      MYSQL_PASSWORD: *db_pass
     #volumes:
       #- ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
-      #- ../data/mysql:/var/lib/mysql:rw
-      # ^ Boh la vogliamo la durabilità?
