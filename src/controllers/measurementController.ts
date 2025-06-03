@@ -71,7 +71,7 @@ export async function getMeasurementsBySensor(network: string, gateway: string, 
 export async function getStatsBySensor(network: string, gateway: string, sensor: string, startDate: Date, endDate: Date): Promise<Stats> {
   const measurementsDTO = await getMeasurementsBySensor(network, gateway, sensor, startDate, endDate);
   
-  return measurementsDTO.stats;
+  return measurementsDTO.stats ?? {mean:0,variance:0,upperThreshold:0,lowerThreshold:0};
 }
 
 export async function getOutliersBySensor(network: string, gateway: string, sensor: string, startDate: Date, endDate: Date): Promise<MeasurementsDTO> {
