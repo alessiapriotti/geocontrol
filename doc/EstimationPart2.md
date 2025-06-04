@@ -32,13 +32,23 @@ productivity = ((LOC of production code)+ (LOC of test code)) / effort
 
 |                                        | Estimated (end of task 1) | Actual (june 7, end of task 3)|
 | -------------------------------------------------------------------------------- | -------- |----|
-| production code size | unknown  ||
-| test code size | unknown ||
-| total size  |||
-| effort |||
-| productivity  | 10 loc / hour ||
+| production code size | 1800 loc  |1912 loc|
+| test code size | unknown |5795 loc|
+| total size  |unknown|7707 loc|
+| effort |244 ph|190 ph|
+| productivity  | 10 loc / hour |40,6 loc / hour|
 
 
 Report, as estimate of effort, the value obtained via activity decomposition technique.
+
+Actual test code size = 10221 loc - 4426 loc = 5795 loc
+
+Nel calcolo delle LOC di test abbiamo sottratto le LOC degli acceptance tests per ottenere solo quelle scritte da noi.
+
+Non abbiamo una stima per il test code size e di conseguenza della estimated total code size perchè in Estimation part1 abbiamo stimato le righe di codice considerando soltanto le classi del glossario, ottenendo di conseguenza solo le righe di codice.
+
+Tuttavia nell' effort ottenuto via activity decomposition consideriamo anche il tempo dedicato ai tests. 
+
+
 
 
