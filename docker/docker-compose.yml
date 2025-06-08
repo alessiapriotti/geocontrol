@@ -2,10 +2,10 @@ x-constants:
   backend_host: &backend_host localhost
   backend_port: &backend_port 5000
   db_port: &db_port 3306
-  db_name: &db_name geodb
+  db_name: &db_name geocontrol_db
   db_rpass: &db_rpass LaM14PasswordSuperSegreta!!
-  db_user: &db_user geocontrol
-  db_pass: &db_pass geocontrolpass
+  db_user: &db_user geocontrol_user
+  db_pass: &db_pass secret
 
 services:
   frontend:
