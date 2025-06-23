@@ -1,6 +1,11 @@
 x-constants:
   backend_host: &backend_host localhost
   backend_port: &backend_port 5000
+  db_port: &db_port 3306
+  db_name: &db_name geocontrol_db
+  db_rpass: &db_rpass LaM14PasswordSuperSegreta!!
+  db_user: &db_user geocontrol_user
+  db_pass: &db_pass secret
 
 services:
   frontend:
@@ -11,3 +16,32 @@ services:
         # Values like port numbers must be written explicitly as literals, but they should remain consistent with the defined variables.
     volumes: # Environment variables for the front-end must be defined in the frontend/env.vars.json and the file must be
       - ./frontend/env-vars.json:/app/dist/config.json # explicitly mounted in the container to be effective
+
+  backend:
+    build:
+      context: ..
+      dockerfile: ./docker/backend/Dockerfile
+    image: geocontrol-backend:latest
+    container_name: geocontrol-backend
+    ports:
+      - "5000:5000"
+    environment:
+      DB_NAME: *db_name
+      DB_TYPE: mysql
+      DB_HOST: database
+      DB_PORT: *db_port
+      DB_USERNAME: *db_user
+      DB_PASSWORD: *db_pass
+
+  database:
+    image: mysql:8
+    container_name: geocontrol-db
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: *db_rpass
+      MYSQL_DATABASE: *db_name
+      MYSQL_USER: *db_user
+      MYSQL_PASSWORD: *db_pass
+    #volumes:
+      #- ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
