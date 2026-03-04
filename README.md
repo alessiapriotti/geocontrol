@@ -1,4 +1,12 @@
-# GeoControl API
+# GeoControl
+
+## Overview
+
+GeoControl is a **RESTful backend API** for monitoring environmental sensor networks. It allows organizations to manage hierarchical structures of **networks**, **gateways**, and **sensors**, and to collect and analyze **measurements** (e.g. temperature, humidity) from field devices.
+
+The system is built with **Node.js** and **TypeScript**, using **Express** as the web framework and **TypeORM** as the ORM layer. It supports both **SQLite** (for local development) and **MySQL** (for production via Docker). Authentication is handled through **JWT tokens**, and the API is fully documented via an **OpenAPI/Swagger** specification.
+
+---
 
 ## Installation and Setup
 
@@ -21,20 +29,20 @@ npm install
 
 This project uses two separate env files (both git-ignored):
 
-| File | Usato per | Come crearlo |
+| File | Used for | How to create it |
 |---|---|---|
-| `.env` | Sviluppo locale (SQLite, no Docker) | Copia `.env.example` |
-| `docker/.env` | Docker Compose (MySQL) | Copia `docker/.env.example` |
+| `.env` | Local development (SQLite, no Docker) | Copy `.env.example` |
+| `docker/.env` | Docker Compose (MySQL) | Copy `docker/.env.example` |
 
 ```sh
-# Sviluppo locale
+# Local development
 cp .env.example .env
 
 # Docker
 cp docker/.env.example docker/.env
 ```
 
-Entrambi i file vengono caricati automaticamente: gli script npm caricano `.env` tramite `dotenv`, Docker Compose carica `docker/.env` perché si trova nella stessa cartella del compose file.
+Both files are loaded automatically: npm scripts load `.env` via `dotenv`, while Docker Compose loads `docker/.env` because it is located in the same folder as the compose file.
 
 ### Running the Application
 
@@ -183,7 +191,7 @@ The project follows a **modular architecture**, ensuring maintainability, separa
   - The frontend image is pulled from a public DockerHub
   - All configuration parameters (e.g. ports, database name, credentials) are centralized and reused across all services.
   - The backend container uses an internal script to **wait for the database to be ready** before attempting any connection.
-  - Sensitive values (passwords, JWT secret) are read from `docker/.env` (caricato automaticamente da Docker Compose). Never commit that file; copy `docker/.env.example` to `docker/.env` and fill in your own values.
+  - Sensitive values (passwords, JWT secret) are read from `docker/.env` (loaded automatically by Docker Compose). Never commit that file; copy `docker/.env.example` to `docker/.env` and fill in your own values.
 
   **Run the Docker Compose (from `/docker` folder):**
 
