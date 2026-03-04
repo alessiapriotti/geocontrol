@@ -38,7 +38,9 @@ export async function createRootUser() {
     if (existingUser) {
       logWarn("Root user already exists.");
     } else {
-      await userRepo.createUser("root", "rootpassword", UserType.Admin);
+      const rootPassword = process.env.ROOT_USER_PASSWORD;
+      if (!rootPassword) throw new Error("ROOT_USER_PASSWORD environment variable is not set");
+      await userRepo.createUser("root", rootPassword, UserType.Admin);
       logInfo("Root user created successfully.");
     }
   } catch (error) {

@@ -13,7 +13,7 @@ const URL_GATEWAYS = "/:networkCode/gateways";
 const URL_SENSORS = "/:gatewayMac/sensors";
 
 export const TOKEN_LIFESPAN = "24h";
-export const SECRET_KEY = "b}2ZzqQ!eQ!t7rFeT[GHs6FZ+*L]2VqR{vnLn>4-V3[5W-V{f^";
+export const SECRET_KEY = process.env.SECRET_KEY || (() => { throw new Error("SECRET_KEY environment variable is not set"); })();
 export const CONFIG = {
   APP_PORT: process.env.PORT || 5000,
 

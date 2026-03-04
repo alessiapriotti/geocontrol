@@ -916,7 +916,7 @@
 		},
 		{
 			"key": "password",
-			"value": "rootpassword",
+			"value": "{{root_password}}",
 			"type": "string"
 		},
 		{

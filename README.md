@@ -17,6 +17,25 @@ Run the following command to install all required dependencies:
 npm install
 ```
 
+### Environment Configuration
+
+This project uses two separate env files (both git-ignored):
+
+| File | Usato per | Come crearlo |
+|---|---|---|
+| `.env` | Sviluppo locale (SQLite, no Docker) | Copia `.env.example` |
+| `docker/.env` | Docker Compose (MySQL) | Copia `docker/.env.example` |
+
+```sh
+# Sviluppo locale
+cp .env.example .env
+
+# Docker
+cp docker/.env.example docker/.env
+```
+
+Entrambi i file vengono caricati automaticamente: gli script npm caricano `.env` tramite `dotenv`, Docker Compose carica `docker/.env` perché si trova nella stessa cartella del compose file.
+
 ### Running the Application
 
 #### Starting the API Server
@@ -59,11 +78,13 @@ For debugging with hot reloading enabled:
 
 #### Creating the Root User
 
-To create the SQLite database file and add to it an admin user with credentials `root:rootpassword`, execute:
+To create the SQLite database file and add to it an admin user with username `root` (password from the `ROOT_USER_PASSWORD` environment variable), execute:
 
 ```sh
 npm run create-root
 ```
+
+> Set `ROOT_USER_PASSWORD` in your `.env` file before running this command (see `.env.example`).
 
 #### Running Tests
 
@@ -162,6 +183,7 @@ The project follows a **modular architecture**, ensuring maintainability, separa
   - The frontend image is pulled from a public DockerHub
   - All configuration parameters (e.g. ports, database name, credentials) are centralized and reused across all services.
   - The backend container uses an internal script to **wait for the database to be ready** before attempting any connection.
+  - Sensitive values (passwords, JWT secret) are read from `docker/.env` (caricato automaticamente da Docker Compose). Never commit that file; copy `docker/.env.example` to `docker/.env` and fill in your own values.
 
   **Run the Docker Compose (from `/docker` folder):**
 

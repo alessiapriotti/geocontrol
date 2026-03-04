@@ -37,6 +37,7 @@ const config: Config = {
   moduleNameMapper: pathsToModuleNameMapper(tsconfig.compilerOptions.paths, {
     prefix: "<rootDir>/src/"
   }),
+  setupFiles: ["<rootDir>/test/setup/jest-env.ts"],
   transform: {
     "^.+\\.tsx?$": "ts-jest"
   },
