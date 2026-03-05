@@ -1,7 +1,7 @@
 # GeoControl
 
 ## Overview
-GeoControl is a group project developed as part of the "Softare Engineering" course of the MSc in Computer Engineering at Politecnico di Torino.
+GeoControl is a group project developed as part of the "Software Engineering" course of the MSc in Computer Engineering at Politecnico di Torino.
 GeoControl is a **RESTful backend API** for monitoring environmental sensor networks. It allows organizations to manage hierarchical structures of **networks**, **gateways**, and **sensors**, and to collect and analyze **measurements** (e.g. temperature, humidity) from field devices.
 
 The system is built with **Node.js** and **TypeScript**, using **Express** as the web framework and **TypeORM** as the ORM layer. It supports both **SQLite** (for local development) and **MySQL** (for production via Docker). Authentication is handled through **JWT tokens**, and the API is fully documented via an **OpenAPI/Swagger** specification.
@@ -343,4 +343,5 @@ import { UserRepository } from "../repositories/UserRepository";
 All API endpoints include `/v1/` in their URL paths (e.g., `/api/v1/users`).
 
 This approach allows for backward compatibility when introducing breaking changes in the future. If a newer version of an endpoint requires different input parameters or returns a different response structure, a new version (e.g., `/api/v2/users`) can be created while keeping the old version operational. This prevents service disruptions for existing clients that depend on previous API versions.
+
 
